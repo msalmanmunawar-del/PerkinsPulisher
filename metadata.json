@@ -1,0 +1,6 @@
+{
+  "name": "Perkins Publisher",
+  "description": "Perkins Publisher - A premium book publishing replica website featuring professional book production, marketing, distribution, and design services.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
