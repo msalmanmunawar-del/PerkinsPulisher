@@ -1,12 +1,15 @@
 import { BookOpen, Mail, Phone, MapPin, ShieldCheck, Heart, Database } from 'lucide-react';
+import * as Icons from 'lucide-react';
+import { LogoConfig } from '../types';
 
 interface FooterProps {
+  logoConfig: LogoConfig;
   onNavigate: (sectionId: string) => void;
   onToggleConsole: () => void;
   showConsole: boolean;
 }
 
-export default function Footer({ onNavigate, onToggleConsole, showConsole }: FooterProps) {
+export default function Footer({ logoConfig, onNavigate, onToggleConsole, showConsole }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   const handleNav = (id: string) => {
@@ -15,6 +18,54 @@ export default function Footer({ onNavigate, onToggleConsole, showConsole }: Foo
     if (elem) {
       elem.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const renderLogo = () => {
+    if (!logoConfig) return null;
+
+    if (logoConfig.type === 'custom_svg' && logoConfig.customSvgMarkup) {
+      return (
+        <div 
+          className="flex items-center gap-2 relative h-9 text-white shrink-0"
+          dangerouslySetInnerHTML={{ __html: logoConfig.customSvgMarkup }} 
+        />
+      );
+    }
+
+    if (logoConfig.type === 'custom_image' && logoConfig.customImageUrl) {
+      return (
+        <div className="flex items-center gap-2 text-white shrink-0">
+          <img 
+            src={logoConfig.customImageUrl} 
+            alt="Perkins Publisher" 
+            className="h-8 w-auto max-h-9 object-contain"
+            onError={(e) => {
+              (e.target as HTMLElement).style.display = 'none';
+            }}
+          />
+          {logoConfig.text && (
+            <span className={`${logoConfig.fontFamily} ${logoConfig.textSize} ${logoConfig.letterSpacing} ${logoConfig.isUppercase ? 'uppercase' : ''} text-white font-bold`}>
+              {logoConfig.text}
+            </span>
+          )}
+        </div>
+      );
+    }
+
+    // Default icon + text configuration (also supports original preset)
+    const LogoIcon = (Icons as any)[logoConfig.iconName] || Icons.BookOpen;
+    const footerTextColor = logoConfig.footerTextColor || 'text-white/90';
+
+    return (
+      <div className={`flex items-center gap-2.5 shrink-0 ${footerTextColor}`}>
+        <LogoIcon size={logoConfig.iconSize - 2} strokeWidth={logoConfig.strokeWidth} className="shrink-0" />
+        <span 
+          className={`${logoConfig.fontFamily} ${logoConfig.textSize} ${logoConfig.letterSpacing} ${logoConfig.isUppercase ? 'uppercase' : ''} font-normal tracking-wider`}
+        >
+          {logoConfig.text}
+        </span>
+      </div>
+    );
   };
 
   return (
@@ -26,11 +77,8 @@ export default function Footer({ onNavigate, onToggleConsole, showConsole }: Foo
           
           {/* Main Brand Profile Column */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2.5 text-white/90">
-              <BookOpen size={18} strokeWidth={1.5} className="shrink-0 text-white/90" />
-              <span className="text-sm font-normal tracking-[0.18em] uppercase text-white/90">
-                PERKINS PUBLISHER
-              </span>
+            <div className="flex items-center gap-2.5">
+              {renderLogo()}
             </div>
              <p className="font-semibold text-slate-400 leading-relaxed text-[11px]">
               Global leader in professional manuscript development, premium self-publishing packages, ghostwriting, structural typesetting layouts, ACX audio casting, and strategic marketing campaigns. Turn your draft into a universal bestseller.

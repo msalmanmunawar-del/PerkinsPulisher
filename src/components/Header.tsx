@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { BookOpen, Phone, Menu, X, Shield, Award, Sparkles } from 'lucide-react';
+import * as Icons from 'lucide-react';
+import { LogoConfig } from '../types';
 
 interface HeaderProps {
+  logoConfig: LogoConfig;
   onNavigate: (page: string) => void;
   activePage: string;
   onOpenConsultation: () => void;
@@ -11,6 +14,7 @@ interface HeaderProps {
 }
 
 export default function Header({
+  logoConfig,
   onNavigate,
   activePage,
   onOpenConsultation,
@@ -45,6 +49,55 @@ export default function Header({
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const renderLogo = () => {
+    if (!logoConfig) return null;
+
+    if (logoConfig.type === 'custom_svg' && logoConfig.customSvgMarkup) {
+      return (
+        <div 
+          className="flex items-center gap-2 relative h-9 flex-shrink-0"
+          dangerouslySetInnerHTML={{ __html: logoConfig.customSvgMarkup }} 
+        />
+      );
+    }
+
+    if (logoConfig.type === 'custom_image' && logoConfig.customImageUrl) {
+      return (
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <img 
+            src={logoConfig.customImageUrl} 
+            alt="Perkins Publisher" 
+            className="h-9 w-auto max-h-10 object-contain"
+            onError={(e) => {
+              (e.target as HTMLElement).style.display = 'none';
+            }}
+          />
+          {logoConfig.text && (
+            <span className={`${logoConfig.fontFamily} ${logoConfig.textSize} ${logoConfig.letterSpacing} ${logoConfig.isUppercase ? 'uppercase' : ''} text-slate-900 group-hover:text-amber-600 transition-colors duration-300 font-bold`}>
+              {logoConfig.text}
+            </span>
+          )}
+        </div>
+      );
+    }
+
+    // Default icon + text configuration (also supports original preset)
+    const LogoIcon = (Icons as any)[logoConfig.iconName] || Icons.BookOpen;
+
+    return (
+      <div className="flex items-center gap-2 flex-shrink-0">
+        <div className={`${logoConfig.textColor} group-hover:text-amber-600 transition-colors duration-300`}>
+          <LogoIcon size={logoConfig.iconSize} strokeWidth={logoConfig.strokeWidth} />
+        </div>
+        <span 
+          className={`${logoConfig.fontFamily} ${logoConfig.textSize} ${logoConfig.letterSpacing} ${logoConfig.isUppercase ? 'uppercase' : ''} ${logoConfig.textColor} group-hover:text-amber-600 transition-colors duration-300 font-semibold`}
+        >
+          {logoConfig.text}
+        </span>
+      </div>
+    );
   };
 
   return (
@@ -85,14 +138,9 @@ export default function Header({
           {/* Brand Logo */}
           <div
             onClick={() => handleNavClick('home')}
-            className="flex items-center gap-2.5 cursor-pointer group select-none"
+            className="flex items-center gap-1.5 cursor-pointer group select-none flex-shrink-0"
           >
-            <div className="text-slate-900 group-hover:text-amber-600 transition-colors duration-300">
-              <BookOpen size={20} strokeWidth={1.5} />
-            </div>
-            <span className="text-base font-normal tracking-[0.18em] uppercase text-slate-900 group-hover:text-amber-600 transition-colors duration-300">
-              PERKINS PUBLISHER
-            </span>
+            {renderLogo()}
           </div>
 
           {/* Desktop Nav Items */}

@@ -1,6 +1,7 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { Inquiry } from './types';
+import { Inquiry, LogoConfig } from './types';
 import Header from './components/Header';
+import LogoSandbox, { ORIGINAL_LOGO_PRESET } from './components/LogoSandbox';
 import Hero from './components/Hero';
 import TimesSquareSection from './components/TimesSquareSection';
 import ServiceHub from './components/ServiceHub';
@@ -57,6 +58,7 @@ export default function App() {
   const [activePage, setActivePage] = useState<string>('home');
   const [showConsole, setShowConsole] = useState<boolean>(false);
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
+  const [logoConfig, setLogoConfig] = useState<LogoConfig>(ORIGINAL_LOGO_PRESET);
   const [consultationModalOpen, setConsultationModalOpen] = useState<boolean>(false);
   const [selectedServiceId, setSelectedServiceId] = useState<string | undefined>(undefined);
 
@@ -81,6 +83,16 @@ export default function App() {
     } else {
       setInquiries(INITIAL_INQUIRIES);
       localStorage.setItem('perkins_publishers_inquiries', JSON.stringify(INITIAL_INQUIRIES));
+    }
+
+    // Load saved logo configuration
+    const savedLogo = localStorage.getItem('perkins_publisher_logo_config');
+    if (savedLogo) {
+      try {
+        setLogoConfig(JSON.parse(savedLogo));
+      } catch (err) {
+        setLogoConfig(ORIGINAL_LOGO_PRESET);
+      }
     }
   }, []);
 
@@ -126,6 +138,20 @@ export default function App() {
 
     const updated = [newInquiry, ...inquiries];
     saveInquiries(updated);
+
+    // Sync newly created lead directly with our backend SMTP alert engine
+    fetch('/api/inquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newInquiry),
+    })
+      .then((res) => res.json())
+      .then((resData) => {
+        console.log('📬 [Lead Pipeline Sync] Backend Response:', resData);
+      })
+      .catch((err) => {
+        console.error('❌ [Lead Pipeline Sync] Failed to sync with backend:', err);
+      });
   };
 
   // CRM State updates
@@ -196,6 +222,7 @@ export default function App() {
       
       {/* Navigation Header */}
       <Header
+        logoConfig={logoConfig}
         onNavigate={setActivePage}
         activePage={activePage}
         onOpenConsultation={() => {
@@ -307,6 +334,7 @@ export default function App() {
 
       {/* Brand Site Footer */}
       <Footer
+        logoConfig={logoConfig}
         onNavigate={setActivePage}
         onToggleConsole={() => {
           setShowConsole(!showConsole);
@@ -460,6 +488,15 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Brand Design Sandbox Customizer */}
+      <LogoSandbox 
+        currentConfig={logoConfig} 
+        onUpdateConfig={(config) => {
+          setLogoConfig(config);
+          localStorage.setItem('perkins_publisher_logo_config', JSON.stringify(config));
+        }} 
+      />
 
     </div>
   );

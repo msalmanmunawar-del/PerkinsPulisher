@@ -54,3 +54,22 @@ export interface FAQItem {
   answer: string;
   category: 'royalties' | 'process' | 'pricing' | 'distribution';
 }
+
+export interface LogoConfig {
+  id: string;
+  name: string;
+  type: 'original' | 'serif' | 'modern' | 'custom_image' | 'custom_svg';
+  text: string;
+  textSize: string;      // e.g. "text-base", "text-lg", "text-xl", "text-sm"
+  letterSpacing: string; // e.g. "tracking-[0.18em]", "tracking-widest", etc.
+  textColor: string;     // Tailwind color class for text in light mode
+  footerTextColor: string; // Tailwind color class for footer logo in dark mode
+  iconName: string;      // Name of lucide icon like "BookOpen", "BookOpenCheck", "Sparkles", "Bookmark", "Crown"
+  iconSize: number;      // e.g. 20
+  strokeWidth: number;   // e.g. 1.5, 2
+  fontFamily: string;    // e.g. "font-sans", "font-serif", "font-mono"
+  isUppercase: boolean;  // whether logo text is uppercase
+  customImageUrl?: string; // used when type = 'custom_image'
+  customSvgMarkup?: string; // used when type = 'custom_svg'
+}
+
