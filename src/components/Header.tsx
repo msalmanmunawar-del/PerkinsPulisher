@@ -39,6 +39,7 @@ export default function Header({
     { label: 'Featured Books', id: 'portfolio' },
     { label: 'Cost Calculator', id: 'calculator' },
     { label: 'Our Reviews', id: 'reviews' },
+    { label: 'Author Insights', id: 'insights' },
   ];
 
   const handleNavClick = (id: string) => {

@@ -1,7 +1,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { Inquiry, LogoConfig } from './types';
 import Header from './components/Header';
-import LogoSandbox, { ORIGINAL_LOGO_PRESET } from './components/LogoSandbox';
+import { ORIGINAL_LOGO_PRESET } from './components/LogoSandbox';
 import Hero from './components/Hero';
 import TimesSquareSection from './components/TimesSquareSection';
 import ServiceHub from './components/ServiceHub';
@@ -9,8 +9,10 @@ import CompareSection from './components/CompareSection';
 import BookSlider from './components/BookSlider';
 import CostCalculator from './components/CostCalculator';
 import Testimonials from './components/Testimonials';
+import AuthorInsights from './components/AuthorInsights';
 import InquiryConsole from './components/InquiryConsole';
 import Footer from './components/Footer';
+import { useToast } from './components/Toast';
 
 import { X, CheckCircle, Sparkles, Phone, Award, BookOpen } from 'lucide-react';
 
@@ -55,6 +57,7 @@ const INITIAL_INQUIRIES: Inquiry[] = [
 ];
 
 export default function App() {
+  const { success: showSuccessToast, warn: showWarningToast, info: showInfoToast } = useToast();
   const [activePage, setActivePage] = useState<string>('home');
   const [showConsole, setShowConsole] = useState<boolean>(false);
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
@@ -145,24 +148,76 @@ export default function App() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newInquiry),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error('API server reached but status not OK');
+        return res.json();
+      })
       .then((resData) => {
         console.log('📬 [Lead Pipeline Sync] Backend Response:', resData);
+        if (resData.status === 'success') {
+          if (resData.emailSent) {
+            showSuccessToast(
+              `Consultation draft submitted! Live SMTP dispatch successfully sent to info@perkinspublisher.com!`,
+              "Lead Transmitted Successfully"
+            );
+          } else {
+            showSuccessToast(
+              `Your estimated draft specs for "${newInquiry.name}" were logged in the CRM Workstation.`,
+              "Roadmap Lead Recorded"
+            );
+            showInfoToast(
+              "Configure SMTP credentials in the workspace .env.example file to trigger premium email alerts.",
+              "Mock Mode Activated"
+            );
+          }
+        } else if (resData.status === 'warning') {
+          showSuccessToast(
+            `Lead stored in workstation database successfully.`,
+            "Consultation Stored"
+          );
+          showWarningToast(
+            resData.message || "Saved locally, but the real-time email dispatch failed.",
+            "Alert Transmission Idle"
+          );
+        } else {
+          showSuccessToast(
+            `Successfully saved lead parameters in CRM database!`,
+            "Lead Saved"
+          );
+        }
       })
       .catch((err) => {
         console.error('❌ [Lead Pipeline Sync] Failed to sync with backend:', err);
+        showSuccessToast(
+          `Lead registered in client browser memory session!`,
+          "Lead Created (Offline-First)"
+        );
       });
   };
 
   // CRM State updates
   const handleUpdateStatus = (id: string, newStatus: Inquiry['status']) => {
+    const targetLead = inquiries.find(inq => inq.id === id);
     const updated = inquiries.map(inq => inq.id === id ? { ...inq, status: newStatus } : inq);
     saveInquiries(updated);
+    if (targetLead) {
+      showInfoToast(
+        `Lead "${targetLead.name}" has been transition-phased to "${newStatus}".`,
+        "Pipeline State Updated"
+      );
+    }
   };
 
   const handleDeleteInquiry = (id: string) => {
+    const targetLead = inquiries.find(inq => inq.id === id);
     const updated = inquiries.filter(inq => inq.id !== id);
     saveInquiries(updated);
+    if (targetLead) {
+      showWarningToast(
+        `Author prospect files for "${targetLead.name}" have been permanently scrubbed.`,
+        "Lead Deleted Successfully"
+      );
+    }
   };
 
   const handleInjectSampleLead = () => {
@@ -191,6 +246,10 @@ export default function App() {
     };
 
     saveInquiries([newInq, ...inquiries]);
+    showSuccessToast(
+      `Injected realistic author prospectus for "${newInq.name}" into the active workflow queue.`,
+      "Prospect Seed Injected"
+    );
   };
 
   const handleModalSubmit = (e: FormEvent) => {
@@ -324,6 +383,14 @@ export default function App() {
 
         {/* Success Stories Testimonials & FAQ Accordions */}
         <Testimonials
+          onOpenConsultation={() => {
+            setSelectedServiceId(undefined);
+            setConsultationModalOpen(true);
+          }}
+        />
+
+        {/* Author Insights Section with Curated SEO Content by Zhana Xuere */}
+        <AuthorInsights
           onOpenConsultation={() => {
             setSelectedServiceId(undefined);
             setConsultationModalOpen(true);
@@ -489,14 +556,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Brand Design Sandbox Customizer */}
-      <LogoSandbox 
-        currentConfig={logoConfig} 
-        onUpdateConfig={(config) => {
-          setLogoConfig(config);
-          localStorage.setItem('perkins_publisher_logo_config', JSON.stringify(config));
-        }} 
-      />
 
     </div>
   );

@@ -113,6 +113,11 @@ export default function Footer({ logoConfig, onNavigate, onToggleConsole, showCo
                   Interactive Cost Estimator
                 </button>
               </li>
+              <li>
+                <button onClick={() => handleNav('insights')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
+                  Author Insights Lounge
+                </button>
+              </li>
             </ul>
           </div>
 
