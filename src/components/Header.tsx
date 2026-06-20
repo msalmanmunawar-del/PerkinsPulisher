@@ -40,6 +40,7 @@ export default function Header({
     { label: 'Cost Calculator', id: 'calculator' },
     { label: 'Our Reviews', id: 'reviews' },
     { label: 'Author Insights', id: 'insights' },
+    { label: 'Bestseller Audit', id: 'seo-scorecard' },
   ];
 
   const handleNavClick = (id: string) => {

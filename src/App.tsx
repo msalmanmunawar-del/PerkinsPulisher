@@ -10,6 +10,7 @@ import BookSlider from './components/BookSlider';
 import CostCalculator from './components/CostCalculator';
 import Testimonials from './components/Testimonials';
 import AuthorInsights from './components/AuthorInsights';
+import LeadAuditScorecard from './components/LeadAuditScorecard';
 import InquiryConsole from './components/InquiryConsole';
 import Footer from './components/Footer';
 import { useToast } from './components/Toast';
@@ -393,6 +394,15 @@ export default function App() {
         <AuthorInsights
           onOpenConsultation={() => {
             setSelectedServiceId(undefined);
+            setConsultationModalOpen(true);
+          }}
+        />
+
+        {/* Interactive Bestseller Scorecard & Amazon SEO Keyword Matcher */}
+        <LeadAuditScorecard
+          onOpenInquiry={(subject) => {
+            setSelectedServiceId(undefined);
+            setModalMessage(`Submitting my automated Bestseller Scorecard results to Stephanie Weldon.\nStatus: ${subject}\nI would love to arrange a personalized publishing session.`);
             setConsultationModalOpen(true);
           }}
         />

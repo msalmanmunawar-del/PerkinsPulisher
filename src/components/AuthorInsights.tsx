@@ -345,8 +345,7 @@ export default function AuthorInsights({ onOpenConsultation }: AuthorInsightsPro
                                 {paragraph}
                               </p>
                             ))}
-                            
-                            {/* Targeted SEO Keywords tag lists */}
+                                             {/* Targeted SEO Keywords tag lists */}
                             <div className="pt-4 border-t border-gray-800/50 space-y-2">
                               <span className="text-[10px] font-mono text-gray-500 block uppercase font-bold tracking-wider">Search Engine Optimized Index Fields</span>
                               <div className="flex flex-wrap gap-1.5">
@@ -356,19 +355,21 @@ export default function AuthorInsights({ onOpenConsultation }: AuthorInsightsPro
                                   </span>
                                 ))}
                               </div>
-                                                     {/* Expanded Call to Action inside article */}
-                            <div className="mt-6 bg-[#161c2d] border border-amber-500/20 p-4 rounded-xl flex items-center justify-between gap-4 flex-wrap">
-                              <div className="space-y-1">
-                                <h4 className="text-xs font-black uppercase text-amber-400 tracking-wider">Interested in this topic?</h4>
-                                <p className="text-[11px] text-gray-300">Request a complete complimentary feasibility review of your manuscript.</p>
+                              
+                              {/* Expanded Call to Action inside article */}
+                              <div className="mt-6 bg-[#161c2d] border border-amber-500/20 p-4 rounded-xl flex items-center justify-between gap-4 flex-wrap">
+                                <div className="space-y-1">
+                                  <h4 className="text-xs font-black uppercase text-amber-400 tracking-wider">Interested in this topic?</h4>
+                                  <p className="text-[11px] text-gray-300">Request a complete complimentary feasibility review of your manuscript.</p>
+                                </div>
+                                <button
+                                  onClick={onOpenConsultation}
+                                  className="bg-amber-500 hover:bg-amber-600 text-blue-950 font-black text-[11px] uppercase tracking-wider px-4 py-2 rounded-lg transition-transform hover:scale-103"
+                                >
+                                  Ask Stephanie Weldon About This
+                                </button>
                               </div>
-                              <button
-                                onClick={onOpenConsultation}
-                                className="bg-amber-500 hover:bg-amber-600 text-blue-950 font-black text-[11px] uppercase tracking-wider px-4 py-2 rounded-lg transition-transform hover:scale-103"
-                              >
-                                Ask Stephanie Weldon About This
-                              </button>
-                            </div>      </div>
+                            </div>
                           </div>
                         )}
                       </div>

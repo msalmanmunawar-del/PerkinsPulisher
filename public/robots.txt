@@ -1,0 +1,7 @@
+# Robots.txt for Perkins Publisher
+# Optimized for Google, Bing, and other major target search engines
+User-agent: *
+Allow: /
+
+# Specifically request crawlers to read our high fidelity sitemap
+Sitemap: https://perkinspublisher.com/sitemap.xml

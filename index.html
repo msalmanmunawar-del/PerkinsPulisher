@@ -33,77 +33,128 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "@id": "https://perkinspublisher.com/#organization",
-        "name": "Perkins Publisher",
-        "alternateName": "Perkins Book Publishing Services",
-        "url": "https://perkinspublisher.com/",
-        "logo": "https://perkinspublisher.com/logo.png",
-        "image": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800",
-        "description": "Global leader in professional manuscript development, premium self-publishing packages, ghostwriting, structural typesetting layouts, and strategic marketing campaigns.",
-        "telephone": "+1-803-346-3495",
-        "email": "info@perkinspublisher.com",
-        "priceRange": "$$",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "1320 Main St",
-          "addressLocality": "Columbia",
-          "addressRegion": "SC",
-          "postalCode": "29201",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": "34.0007",
-          "longitude": "-81.0348"
-        },
-        "openingHoursSpecification": {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday"
-          ],
-          "opens": "09:00",
-          "closes": "18:00"
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "320"
-        },
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "Professional Author Services",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Developmental & Copy Editing",
-                "description": "Bespoke line-editing and proofreading by bestselling publishers."
-              }
+        "@graph": [
+          {
+            "@type": "ProfessionalService",
+            "@id": "https://perkinspublisher.com/#organization",
+            "name": "Perkins Publisher",
+            "alternateName": "Perkins Book Publishing Services",
+            "url": "https://perkinspublisher.com/",
+            "logo": "https://perkinspublisher.com/logo.png",
+            "image": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800",
+            "description": "Global leader in professional manuscript development, premium self-publishing packages, ghostwriting, structural typesetting layouts, and strategic marketing campaigns.",
+            "telephone": "+1-803-346-3495",
+            "email": "info@perkinspublisher.com",
+            "priceRange": "$$",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1320 Main St",
+              "addressLocality": "Columbia",
+              "addressRegion": "SC",
+              "postalCode": "29201",
+              "addressCountry": "US"
             },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Bespoke Cover Design & Illustration",
-                "description": "Stunning award-winning custom 3D covers and graphic configurations."
-              }
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": "34.0007",
+              "longitude": "-81.0348"
             },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Global Retail Distribution setup",
-                "description": "Distribution to Amazon KDP, Barnes & Noble, Apple Books, Google Play, and libraries worldwide."
-              }
+            "openingHoursSpecification": {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday"
+              ],
+              "opens": "09:00",
+              "closes": "18:00"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "reviewCount": "320"
+            },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Professional Author Services",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Developmental & Copy Editing",
+                    "description": "Bespoke line-editing and proofreading by bestselling publishers."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Bespoke Cover Design & Illustration",
+                    "description": "Stunning award-winning custom 3D covers and graphic configurations."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Global Retail Distribution setup",
+                    "description": "Distribution to Amazon KDP, Barnes & Noble, Apple Books, Google Play, and libraries worldwide."
+                  }
+                }
+              ]
             }
-          ]
-        }
+          },
+          {
+            "@type": "Blog",
+            "@id": "https://perkinspublisher.com/#blog",
+            "name": "Author Insights Lounge",
+            "description": "Expert self-publishing insights, royalties strategies, and design manuals for global novelists and non-fiction authors curated by Stephanie Weldon.",
+            "publisher": {
+              "@id": "https://perkinspublisher.com/#organization"
+            },
+            "blogPost": [
+              {
+                "@type": "BlogPosting",
+                "headline": "The Master Blueprint to Retaining 100% of Your Book Royalties in Self-Publishing",
+                "url": "https://perkinspublisher.com/#insights",
+                "datePublished": "2026-06-18",
+                "author": {
+                  "@type": "Person",
+                  "name": "Stephanie Weldon"
+                },
+                "description": "Traditional publishing houses demand up to 85% of your sales margin. Discover exactly how local indie self-publishing options empower you to control distribution, price tags, and keep 100% of your royalties.",
+                "keywords": "book royalties, self-publishing royalties, book distribution setup, amazon publishing royalties, indie publishing profits"
+              },
+              {
+                "@type": "BlogPosting",
+                "headline": "Developmental Editing vs. Copy Editing: What Your Manuscript Actually Needs to Succeed",
+                "url": "https://perkinspublisher.com/#insights",
+                "datePublished": "2026-06-14",
+                "author": {
+                  "@type": "Person",
+                  "name": "Stephanie Weldon"
+                },
+                "description": "Before launching your book, it must be refined. Understand the massive structural difference between developmental line-shaping and detailed technical copy-editing to save thousands on manuscript workflows.",
+                "keywords": "developmental editing, copy editing services, manuscript evaluation, book proofreading, professional editor cost, best seller formatting"
+              },
+              {
+                "@type": "BlogPosting",
+                "headline": "The Psychology of Bestselling Book Cover Design: Colors, Metadata, and Typography Layouts",
+                "url": "https://perkinspublisher.com/#insights",
+                "datePublished": "2026-05-29",
+                "author": {
+                  "@type": "Person",
+                  "name": "Stephanie Weldon"
+                },
+                "description": "Your book cover makes your first digital impressions in less than 0.5 seconds. Learn how 3D cover layout configurations, custom typography, and psychological color schemes trigger instant sales.",
+                "keywords": "book cover design, 3d cover illustration, bestseller book covers, custom graphic design for books, typography layout formatting"
+              }
+            ]
+          }
+        ]
       }
     </script>
 
