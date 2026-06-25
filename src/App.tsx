@@ -11,60 +11,18 @@ import CostCalculator from './components/CostCalculator';
 import Testimonials from './components/Testimonials';
 import AuthorInsights from './components/AuthorInsights';
 import LeadAuditScorecard from './components/LeadAuditScorecard';
-import InquiryConsole from './components/InquiryConsole';
 import Footer from './components/Footer';
 import { useToast } from './components/Toast';
 
-import { X, CheckCircle, Sparkles, Phone, Award, BookOpen } from 'lucide-react';
-
-// Seeding standard inquiries
-const INITIAL_INQUIRIES: Inquiry[] = [
-  {
-    id: 'inq-1',
-    name: 'Sandra Mitchell',
-    email: 'sandra@mitchellbooks.com',
-    phone: '+1 (555) 0184',
-    genre: 'fiction',
-    wordCount: 52000,
-    services: ['publishing', 'editing'],
-    status: 'New',
-    date: 'May 24, 2026',
-    estimatedPrice: 2279
-  },
-  {
-    id: 'inq-2',
-    name: 'Professor Robert Chen',
-    email: 'r.chen@neuroinstitute.org',
-    phone: '+1 (212) 555-0199',
-    genre: 'nonfiction',
-    wordCount: 85000,
-    services: ['publishing', 'editing', 'cover-design'],
-    status: 'Reviewing',
-    date: 'May 22, 2026',
-    estimatedPrice: 3450
-  },
-  {
-    id: 'inq-3',
-    name: 'Arthur Sterling',
-    email: 'arthur.sterling@reporternet.com',
-    phone: '+1 (888) 555-4011',
-    genre: 'memoir',
-    wordCount: 72000,
-    services: ['ghostwriting', 'publishing'],
-    status: 'In Contact',
-    date: 'May 18, 2026',
-    estimatedPrice: 7259
-  }
-];
+import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2 } from 'lucide-react';
 
 export default function App() {
-  const { success: showSuccessToast, warn: showWarningToast, info: showInfoToast } = useToast();
+  const { success: showSuccessToast, warn: showWarningToast } = useToast();
   const [activePage, setActivePage] = useState<string>('home');
-  const [showConsole, setShowConsole] = useState<boolean>(false);
-  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [logoConfig, setLogoConfig] = useState<LogoConfig>(ORIGINAL_LOGO_PRESET);
   const [consultationModalOpen, setConsultationModalOpen] = useState<boolean>(false);
   const [selectedServiceId, setSelectedServiceId] = useState<string | undefined>(undefined);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Modal Inquiry Form inputs
   const [modalName, setModalName] = useState('');
@@ -75,21 +33,8 @@ export default function App() {
   const [modalMessage, setModalMessage] = useState('');
   const [modalSubmitted, setModalSubmitted] = useState(false);
 
-  // Load inquiries from localStorage
+  // Load saved configurations
   useEffect(() => {
-    const saved = localStorage.getItem('perkins_publishers_inquiries');
-    if (saved) {
-      try {
-        setInquiries(JSON.parse(saved));
-      } catch (err) {
-        setInquiries(INITIAL_INQUIRIES);
-      }
-    } else {
-      setInquiries(INITIAL_INQUIRIES);
-      localStorage.setItem('perkins_publishers_inquiries', JSON.stringify(INITIAL_INQUIRIES));
-    }
-
-    // Load saved logo configuration
     const savedLogo = localStorage.getItem('perkins_publisher_logo_config');
     if (savedLogo) {
       try {
@@ -100,13 +45,7 @@ export default function App() {
     }
   }, []);
 
-  // Save helper
-  const saveInquiries = (updatedList: Inquiry[]) => {
-    setInquiries(updatedList);
-    localStorage.setItem('perkins_publishers_inquiries', JSON.stringify(updatedList));
-  };
-
-  // Add inquiry handler
+  // Add inquiry handler - strictly delivers to email via backend SMTP integration
   const handleAddNewInquiry = (data: {
     name: string;
     email: string;
@@ -140,117 +79,44 @@ export default function App() {
       message: data.message
     };
 
-    const updated = [newInquiry, ...inquiries];
-    saveInquiries(updated);
+    setIsSubmitting(true);
 
-    // Sync newly created lead directly with our backend SMTP alert engine
     fetch('/api/inquiry', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newInquiry),
     })
-      .then((res) => {
-        if (!res.ok) throw new Error('API server reached but status not OK');
-        return res.json();
+      .then(async (res) => {
+        const resData = await res.json();
+        if (!res.ok) {
+          throw new Error(resData.message || 'SMTP transmission failed');
+        }
+        return resData;
       })
       .then((resData) => {
-        console.log('📬 [Lead Pipeline Sync] Backend Response:', resData);
-        if (resData.status === 'success') {
-          if (resData.emailSent) {
-            showSuccessToast(
-              `Consultation draft submitted! Live SMTP dispatch successfully sent to info@perkinspublisher.com!`,
-              "Lead Transmitted Successfully"
-            );
-          } else {
-            showSuccessToast(
-              `Your estimated draft specs for "${newInquiry.name}" were logged in the CRM Workstation.`,
-              "Roadmap Lead Recorded"
-            );
-            showInfoToast(
-              "Configure SMTP credentials in the workspace .env.example file to trigger premium email alerts.",
-              "Mock Mode Activated"
-            );
-          }
-        } else if (resData.status === 'warning') {
-          showSuccessToast(
-            `Lead stored in workstation database successfully.`,
-            "Consultation Stored"
-          );
-          showWarningToast(
-            resData.message || "Saved locally, but the real-time email dispatch failed.",
-            "Alert Transmission Idle"
-          );
-        } else {
-          showSuccessToast(
-            `Successfully saved lead parameters in CRM database!`,
-            "Lead Saved"
-          );
-        }
+        setIsSubmitting(false);
+        showSuccessToast(
+          resData.message || "Your inquiry has been successfully sent directly to our business email!",
+          "Inquiry Delivered"
+        );
+        setModalSubmitted(true);
+        setTimeout(() => {
+          setModalSubmitted(false);
+          setConsultationModalOpen(false);
+          setModalName('');
+          setModalEmail('');
+          setModalPhone('');
+          setModalMessage('');
+        }, 4000);
       })
       .catch((err) => {
-        console.error('❌ [Lead Pipeline Sync] Failed to sync with backend:', err);
-        showSuccessToast(
-          `Lead registered in client browser memory session!`,
-          "Lead Created (Offline-First)"
+        setIsSubmitting(false);
+        console.error('❌ [Inquiry Delivery Failure]:', err);
+        showWarningToast(
+          err.message || "Email delivery failed. Please verify your connection or SMTP settings.",
+          "Delivery Failed"
         );
       });
-  };
-
-  // CRM State updates
-  const handleUpdateStatus = (id: string, newStatus: Inquiry['status']) => {
-    const targetLead = inquiries.find(inq => inq.id === id);
-    const updated = inquiries.map(inq => inq.id === id ? { ...inq, status: newStatus } : inq);
-    saveInquiries(updated);
-    if (targetLead) {
-      showInfoToast(
-        `Lead "${targetLead.name}" has been transition-phased to "${newStatus}".`,
-        "Pipeline State Updated"
-      );
-    }
-  };
-
-  const handleDeleteInquiry = (id: string) => {
-    const targetLead = inquiries.find(inq => inq.id === id);
-    const updated = inquiries.filter(inq => inq.id !== id);
-    saveInquiries(updated);
-    if (targetLead) {
-      showWarningToast(
-        `Author prospect files for "${targetLead.name}" have been permanently scrubbed.`,
-        "Lead Deleted Successfully"
-      );
-    }
-  };
-
-  const handleInjectSampleLead = () => {
-    const names = ['Clara Vane', 'Dr. Liam Westwood', 'S. J. Miller', 'Elizabeth Croft'];
-    const emails = ['clara.v@cosmicecho.com', 'westwood.l@university.edu', 'sj.miller@plutopulse.org', 'lizzy@croftadventure.com'];
-    const phones = ['+1 (415) 555-0182', '+1 (650) 555-9011', '+1 (718) 555-3390', '+1 (312) 555-7090'];
-    const genresList = ['scifi', 'nonfiction', 'fiction', 'selfhelp'];
-    const words = [90000, 35000, 68000, 48000];
-    const srvOption = [['publishing', 'cover-design'], ['editing'], ['publishing', 'marketing', 'illustration'], ['cover-design']];
-    const prices = [2198, 525, 4197, 699];
-
-    const idx = Math.floor(Math.random() * names.length);
-
-    const newInq: Inquiry = {
-      id: `inq-${Math.floor(1000 + Math.random() * 9000)}`,
-      name: names[idx],
-      email: emails[idx],
-      phone: phones[idx],
-      genre: genresList[idx],
-      wordCount: words[idx],
-      services: srvOption[idx],
-      status: 'New',
-      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-      estimatedPrice: prices[idx],
-      message: 'Automated CRM integration validation lead injection.'
-    };
-
-    saveInquiries([newInq, ...inquiries]);
-    showSuccessToast(
-      `Injected realistic author prospectus for "${newInq.name}" into the active workflow queue.`,
-      "Prospect Seed Injected"
-    );
   };
 
   const handleModalSubmit = (e: FormEvent) => {
@@ -265,16 +131,6 @@ export default function App() {
       wordCount: modalWordCount,
       message: modalMessage,
     });
-
-    setModalSubmitted(true);
-    setTimeout(() => {
-      setModalSubmitted(false);
-      setConsultationModalOpen(false);
-      setModalName('');
-      setModalEmail('');
-      setModalPhone('');
-      setModalMessage('');
-    }, 3500);
   };
 
   return (
@@ -289,30 +145,7 @@ export default function App() {
           setSelectedServiceId(undefined);
           setConsultationModalOpen(true);
         }}
-        onToggleConsole={() => {
-          setShowConsole(!showConsole);
-          // Auto scroll to CRM if turning on
-          if (!showConsole) {
-            setTimeout(() => {
-              document.getElementById('crm-workboard')?.scrollIntoView({ behavior: 'smooth' });
-            }, 100);
-          }
-        }}
-        showConsole={showConsole}
-        inquiriesCount={inquiries.length}
       />
-
-      {/* Toggled Administration CRM Panel */}
-      {showConsole && (
-        <div id="crm-workboard">
-          <InquiryConsole
-            inquiries={inquiries}
-            onUpdateStatus={handleUpdateStatus}
-            onDeleteInquiry={handleDeleteInquiry}
-            onInjectSample={handleInjectSampleLead}
-          />
-        </div>
-      )}
 
       {/* Main Client Replica Site */}
       <main className="flex-grow bg-white text-gray-800">
@@ -413,15 +246,6 @@ export default function App() {
       <Footer
         logoConfig={logoConfig}
         onNavigate={setActivePage}
-        onToggleConsole={() => {
-          setShowConsole(!showConsole);
-          if (!showConsole) {
-            setTimeout(() => {
-              document.getElementById('crm-workboard')?.scrollIntoView({ behavior: 'smooth' });
-            }, 100);
-          }
-        }}
-        showConsole={showConsole}
       />
 
       {/* Free Quotation Proposal Modal Structure */}
@@ -456,9 +280,9 @@ export default function App() {
                   <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto border border-green-200 text-green-500">
                     <CheckCircle size={32} />
                   </div>
-                  <h4 className="text-lg font-black text-blue-950">Draft Logged Successfully!</h4>
+                  <h4 className="text-lg font-black text-blue-950">Inquiry Sent Successfully!</h4>
                   <p className="text-xs text-gray-500 font-bold leading-relaxed max-w-sm mx-auto">
-                    Your estimated blueprint and manuscript draft specifications were sent straight to our editor portal queue. Check your status anytime in the **Publisher CRM Workbench**!
+                    Your estimated blueprint and manuscript draft specifications have been sent directly to Stephanie Weldon's business email. We will reach out to you shortly to arrange a personalized bestseller design session!
                   </p>
                 </div>
               ) : (
@@ -554,9 +378,17 @@ export default function App() {
 
                   <button
                     type="submit"
-                    className="w-full bg-amber-500 hover:bg-amber-600 text-blue-950 font-black text-xs uppercase tracking-wider py-3.5 rounded-lg shadow-lg text-center cursor-pointer transition-all active:translate-y-0.5"
+                    disabled={isSubmitting}
+                    className="w-full bg-amber-500 hover:bg-amber-600 disabled:opacity-55 disabled:cursor-not-allowed text-blue-950 font-black text-xs uppercase tracking-wider py-3.5 rounded-lg shadow-lg text-center cursor-pointer transition-all active:translate-y-0.5 flex items-center justify-center gap-2"
                   >
-                    Lock My Publishing Roadmap Consultation
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="animate-spin" size={16} />
+                        <span>Transmitting Inquiry...</span>
+                      </>
+                    ) : (
+                      <span>Lock My Publishing Roadmap Consultation</span>
+                    )}
                   </button>
                 </form>
               )}

@@ -18,7 +18,7 @@ async function startServer() {
     const inquiry = req.body;
     console.log("📥 [Perkins Backend] Received lead inquiry:", inquiry);
 
-    const recipientEmail = "info@perkinspublisher.com";
+    const recipientEmail = process.env.RECIPIENT_EMAIL || "info@perkinspublisher.com";
     const smtpHost = process.env.SMTP_HOST;
     const smtpPort = process.env.SMTP_PORT;
     const smtpUser = process.env.SMTP_USER;
@@ -88,7 +88,7 @@ async function startServer() {
         </div>
 
         <div style="background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 15px; border-radius: 8px; font-size: 12px; line-height: 1.5; color: #1e40af; margin-bottom: 25px;">
-          <strong>💼 Quick Action Recommendation:</strong> Click the author's contact buttons above or navigate to the admin portal workstation to revise active statuses or draft formal royalty agreements.
+          <strong>💼 Quick Action Recommendation:</strong> Click the author's contact buttons above to connect directly and schedule a bestseller design session.
         </div>
 
         <div style="text-align: center; border-top: 1px solid #f1f5f9; padding-top: 20px; font-size: 11px; color: #94a3b8;">
@@ -98,48 +98,45 @@ async function startServer() {
       </div>
     `;
 
-    // Send email using Nodemailer if credentials are in current process context
-    if (smtpHost && smtpUser && smtpPass) {
-      try {
-        const transporter = nodemailer.createTransport({
-          host: smtpHost,
-          port: Number(smtpPort) || 587,
-          secure: Number(smtpPort) === 465,
-          auth: {
-            user: smtpUser,
-            pass: smtpPass,
-          },
-        });
+    // Strict SMTP Dispatch Verification
+    if (!smtpHost || !smtpUser || !smtpPass) {
+      console.error("❌ [Perkins Backend] Missing SMTP configuration. Cannot deliver email.");
+      return res.status(500).json({
+        status: "error",
+        message: "SMTP configuration is incomplete. Please enter valid email SMTP details.",
+      });
+    }
 
-        const info = await transporter.sendMail({
-          from: `"Perkins Lead Pipeline" <${smtpUser}>`,
-          to: recipientEmail,
-          subject: emailSubject,
-          html: emailHtml,
-        });
+    try {
+      const transporter = nodemailer.createTransport({
+        host: smtpHost,
+        port: Number(smtpPort) || 587,
+        secure: Number(smtpPort) === 465,
+        auth: {
+          user: smtpUser,
+          pass: smtpPass,
+        },
+      });
 
-        console.log("📨 [Perkins Backend] Lead successfully dispatched to", recipientEmail, "MsgId:", info.messageId);
-        return res.json({
-          status: "success",
-          emailSent: true,
-          message: `The lead from ${inquiry.name} was saved into the CRM and dispatched directly to ${recipientEmail}!`,
-          messageId: info.messageId
-        });
-      } catch (err: any) {
-        console.error("❌ [Perkins Backend] Nodemailer dispatch failed:", err);
-        return res.json({
-          status: "warning",
-          emailSent: false,
-          message: "Lead recorded in CRM, but real SMTP transmission failed. Review your credential keys in Settings.",
-          error: err.message
-        });
-      }
-    } else {
-      console.log(`ℹ️ [Perkins Backend] Saved lead locally to session: ${inquiry.name}. (Awaiting config for automatic dispatch to info@perkinspublisher.com)`);
+      const info = await transporter.sendMail({
+        from: `"Perkins Lead Pipeline" <${smtpUser}>`,
+        to: recipientEmail,
+        subject: emailSubject,
+        html: emailHtml,
+      });
+
+      console.log("📨 [Perkins Backend] Lead successfully dispatched to", recipientEmail, "MsgId:", info.messageId);
       return res.json({
         status: "success",
-        emailSent: false,
-        message: `Saved inquiry dynamically for ${inquiry.name}. To trigger real automatic alerts to info@perkinspublisher.com, enter SMTP credentials in Settings.`
+        message: `Your inquiry has been successfully sent directly to our business email!`,
+        messageId: info.messageId
+      });
+    } catch (err: any) {
+      console.error("❌ [Perkins Backend] Nodemailer dispatch failed:", err);
+      return res.status(500).json({
+        status: "error",
+        message: "Real-time email dispatch failed. Please verify your SMTP credential settings.",
+        error: err.message
       });
     }
   });

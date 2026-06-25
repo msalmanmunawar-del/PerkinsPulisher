@@ -8,9 +8,6 @@ interface HeaderProps {
   onNavigate: (page: string) => void;
   activePage: string;
   onOpenConsultation: () => void;
-  onToggleConsole: () => void;
-  showConsole: boolean;
-  inquiriesCount: number;
 }
 
 export default function Header({
@@ -18,9 +15,6 @@ export default function Header({
   onNavigate,
   activePage,
   onOpenConsultation,
-  onToggleConsole,
-  showConsole,
-  inquiriesCount,
 }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -115,23 +109,13 @@ export default function Header({
             <Phone size={13} className="text-amber-400" />
             <span>+1 (803) 346-3495</span>
           </a>
-          <span className="text-gray-400">|</span>
-          <div className="flex items-center gap-1.5 cursor-pointer hover:text-amber-400 transition-colors" onClick={onToggleConsole}>
-            <span className="relative flex h-2 w-2">
-              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${inquiriesCount > 0 ? 'bg-amber-400' : 'bg-green-400'}`}></span>
-              <span className={`relative inline-flex rounded-full h-2 w-2 ${inquiriesCount > 0 ? 'bg-amber-500' : 'bg-green-500'}`}></span>
-            </span>
-            <span>
-              {showConsole ? 'Exit CRM View' : `Publisher CRM (${inquiriesCount})`}
-            </span>
-          </div>
         </div>
       </div>
 
       {/* Main Navigation Bar */}
       <nav
         className={`w-full transition-all duration-300 ${
-          scrolled || showConsole
+          scrolled
             ? 'bg-white/95 backdrop-blur-md shadow-md py-3'
             : 'bg-white py-5'
         } border-b border-gray-100 sticky top-0`}
@@ -188,12 +172,6 @@ export default function Header({
 
           {/* Mobile Hamburguer Toggle */}
           <div className="flex md:hidden items-center gap-3">
-            <div
-              className="text-xs font-semibold text-gray-500 cursor-pointer border border-gray-200 px-2.5 py-1 rounded"
-              onClick={onToggleConsole}
-            >
-              CRM ({inquiriesCount})
-            </div>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="text-gray-700 hover:text-amber-600 p-1 cursor-pointer"

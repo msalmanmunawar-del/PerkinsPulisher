@@ -5,11 +5,9 @@ import { LogoConfig } from '../types';
 interface FooterProps {
   logoConfig: LogoConfig;
   onNavigate: (sectionId: string) => void;
-  onToggleConsole: () => void;
-  showConsole: boolean;
 }
 
-export default function Footer({ logoConfig, onNavigate, onToggleConsole, showConsole }: FooterProps) {
+export default function Footer({ logoConfig, onNavigate }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   const handleNav = (id: string) => {
@@ -177,23 +175,6 @@ export default function Footer({ logoConfig, onNavigate, onToggleConsole, showCo
           <div className="space-y-1">
             <p>© {currentYear} Perkins Publisher Co. All Rights Reserved. Fully Accompiled Replica.</p>
             <p className="text-slate-600 font-medium">All trademarks, trade names, and covers remain property of their respective author owners.</p>
-          </div>
-
-          {/* Admin CRM Dashboard entry toggle */}
-          <div className="flex items-center gap-2">
-            <span className="text-slate-600 font-medium">System Operator:</span>
-            <button
-              id="admin-crm-toggle"
-              onClick={onToggleConsole}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded font-black uppercase text-[9px] border transition-all cursor-pointer ${
-                showConsole
-                  ? 'bg-amber-500 text-blue-950 border-amber-600'
-                  : 'bg-slate-900 text-slate-400 hover:text-white border-slate-800'
-              }`}
-            >
-              <Database size={11} />
-              <span>{showConsole ? 'CLOSE PUBLISHER CRM' : 'OPEN CRM WORKSPACE'}</span>
-            </button>
           </div>
 
         </div>
