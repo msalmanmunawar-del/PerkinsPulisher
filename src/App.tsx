@@ -7,12 +7,15 @@ import TimesSquareSection from './components/TimesSquareSection';
 import ServiceHub from './components/ServiceHub';
 import CompareSection from './components/CompareSection';
 import BookSlider from './components/BookSlider';
-import CostCalculator from './components/CostCalculator';
 import Testimonials from './components/Testimonials';
 import AuthorInsights from './components/AuthorInsights';
 import LeadAuditScorecard from './components/LeadAuditScorecard';
 import Footer from './components/Footer';
 import { useToast } from './components/Toast';
+import SEO from './components/SEO';
+import DynamicServicePage from './components/DynamicServicePage';
+import DynamicIndustryPage from './components/DynamicIndustryPage';
+import KnowledgeHub from './components/KnowledgeHub';
 
 import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2 } from 'lucide-react';
 
@@ -136,6 +139,9 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen bg-[#0b0f19] text-gray-100">
       
+      {/* Dynamic SEO Tag Injector */}
+      <SEO activePage={activePage} />
+
       {/* Navigation Header */}
       <Header
         logoConfig={logoConfig}
@@ -150,95 +156,118 @@ export default function App() {
       {/* Main Client Replica Site */}
       <main className="flex-grow bg-white text-gray-800">
         
-        {/* Hero Section with Quick Book estimate and checklist */}
-        <Hero
-          onSubmitInquiry={(data) => {
-            handleAddNewInquiry({
-              name: data.name,
-              email: data.email,
-              phone: data.phone,
-              genre: data.genre,
-              wordCount: data.wordCount,
-              message: data.message
-            });
-          }}
-          onOpenCalculator={() => {
-            document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth' });
-            setActivePage('calculator');
-          }}
-        />
+        {activePage === 'home' && (
+          <>
+            {/* Hero Section with Quick Book estimate and checklist */}
+            <Hero
+              onSubmitInquiry={(data) => {
+                handleAddNewInquiry({
+                  name: data.name,
+                  email: data.email,
+                  phone: data.phone,
+                  genre: data.genre,
+                  wordCount: data.wordCount,
+                  message: data.message
+                });
+              }}
+              onOpenScorecard={() => {
+                const element = document.getElementById('seo-scorecard');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            />
 
-        {/* Times Square video trailer highlight panel */}
-        <TimesSquareSection
-          onOpenConsultation={() => {
-            setSelectedServiceId(undefined);
-            setConsultationModalOpen(true);
-          }}
-        />
+            {/* Times Square video trailer highlight panel */}
+            <TimesSquareSection
+              onOpenConsultation={() => {
+                setSelectedServiceId(undefined);
+                setConsultationModalOpen(true);
+              }}
+            />
 
-        {/* Detailed services overview tab card stack */}
-        <ServiceHub
-          onOpenConsultation={(serviceId) => {
-            setSelectedServiceId(serviceId);
-            setConsultationModalOpen(true);
-          }}
-        />
+            {/* Detailed services overview tab card stack */}
+            <ServiceHub
+              onOpenConsultation={(serviceId) => {
+                setSelectedServiceId(serviceId);
+                setConsultationModalOpen(true);
+              }}
+            />
 
-        {/* Perkins vs Traditional comparative diagram block */}
-        <CompareSection
-          onOpenConsultation={() => {
-            setSelectedServiceId(undefined);
-            setConsultationModalOpen(true);
-          }}
-        />
+            {/* Perkins vs Traditional comparative diagram block */}
+            <CompareSection
+              onOpenConsultation={() => {
+                setSelectedServiceId(undefined);
+                setConsultationModalOpen(true);
+              }}
+            />
 
-        {/* Portfolio bestseller books showcase */}
-        <BookSlider
-          onOpenConsultation={() => {
-            setSelectedServiceId(undefined);
-            setConsultationModalOpen(true);
-          }}
-        />
+            {/* Portfolio bestseller books showcase */}
+            <BookSlider
+              onOpenConsultation={() => {
+                setSelectedServiceId(undefined);
+                setConsultationModalOpen(true);
+              }}
+            />
 
-        {/* Live investment pricing computation wizard */}
-        <CostCalculator
-          onSubmitInquiry={(calcData) => {
-            handleAddNewInquiry({
-              name: calcData.name,
-              email: calcData.email,
-              phone: calcData.phone,
-              genre: calcData.genre,
-              wordCount: calcData.wordCount,
-              services: calcData.services,
-              estimatedPrice: calcData.estimatedPrice
-            });
-          }}
-        />
+            {/* Success Stories Testimonials & FAQ Accordions */}
+            <Testimonials
+              onOpenConsultation={() => {
+                setSelectedServiceId(undefined);
+                setConsultationModalOpen(true);
+              }}
+            />
 
-        {/* Success Stories Testimonials & FAQ Accordions */}
-        <Testimonials
-          onOpenConsultation={() => {
-            setSelectedServiceId(undefined);
-            setConsultationModalOpen(true);
-          }}
-        />
+            {/* Author Insights Section with Curated SEO Content by Zhana Xuere */}
+            <AuthorInsights
+              onOpenConsultation={() => {
+                setSelectedServiceId(undefined);
+                setConsultationModalOpen(true);
+              }}
+            />
 
-        {/* Author Insights Section with Curated SEO Content by Zhana Xuere */}
-        <AuthorInsights
-          onOpenConsultation={() => {
-            setSelectedServiceId(undefined);
-            setConsultationModalOpen(true);
-          }}
-        />
+            {/* Interactive Bestseller Scorecard & Amazon SEO Keyword Matcher */}
+            <LeadAuditScorecard
+              onOpenInquiry={(subject) => {
+                setSelectedServiceId(undefined);
+                setModalMessage(`Submitting my automated Bestseller Scorecard results to Stephanie Weldon.\nStatus: ${subject}\nI would love to arrange a personalized publishing session.`);
+                setConsultationModalOpen(true);
+              }}
+            />
+          </>
+        )}
 
-        {/* Interactive Bestseller Scorecard & Amazon SEO Keyword Matcher */}
-        <LeadAuditScorecard
-          onOpenInquiry={(subject) => {
-            setSelectedServiceId(undefined);
-            setModalMessage(`Submitting my automated Bestseller Scorecard results to Stephanie Weldon.\nStatus: ${subject}\nI would love to arrange a personalized publishing session.`);
-            setConsultationModalOpen(true);
-          }}
-        />
+        {activePage.startsWith('service-') && (
+          <DynamicServicePage
+            serviceId={activePage.replace('service-', '')}
+            onOpenConsultation={() => {
+              setSelectedServiceId(activePage);
+              setConsultationModalOpen(true);
+            }}
+            onNavigate={setActivePage}
+          />
+        )}
+
+        {activePage.startsWith('industry-') && (
+          <DynamicIndustryPage
+            industryId={activePage.replace('industry-', '')}
+            onOpenConsultation={() => {
+              setSelectedServiceId(activePage);
+              setConsultationModalOpen(true);
+            }}
+            onNavigate={setActivePage}
+          />
+        )}
+
+        {activePage === 'knowledge-hub' && (
+          <KnowledgeHub
+            onNavigate={setActivePage}
+            onOpenConsultation={() => {
+              setSelectedServiceId(undefined);
+              setConsultationModalOpen(true);
+            }}
+          />
+        )}
 
       </main>
 

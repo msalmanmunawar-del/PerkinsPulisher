@@ -11,10 +11,17 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   const handleNav = (id: string) => {
-    onNavigate(id);
-    const elem = document.getElementById(id);
-    if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
+    if (['services', 'portfolio', 'reviews', 'insights', 'seo-scorecard'].includes(id)) {
+      onNavigate('home');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 150);
+    } else {
+      onNavigate(id);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -97,23 +104,18 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('services')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
-                  Core Publishing Services
+                <button onClick={() => handleNav('knowledge-hub')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
+                  Publishing Knowledge Hub
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('seo-scorecard')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
+                  Bestseller Audit Scorecard
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNav('portfolio')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
                   Featured Bestsellers Shelf
-                </button>
-              </li>
-              <li>
-                <button onClick={() => handleNav('calculator')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
-                  Interactive Cost Estimator
-                </button>
-              </li>
-              <li>
-                <button onClick={() => handleNav('insights')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
-                  Author Insights Lounge
                 </button>
               </li>
             </ul>
@@ -124,23 +126,28 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
             <h4 className="text-white text-[11px] font-black tracking-widest uppercase">CREATIVE SOLUTIONS</h4>
             <ul className="space-y-2.5 font-bold">
               <li>
-                <button onClick={() => handleNav('services')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
+                <button onClick={() => handleNav('service-ghostwriting')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
                   Professional Ghostwriting
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('services')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
+                <button onClick={() => handleNav('service-editing')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
                   Developmental Book Editing
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('services')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
-                  Stunning Custom Cover Design
+                <button onClick={() => handleNav('service-kdp')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
+                  Amazon KDP Setup & Prep
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('services')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
-                  ACX Mastered Audiobooks
+                <button onClick={() => handleNav('service-business')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
+                  Business & Authority Books
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('service-memoirs')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
+                  Memoirs & Legacy Publishing
                 </button>
               </li>
             </ul>

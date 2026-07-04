@@ -10,10 +10,10 @@ interface HeroProps {
     wordCount: number;
     message?: string;
   }) => void;
-  onOpenCalculator: () => void;
+  onOpenScorecard: () => void;
 }
 
-export default function Hero({ onSubmitInquiry, onOpenCalculator }: HeroProps) {
+export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -231,10 +231,10 @@ export default function Hero({ onSubmitInquiry, onOpenCalculator }: HeroProps) {
                   <div className="text-center pt-2">
                     <button
                       type="button"
-                      onClick={onOpenCalculator}
+                      onClick={onOpenScorecard}
                       className="text-[11px] font-bold text-amber-600 hover:text-amber-700 underline transition-colors"
                     >
-                      Or, launch Interactive Pricing Estimator
+                      Or, Take the Free Bestseller Audit Scorecard
                     </button>
                   </div>
                 </form>
