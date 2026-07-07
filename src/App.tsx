@@ -19,6 +19,63 @@ import KnowledgeHub from './components/KnowledgeHub';
 
 import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2 } from 'lucide-react';
 
+const MODAL_TRANSLATIONS = {
+  en: {
+    title: "Get Free Consultation",
+    subtitle: "PERKINS BESTSELLER ROADMAP",
+    targetedInquiry: "Targeted Inquiry: {id} Component",
+    activeStatus: "ACTIVE",
+    authorNameLabel: "Author Name *",
+    authorNamePlaceholder: "e.g. Elena Petrova",
+    emailLabel: "Email Address *",
+    emailPlaceholder: "elena@example.com",
+    phoneLabel: "Phone Contact *",
+    phonePlaceholder: "+1 (212) 555-0199",
+    genreLabel: "Book Genre",
+    genres: {
+      fiction: "Fiction Novel",
+      nonfiction: "Non-Fiction Textbook",
+      scifi: "Sci-Fi & Fantasy Adventure",
+      selfhelp: "Self-Help & Business Manual",
+      memoir: "Memoir / Family History"
+    },
+    wordCountLabel: "Word Count",
+    describeLabel: "Briefly Describe Your Story Ideas",
+    describePlaceholder: "e.g. High fantasy adventure centering an ancient forgotten compass vault structure...",
+    submitting: "Transmitting Inquiry...",
+    submitBtn: "Lock My Publishing Roadmap Consultation",
+    successTitle: "Inquiry Sent Successfully!",
+    successMessage: "Your estimated blueprint and manuscript draft specifications have been sent directly to Stephanie Weldon's business email. We will reach out to you shortly to arrange a personalized bestseller design session!"
+  },
+  es: {
+    title: "Obtener consulta gratuita",
+    subtitle: "PLAN DE BESTSELLER PERKINS",
+    targetedInquiry: "Consulta dirigida: Componente {id}",
+    activeStatus: "ACTIVO",
+    authorNameLabel: "Nombre del autor *",
+    authorNamePlaceholder: "ej. Elena Petrova",
+    emailLabel: "Correo electrónico *",
+    emailPlaceholder: "elena@ejemplo.com",
+    phoneLabel: "Teléfono de contacto *",
+    phonePlaceholder: "+1 (212) 555-0199",
+    genreLabel: "Género del libro",
+    genres: {
+      fiction: "Novela de ficción",
+      nonfiction: "Libro de no ficción",
+      scifi: "Aventura de ciencia ficción y fantasía",
+      selfhelp: "Manual de autoayuda y negocios",
+      memoir: "Memorias / Historia familiar"
+    },
+    wordCountLabel: "Número de palabras",
+    describeLabel: "Describa brevemente sus ideas para la historia",
+    describePlaceholder: "ej. Una aventura de alta fantasía centrada en una antigua estructura de bóveda de brújula olvidada...",
+    submitting: "Transmitiendo consulta...",
+    submitBtn: "Reservar mi consulta del plan editorial",
+    successTitle: "¡Consulta enviada con éxito!",
+    successMessage: "Las especificaciones estimadas de su manuscrito y plan de bestseller se han enviado directamente al correo electrónico de Stephanie Weldon. ¡Nos pondremos en contacto con usted en breve para programar una sesión personalizada de diseño de bestseller!"
+  }
+};
+
 export default function App() {
   const { success: showSuccessToast, warn: showWarningToast } = useToast();
   const [activePage, setActivePage] = useState<string>('home');
@@ -35,6 +92,9 @@ export default function App() {
   const [modalWordCount, setModalWordCount] = useState<number>(45000);
   const [modalMessage, setModalMessage] = useState('');
   const [modalSubmitted, setModalSubmitted] = useState(false);
+  const [modalLang, setModalLang] = useState<'en' | 'es'>('en');
+
+  const t = MODAL_TRANSLATIONS[modalLang];
 
   // Load saved configurations
   useEffect(() => {
@@ -289,17 +349,45 @@ export default function App() {
                   <BookOpen size={16} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-black uppercase">Get Free Consultation</h3>
-                  <p className="text-[10px] text-slate-300 font-bold uppercase tracking-widest">PERKINS BESTSELLER ROADMAP</p>
+                  <h3 className="text-sm font-black uppercase">{t.title}</h3>
+                  <p className="text-[10px] text-slate-300 font-bold uppercase tracking-widest">{t.subtitle}</p>
                 </div>
               </div>
-              <button
-                onClick={() => setConsultationModalOpen(false)}
-                className="text-slate-400 hover:text-white transition-colors cursor-pointer"
-                aria-label="Close"
-              >
-                <X size={20} />
-              </button>
+              <div className="flex items-center gap-3">
+                {/* Language Toggle */}
+                <div className="flex bg-slate-900/80 p-0.5 rounded-full border border-white/10 text-[10px] font-bold">
+                  <button
+                    type="button"
+                    onClick={() => setModalLang('en')}
+                    className={`px-2.5 py-1 rounded-full transition-all cursor-pointer ${
+                      modalLang === 'en'
+                        ? 'bg-amber-500 text-blue-950 font-black'
+                        : 'text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    EN
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setModalLang('es')}
+                    className={`px-2.5 py-1 rounded-full transition-all cursor-pointer ${
+                      modalLang === 'es'
+                        ? 'bg-amber-500 text-blue-950 font-black'
+                        : 'text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    ES
+                  </button>
+                </div>
+
+                <button
+                  onClick={() => setConsultationModalOpen(false)}
+                  className="text-slate-400 hover:text-white transition-colors cursor-pointer"
+                  aria-label="Close"
+                >
+                  <X size={20} />
+                </button>
+              </div>
             </div>
 
             {/* Modal main content wrap */}
@@ -309,9 +397,9 @@ export default function App() {
                   <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto border border-green-200 text-green-500">
                     <CheckCircle size={32} />
                   </div>
-                  <h4 className="text-lg font-black text-blue-950">Inquiry Sent Successfully!</h4>
+                  <h4 className="text-lg font-black text-blue-950">{t.successTitle}</h4>
                   <p className="text-xs text-gray-500 font-bold leading-relaxed max-w-sm mx-auto">
-                    Your estimated blueprint and manuscript draft specifications have been sent directly to Stephanie Weldon's business email. We will reach out to you shortly to arrange a personalized bestseller design session!
+                    {t.successMessage}
                   </p>
                 </div>
               ) : (
@@ -319,43 +407,43 @@ export default function App() {
                   
                   {selectedServiceId && (
                     <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg flex items-center justify-between text-xs font-bold text-amber-800">
-                      <span>🎯 Targeted Inquiry: {selectedServiceId.toUpperCase()} Component</span>
-                      <span className="text-[9px] bg-amber-500 text-blue-950 py-0.5 px-2 rounded uppercase font-black">ACTIVE</span>
+                      <span>🎯 {t.targetedInquiry.replace('{id}', selectedServiceId.toUpperCase())}</span>
+                      <span className="text-[9px] bg-amber-500 text-blue-950 py-0.5 px-2 rounded uppercase font-black">{t.activeStatus}</span>
                     </div>
                   )}
 
                   <div>
-                    <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Author Name *</label>
+                    <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{t.authorNameLabel}</label>
                     <input
                       type="text"
                       required
                       value={modalName}
                       onChange={(e) => setModalName(e.target.value)}
-                      placeholder="e.g. Elena Petrova"
+                      placeholder={t.authorNamePlaceholder}
                       className="w-full bg-gray-50 border border-gray-250 rounded-lg px-3 py-2.5 text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Email Address *</label>
+                      <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{t.emailLabel}</label>
                       <input
                         type="email"
                         required
                         value={modalEmail}
                         onChange={(e) => setModalEmail(e.target.value)}
-                        placeholder="elena@example.com"
+                        placeholder={t.emailPlaceholder}
                         className="w-full bg-gray-50 border border-gray-250 rounded-lg px-3 py-2.5 text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Phone Contact *</label>
+                      <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{t.phoneLabel}</label>
                       <input
                         type="tel"
                         required
                         value={modalPhone}
                         onChange={(e) => setModalPhone(e.target.value)}
-                        placeholder="+1 (212) 555-0199"
+                        placeholder={t.phonePlaceholder}
                         className="w-full bg-gray-50 border border-gray-250 rounded-lg px-3 py-2.5 text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
                       />
                     </div>
@@ -363,22 +451,22 @@ export default function App() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Book Genre</label>
+                      <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{t.genreLabel}</label>
                       <select
                         value={modalGenre}
                         onChange={(e) => setModalGenre(e.target.value)}
                         className="w-full bg-gray-50 border border-gray-250 rounded-lg px-3 py-2.5 text-xs font-bold text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500"
                       >
-                        <option value="fiction">Fiction Novel</option>
-                        <option value="nonfiction">Non-Fiction Textbook</option>
-                        <option value="scifi">Sci-Fi & Fantasy Adventure</option>
-                        <option value="selfhelp">Self-Help & Business Manual</option>
-                        <option value="memoir">Memoir / Family History</option>
+                        <option value="fiction">{t.genres.fiction}</option>
+                        <option value="nonfiction">{t.genres.nonfiction}</option>
+                        <option value="scifi">{t.genres.scifi}</option>
+                        <option value="selfhelp">{t.genres.selfhelp}</option>
+                        <option value="memoir">{t.genres.memoir}</option>
                       </select>
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 flex justify-between">
-                        <span>Word Count</span>
+                        <span>{t.wordCountLabel}</span>
                         <span className="text-amber-600 font-extrabold">{modalWordCount.toLocaleString()}</span>
                       </label>
                       <div className="pt-2">
@@ -396,11 +484,11 @@ export default function App() {
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Briefly Describe Your Story Ideas</label>
+                    <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{t.describeLabel}</label>
                     <textarea
                       value={modalMessage}
                       onChange={(e) => setModalMessage(e.target.value)}
-                      placeholder="e.g. High fantasy adventure centering an ancient forgotten compass vault structure..."
+                      placeholder={t.describePlaceholder}
                       className="w-full h-18 bg-gray-50 border border-gray-250 rounded-lg p-2.5 text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500 placeholder-gray-400"
                     ></textarea>
                   </div>
@@ -413,10 +501,10 @@ export default function App() {
                     {isSubmitting ? (
                       <>
                         <Loader2 className="animate-spin" size={16} />
-                        <span>Transmitting Inquiry...</span>
+                        <span>{t.submitting}</span>
                       </>
                     ) : (
-                      <span>Lock My Publishing Roadmap Consultation</span>
+                      <span>{t.submitBtn}</span>
                     )}
                   </button>
                 </form>
