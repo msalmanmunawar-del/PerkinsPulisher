@@ -95,7 +95,7 @@ const PRESETS: LogoConfig[] = [
 
 export default function LogoSandbox({ currentConfig, onUpdateConfig }: LogoSandboxProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'presets' | 'customizer' | 'blueprint' | 'compare'>('presets');
+  const [activeTab, setActiveTab] = useState<'presets' | 'customizer' | 'blueprint' | 'compare' | 'favicon'>('favicon');
   
   // Custom design inputs state
   const [customText, setCustomText] = useState(currentConfig.text);
@@ -271,57 +271,140 @@ export default function LogoSandbox({ currentConfig, onUpdateConfig }: LogoSandb
             )}
 
             {/* Sub-Navigation tabs */}
-            <div className="grid grid-cols-4 border-b border-slate-800 bg-slate-950/50 p-1 gap-1 text-[10px] font-black uppercase tracking-wider">
+            <div className="grid grid-cols-5 border-b border-slate-800 bg-slate-950/50 p-1 gap-0.5 text-[9px] font-black uppercase tracking-wider">
+              <button
+                id="tab-favicon"
+                onClick={() => setActiveTab('favicon')}
+                className={`py-2 px-0.5 text-center rounded transition-colors cursor-pointer ${
+                  activeTab === 'favicon' 
+                    ? 'bg-amber-500 text-slate-950' 
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850'
+                }`}
+              >
+                1. Favicon
+              </button>
               <button
                 id="tab-presets"
                 onClick={() => setActiveTab('presets')}
-                className={`py-2 px-1 text-center rounded transition-colors cursor-pointer ${
+                className={`py-2 px-0.5 text-center rounded transition-colors cursor-pointer ${
                   activeTab === 'presets' 
                     ? 'bg-amber-500 text-slate-950' 
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850'
                 }`}
               >
-                1. Select Presets
+                2. Presets
               </button>
               <button
                 id="tab-customizer"
                 onClick={() => setActiveTab('customizer')}
-                className={`py-2 px-1 text-center rounded transition-colors cursor-pointer ${
+                className={`py-2 px-0.5 text-center rounded transition-colors cursor-pointer ${
                   activeTab === 'customizer' 
                     ? 'bg-amber-500 text-slate-950' 
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850'
                 }`}
               >
-                2. Design Studio
+                3. Design
               </button>
               <button
                 id="tab-compare"
                 onClick={() => setActiveTab('compare')}
-                className={`py-2 px-1 text-center rounded transition-colors cursor-pointer ${
+                className={`py-2 px-0.5 text-center rounded transition-colors cursor-pointer ${
                   activeTab === 'compare' 
                     ? 'bg-amber-500 text-slate-950' 
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850'
                 }`}
               >
-                3. A/B Compare
+                4. Compare
               </button>
               <button
                 id="tab-blueprint"
                 onClick={() => setActiveTab('blueprint')}
-                className={`py-2 px-1 text-center rounded transition-colors cursor-pointer ${
+                className={`py-2 px-0.5 text-center rounded transition-colors cursor-pointer ${
                   activeTab === 'blueprint' 
                     ? 'bg-amber-500 text-slate-950' 
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850'
                 }`}
               >
-                4. Help & Code
+                5. Code
               </button>
             </div>
 
             {/* Drawer Body Scroll Container */}
             <div className="flex-1 overflow-y-auto p-5 space-y-6">
               
-              {/* TAB 1: PRESETS */}
+              {/* TAB FAVICON PREVIEW */}
+              {activeTab === 'favicon' && (
+                <div className="space-y-4 animate-fadeIn text-left">
+                  <div className="bg-slate-950/70 p-4.5 rounded-xl border border-slate-800">
+                    <h4 className="text-xs font-black text-amber-400 tracking-wider uppercase mb-1.5 flex items-center gap-2">
+                      <Sparkles size={14} className="text-amber-500 animate-pulse" />
+                      Elite Bestseller Literary Favicon
+                    </h4>
+                    <p className="text-[11px] text-gray-400 font-bold leading-normal">
+                      We replaced the generic AI-looking icon with an ultra-premium, classic literary monogram. This high-end design depicts a <strong className="text-white font-black">classical gold quill pen</strong> intersecting a <strong className="text-white font-black">scholarly open book</strong>, flanked by bestseller star sparkles.
+                    </p>
+                  </div>
+
+                  {/* 1. Real Browser Tab Mockup */}
+                  <div className="space-y-2">
+                    <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-widest">A. Live Browser Tab Preview</h5>
+                    <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+                      <div className="bg-slate-905 rounded-lg p-2.5 flex items-center gap-1.5 border border-slate-800">
+                        {/* Simulated Browser Tab UI */}
+                        <div className="flex bg-[#0b0f19] text-[11px] text-gray-200 font-bold px-3.5 py-2 rounded-t-lg border-t border-x border-slate-800/80 items-center gap-2 max-w-[210px] shadow-lg">
+                          <img 
+                            src="/favicon.svg" 
+                            alt="Favicon" 
+                            className="w-3.5 h-3.5 shrink-0" 
+                            referrerPolicy="no-referrer"
+                          />
+                          <span className="truncate pr-1 font-semibold text-[10.5px]">Perkins Publisher | Bestseller...</span>
+                          <Icons.X size={10} className="text-slate-400 hover:text-white shrink-0 ml-auto" />
+                        </div>
+                        <div className="text-[10px] text-slate-500 font-bold pl-2 truncate hidden sm:block">
+                          https://perkinspublisher.com
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 2. Side by Side High-Res Visual Renderings */}
+                  <div className="grid grid-cols-2 gap-3.5">
+                    {/* SVG Vector Render */}
+                    <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col items-center text-center space-y-3">
+                      <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider">I. Scalable Vector (SVG)</span>
+                      <div className="w-16 h-16 p-2 bg-[#0b0f19] rounded-xl border border-amber-500/10 shadow-lg flex items-center justify-center">
+                        <img src="/favicon.svg" className="w-12 h-12" alt="Favicon Vector" referrerPolicy="no-referrer" />
+                      </div>
+                      <span className="text-[8px] text-slate-500 font-extrabold uppercase">Favicon.svg (Recommended)</span>
+                    </div>
+
+                    {/* PNG Raster Render */}
+                    <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col items-center text-center space-y-3">
+                      <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider">II. Multi-Size PNG Asset</span>
+                      <div className="w-16 h-16 p-2 bg-[#0b0f19] rounded-xl border border-amber-500/10 shadow-lg flex items-center justify-center">
+                        <img src="/favicon.png" className="w-12 h-12 object-contain" alt="Favicon PNG" referrerPolicy="no-referrer" />
+                      </div>
+                      <span className="text-[8px] text-slate-500 font-extrabold uppercase">Favicon.png (High-Res)</span>
+                    </div>
+                  </div>
+
+                  {/* 3. Deep Brand Detail Card */}
+                  <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2.5 text-slate-350 leading-relaxed text-[11px] font-bold">
+                    <h5 className="text-[10px] font-black uppercase text-slate-300 tracking-widest flex items-center gap-1.5">
+                      <Info size={12} className="text-amber-500" />
+                      Design Craftsmanship Highlights
+                    </h5>
+                    <ul className="space-y-1.5 text-gray-400 pl-4 list-disc">
+                      <li><span className="text-slate-200">Anti-AI-Slop Styling:</span> Removed all circular target loops. Designed an authentic heraldic crest combining the traditional serif stem and flowing literary elements.</li>
+                      <li><span className="text-slate-200">High Contrast Palette:</span> Styled on a custom Deep Slate Slate (#0b0f19) background with gradient luxury gold lines to ensure peak visibility across both light-themed and dark-themed operating systems and browser bars.</li>
+                      <li><span className="text-slate-200">Perfect Resolution Density:</span> Hand-tuned path stroke-widths to render beautifully even at standard 16x16 tab resolutions.</li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 2: PRESETS */}
               {activeTab === 'presets' && (
                 <div className="space-y-4 animate-fadeIn">
                   <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-850">

@@ -1,42 +1,45 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <defs>
-    <!-- Elegant Premium Golden/Amber Gradient -->
-    <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FFEFA6" />
-      <stop offset="35%" stop-color="#E5A93C" />
-      <stop offset="100%" stop-color="#9A5C0F" />
+    <!-- Rich Golden Gradient -->
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFEBA6" />
+      <stop offset="40%" stop-color="#E5A93C" />
+      <stop offset="80%" stop-color="#BA7F1D" />
+      <stop offset="100%" stop-color="#7C4806" />
     </linearGradient>
   </defs>
 
-  <!-- Elegant Dark Slate Background (Matching the core layout theme) -->
-  <rect width="32" height="32" rx="8" fill="#0b0f19" />
+  <!-- Elegant Dark Slate Base (Matches website dark brand colors) -->
+  <rect width="32" height="32" rx="9" fill="#0b0f19" />
 
-  <!-- Thin Premium Gold Outer Border -->
-  <rect x="1.5" y="1.5" width="29" height="29" rx="6.5" fill="none" stroke="url(#gold-gradient)" stroke-width="1" opacity="0.4" />
+  <!-- Deluxe Concentric Circular Border -->
+  <circle cx="16" cy="16" r="13.5" fill="none" stroke="url(#gold-grad)" stroke-width="0.75" stroke-dasharray="2 1" opacity="0.6" />
+  <circle cx="16" cy="16" r="12" fill="none" stroke="url(#gold-grad)" stroke-width="1.25" opacity="0.9" />
 
-  <!-- Main Heraldic Shield Crest -->
-  <path d="M 16 6.5 C 20.5 6.5, 23.5 7.5, 24.5 10 C 25.5 15, 22.5 20.5, 16 26 C 9.5 20.5, 6.5 15, 7.5 10 C 8.5 7.5, 11.5 6.5, 16 6.5 Z" 
-        fill="none" 
-        stroke="url(#gold-gradient)" 
-        stroke-width="1.5" 
-        stroke-linejoin="round" />
+  <!-- Combined Quill Pen & Open Book Monogram Symbol -->
+  <g transform="translate(1, 0.5)">
+    <!-- Open Book Base Pages (Smooth gold swooshes) -->
+    <path d="M 7 19.5 C 10.5 17.5, 14 18.5, 15 19.5 C 16 18.5, 19.5 17.5, 23 19.5" 
+          fill="none" 
+          stroke="url(#gold-grad)" 
+          stroke-width="1.5" 
+          stroke-linecap="round" />
+    <path d="M 7 22 C 10.5 20, 14 21, 15 22 C 16 21, 19.5 20, 23 22" 
+          fill="none" 
+          stroke="url(#gold-grad)" 
+          stroke-width="1" 
+          stroke-linecap="round" 
+          opacity="0.7" />
 
-  <!-- Elegant Inner Ribbon Accent -->
-  <path d="M 9 10.5 C 11.5 9.5, 20.5 9.5, 23 10.5" 
-        fill="none" 
-        stroke="url(#gold-gradient)" 
-        stroke-width="0.75" 
-        opacity="0.6" />
-
-  <!-- Professional Serif 'P' Monogram -->
-  <!-- Combining a solid stem and a flowing bowl for an elite literary feel -->
-  <g fill="url(#gold-gradient)">
-    <!-- Main stem with serif terminals -->
-    <path d="M 12.5 11.5 h 3.5 v 0.8 h -1.2 v 7.4 h 1.2 v 0.8 h -3.5 v -0.8 h 1.2 v -7.4 h -1.2 z" />
-    <!-- Beautiful bold bowl for the letter P -->
-    <path d="M 14.8 11.5 c 3.2 0, 4.7 1.1, 4.7 2.8 c 0 1.6, -1.3 2.7, -4.7 2.7 h -0.5 v -5.5 z" />
+    <!-- Sleek Diagonal Quill Pen (Cutting through the book pages) -->
+    <!-- Stylized quill with nib point and delicate feather segments -->
+    <path d="M 19.5 7 C 18.5 8, 14 11.5, 12 15 L 11 18 L 13.5 17.5 C 15 15, 18.5 11, 19.5 10 C 20.2 9.3, 20.2 7.7, 19.5 7 Z" 
+          fill="url(#gold-grad)" />
+    <!-- Center slit of the pen nib -->
+    <line x1="11" y1="18" x2="14" y2="15" stroke="#0b0f19" stroke-width="0.5" />
   </g>
 
-  <!-- Bestseller Excellence Sparkle Star (at the top crown) -->
-  <path d="M 16 2.5 L 16.6 4 L 18.1 4.6 L 16.6 5.2 L 16 6.7 L 15.4 5.2 L 13.9 4.6 L 15.4 4 Z" fill="#FFEFA6" />
+  <!-- Bestseller Celestial Sparkles (representing high performance & literary success) -->
+  <path d="M 23 6 L 23.4 7 L 24.4 7.4 L 23.4 7.8 L 23 8.8 L 22.6 7.8 L 21.6 7.4 L 22.6 7 Z" fill="#FFEFA6" />
+  <path d="M 9 9 L 9.2 9.5 L 9.7 9.7 L 9.2 9.9 L 9 10.4 L 8.8 9.9 L 8.3 9.7 L 8.8 9.5 Z" fill="#FFEFA6" opacity="0.8" />
 </svg>
