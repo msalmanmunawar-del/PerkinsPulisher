@@ -7,42 +7,42 @@ interface SEOProps {
 
 export default function SEO({ activePage, subId }: SEOProps) {
   useEffect(() => {
-    let title = 'Perkins Publishers | Elite Ghostwriting & Bestseller Book Publishing';
-    let description = 'Transform your manuscript into a global bestseller with Perkins Publishers. Elite book formatting, award-winning cover design, NYT-grade ghostwriting, global distribution, and strategic marketing where authors retain 100% rights and royalties.';
+    let title = 'Perkins Publishers New York | #1 Ghostwriting & Bestseller Book Publishing';
+    let description = 'Transform your manuscript into a global bestseller with Perkins Publishers, New York\'s premier publishing agency. Elite Brooklyn book formatting, cover design, NYT-grade ghostwriting, global distribution, and strategic local marketing.';
     let canonical = 'https://perkinspublisher.com/';
 
     // Dynamic metadata depending on page
     if (activePage === 'home') {
-      title = 'Perkins Publishers | Elite Ghostwriting & Bestseller Book Publishing';
-      description = 'Turn your professional expertise into a published authority book. Premium self-publishing, NYT ghostwriting, and global distribution with 100% royalties kept by authors.';
+      title = 'Perkins Publishers New York | #1 Ghostwriting & Bestseller Book Publishing';
+      description = 'Turn your professional expertise into a published authority book with New York\'s top-rated self-publishing company. Premium Brooklyn book design, NYT ghostwriting, and global retail distribution.';
       canonical = 'https://perkinspublisher.com/';
     } else if (activePage.startsWith('service-')) {
       const serviceName = activePage.replace('service-', '').replace('-', ' ');
       const formattedName = serviceName.charAt(0).toUpperCase() + serviceName.slice(1);
-      title = `Elite ${formattedName} Services | Perkins Publishers Bestseller Programs`;
-      description = `Develop, design, and publish your book with our professional ${formattedName} services. Work with top-rated industry authorities, maintain 100% royalties, and secure global retail distribution.`;
+      title = `Professional ${formattedName} Services in New York | Perkins Publishers`;
+      description = `Develop, design, and publish your book with New York's leading professional ${formattedName} services based out of Brooklyn, NY. Elite literary standards with 100% author rights.`;
       canonical = `https://perkinspublisher.com/services/${activePage.replace('service-', '')}`;
     } else if (activePage.startsWith('industry-')) {
       const industryName = activePage.replace('industry-', '').replace('-', ' ');
       const formattedName = industryName.charAt(0).toUpperCase() + industryName.slice(1);
-      title = `Book Publishing Solutions for ${formattedName} | Perkins Publishers Authority Lab`;
-      description = `Launch your business authority, secure premium speaking engagements, and sign high-value clients. High-end, tailored publishing programs for elite ${formattedName}.`;
+      title = `Book Publishing in New York for ${formattedName} | Perkins Publishers NY`;
+      description = `Launch your professional authority and sign high-ticket clients with New York's top-tier book publishing solutions custom engineered for elite ${formattedName}.`;
       canonical = `https://perkinspublisher.com/industries/${activePage.replace('industry-', '')}`;
     } else if (activePage === 'knowledge-hub' || activePage.startsWith('hub-')) {
-      title = 'The Publishing Knowledge Hub | Perkins Publishers Ultimate Self-Publishing Guides';
-      description = 'Access masterclasses on Amazon KDP, professional editing standards, ghostwriting agreements, self-publishing costs, and expert book marketing frameworks.';
+      title = 'New York Publishing Knowledge Hub | Self-Publishing Guides & Tutorials';
+      description = 'Master KDP metadata, professional editing frameworks, ghostwriting contracts, and expert book marketing strategies with New York\'s elite publisher guides.';
       canonical = 'https://perkinspublisher.com/knowledge-hub';
     } else if (activePage === 'calculator') {
-      title = 'Book Self-Publishing Cost Calculator | Perkins Publishers Transparent Pricing';
-      description = 'Calculate your book production investments instantly. Customize editing, formatting, cover design, and marketing packages. No hidden royalties, transparent flat fees.';
+      title = 'NYC Self-Publishing Cost Calculator | Transparent Flat-Rate Pricing';
+      description = 'Calculate your book production investments instantly. Customize editing, formatting, cover design, and bestseller marketing services. Honest, flat-rate New York pricing.';
       canonical = 'https://perkinspublisher.com/calculator';
     } else if (activePage === 'reviews') {
-      title = 'Client Success Stories & Verified Bestseller Reviews | Perkins Publishers';
-      description = 'Read verified reviews, video testimonials, and success chronicles from entrepreneurs, CEOs, and authors who secured bestseller rankings with Perkins Publishers.';
+      title = 'Verified NY Author Success Reviews & Bestseller Chronicles | Perkins';
+      description = 'See verified case studies, reviews, and video success stories from prominent New York entrepreneurs, CEOs, and novelists who published with Perkins Publishers.';
       canonical = 'https://perkinspublisher.com/reviews';
     } else if (activePage === 'seo-scorecard') {
-      title = 'Instant Author Authority & Bestseller Scorecard | Perkins Publishers';
-      description = 'Grade your book concept, genre competitiveness, and Amazon SEO metadata instantly. Receive an action roadmap to optimize your upcoming launch for maximum indexability.';
+      title = 'Book Launch Audit & Amazon SEO Scorecard New York | Perkins Publishers';
+      description = 'Audit your book proposal, Amazon keyword competitiveness, and local/national SEO indexing triggers. Claim your actionable publication roadmap for maximum visibility.';
       canonical = 'https://perkinspublisher.com/scorecard';
     }
 
@@ -87,10 +87,31 @@ export default function SEO({ activePage, subId }: SEOProps) {
         '@type': 'ProfessionalService',
         '@id': 'https://perkinspublisher.com/#organization',
         'name': 'Perkins Publishers',
+        'alternateName': 'Perkins Book Publishing Services New York',
         'url': 'https://perkinspublisher.com/',
         'logo': 'https://perkinspublisher.com/logo.png',
         'image': 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800',
-        'description': 'Perkins Publishers matches elite business owners, entrepreneurs, and professional authors with veteran editors and bestseller book marketing campaigns.',
+        'description': 'Perkins Publishers matches elite business owners, entrepreneurs, and professional authors with veteran editors and bestseller book marketing campaigns based out of Brooklyn, New York City.',
+        'hasMap': 'https://maps.google.com/?q=170+Myrtle+Ave+Brooklyn+NY+11201',
+        'areaServed': [
+          'New York City',
+          'Brooklyn',
+          'Manhattan',
+          'Queens',
+          'Bronx',
+          'Staten Island',
+          'New York State',
+          'New Jersey',
+          'Connecticut',
+          'United States'
+        ],
+        'contactPoint': {
+          '@type': 'ContactPoint',
+          'telephone': '+1-803-346-3495',
+          'contactType': 'customer service',
+          'areaServed': 'US',
+          'availableLanguage': ['English', 'Spanish']
+        },
         'address': {
           '@type': 'PostalAddress',
           'streetAddress': '170 Myrtle Ave',

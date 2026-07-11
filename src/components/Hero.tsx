@@ -70,9 +70,14 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
           
           {/* Left Side: Compelling Copy */}
           <div className="lg:col-span-7 space-y-8">
-            <div className="inline-flex items-center gap-2 bg-blue-900/10 border border-blue-900/20 text-blue-950 px-3.5 py-1.5 rounded-full text-xs font-bold leading-none animate-fadeIn">
-              <Sparkles size={14} className="text-amber-500 fill-amber-500" />
-              <span>THE GOLD STANDARD IN BOOK PUBLISHING</span>
+            <div className="flex flex-wrap items-center gap-2 animate-fadeIn">
+              <div className="inline-flex items-center gap-2 bg-blue-900/10 border border-blue-900/20 text-blue-950 px-3.5 py-1.5 rounded-full text-xs font-bold leading-none">
+                <Sparkles size={14} className="text-amber-500 fill-amber-500" />
+                <span>THE GOLD STANDARD IN BOOK PUBLISHING</span>
+              </div>
+              <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 text-amber-900 px-3.5 py-1.5 rounded-full text-[11px] font-black leading-none">
+                <span className="text-amber-600 font-extrabold animate-pulse">📍 BROOKLYN, NY HQ</span>
+              </div>
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-blue-950 leading-none tracking-tight">
@@ -81,7 +86,7 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
 
             <p className="text-base sm:text-lg text-gray-600 max-w-2xl font-medium leading-relaxed">
               We provide professional manuscript polishing, award-winning illustration artwork, custom formats, and global distribution. 
-              <span className="font-extrabold text-blue-950 ml-1">At Perkins Publisher, we offer full-scale self-publishing solutions where you keep 100% of your royalties and rights.</span> We guide you every step of the way.
+              <span className="font-extrabold text-blue-950 ml-1">From our editorial headquarters in Brooklyn, NY, Perkins Publisher offers full-scale self-publishing solutions where you keep 100% of your royalties and rights.</span> We guide you every step of the way.
             </p>
 
             {/* Checklist of Benefits */}
