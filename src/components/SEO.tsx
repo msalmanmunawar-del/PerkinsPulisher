@@ -44,6 +44,14 @@ export default function SEO({ activePage, subId }: SEOProps) {
       title = 'Book Launch Audit & Amazon SEO Scorecard New York | Perkins Publishers';
       description = 'Audit your book proposal, Amazon keyword competitiveness, and local/national SEO indexing triggers. Claim your actionable publication roadmap for maximum visibility.';
       canonical = 'https://perkinspublisher.com/scorecard';
+    } else if (activePage === 'privacy') {
+      title = 'Privacy Policy | Perkins Publishers New York';
+      description = 'Read the Perkins Publishers Privacy Policy regarding secure data transmission, secure lead forms, and compliant communication standards.';
+      canonical = 'https://perkinspublisher.com/#/privacy';
+    } else if (activePage === 'terms') {
+      title = 'Terms of Service & 100% Royalty Protection | Perkins Publishers';
+      description = 'Review our publishing terms, author intellectual rights protection, non-disclosure confidentiality covenants, and flat-rate services rules.';
+      canonical = 'https://perkinspublisher.com/#/terms';
     }
 
     // Update document head

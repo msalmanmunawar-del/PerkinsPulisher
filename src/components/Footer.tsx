@@ -184,6 +184,16 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
             <p className="text-slate-600 font-medium">All trademarks, trade names, and covers remain property of their respective author owners.</p>
           </div>
 
+          <div className="flex flex-wrap justify-center gap-4 text-[10px] text-slate-500 font-black uppercase tracking-wider">
+            <button onClick={() => onNavigate('privacy')} className="hover:text-amber-500 transition-colors cursor-pointer">
+              Privacy Policy
+            </button>
+            <span className="text-slate-700 select-none">•</span>
+            <button onClick={() => onNavigate('terms')} className="hover:text-amber-500 transition-colors cursor-pointer">
+              Terms of Service
+            </button>
+          </div>
+
         </div>
       </div>
 

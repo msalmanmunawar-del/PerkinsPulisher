@@ -28,7 +28,8 @@ async function startServer() {
       ? inquiry.services.join(", ") 
       : "Publishing Main Track";
       
-    const emailSubject = `🔥 NEW AUTHOR LEAD: ${inquiry.name} (${inquiry.genre.toUpperCase()})`;
+    const isExpress = inquiry.expressService || inquiry.expressCallback;
+    const emailSubject = `${isExpress ? "🚨 [EXPRESS CALLBACK] " : "🔥 "}NEW AUTHOR LEAD: ${inquiry.name} (${inquiry.genre.toUpperCase()})`;
     
     const emailHtml = `
       <div style="font-family: 'Inter', system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff; color: #1e293b; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
@@ -37,9 +38,15 @@ async function startServer() {
             PERKINS PUBLISHER
           </h1>
           <p style="color: #f59e0b; margin: 5px 0 0 0; font-size: 10px; font-weight: bold; letter-spacing: 0.2em; text-transform: uppercase;">
-            INCOMING BESTSELLER PROSPECTUS
+            INCOMING BESTSELLER PROSPECTUS ${isExpress ? "- PRIORITY CALL BACK" : ""}
           </p>
         </div>
+
+        ${isExpress ? `
+        <div style="background-color: #fef2f2; border: 1px solid #fee2e2; border-left: 5px solid #ef4444; padding: 16px; border-radius: 10px; font-size: 13px; line-height: 1.5; color: #991b1b; margin-bottom: 25px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em;">
+          🚨 ATTENTION: The author specifically requested an immediate telephone callback! Contact them at <a href="tel:${inquiry.phone}" style="color: #ef4444; font-weight: 900; text-decoration: underline;">${inquiry.phone}</a> within 15 minutes.
+        </div>
+        ` : ""}
         
         <p style="font-size: 14px; line-height: 1.6; color: #475569; margin-bottom: 20px;">
           An author has just finalized an inquiry spec on the brand portal. Below are the draft credentials and computed quote metrics:
@@ -78,6 +85,12 @@ async function startServer() {
             <tr style="background-color: #f8fafc;">
               <td style="padding: 12px 16px; font-size: 12px; font-weight: bold; color: #64748b; text-transform: uppercase; border-bottom: 1px solid #f1f5f9;">Estimated Invest</td>
               <td style="padding: 12px 16px; font-size: 16px; font-weight: 900; color: #ca8a04; border-bottom: 1px solid #f1f5f9;">$${(inquiry.estimatedPrice || 0).toLocaleString()}</td>
+            </tr>
+            <tr style="background-color: #ffffff;">
+              <td style="padding: 12px 16px; font-size: 12px; font-weight: bold; color: #64748b; text-transform: uppercase; border-bottom: 1px solid #f1f5f9;">Priority Status</td>
+              <td style="padding: 12px 16px; font-size: 13px; font-weight: bold; color: ${isExpress ? '#b91c1c' : '#475569'}; border-bottom: 1px solid #f1f5f9;">
+                ${isExpress ? '🔴 HIGH PRIORITY (15-MIN CALL BACK REQUESTED)' : '🟢 STANDARD'}
+              </td>
             </tr>
             ${inquiry.message ? `
             <tr>

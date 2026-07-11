@@ -46,6 +46,8 @@ export interface Inquiry {
   date: string;
   estimatedPrice: number;
   message?: string;
+  expressCallback?: boolean;
+  expressService?: boolean;
 }
 
 export interface FAQItem {
