@@ -338,10 +338,10 @@ export default function LogoSandbox({ currentConfig, onUpdateConfig }: LogoSandb
                   <div className="bg-slate-950/70 p-4.5 rounded-xl border border-slate-800">
                     <h4 className="text-xs font-black text-amber-400 tracking-wider uppercase mb-1.5 flex items-center gap-2">
                       <Sparkles size={14} className="text-amber-500 animate-pulse" />
-                      Elite Bestseller Literary Favicon
+                      Official Perkins Publisher Favicon
                     </h4>
                     <p className="text-[11px] text-gray-400 font-bold leading-normal">
-                      We replaced the generic AI-looking icon with an ultra-premium, classic literary monogram. This high-end design depicts a <strong className="text-white font-black">classical gold quill pen</strong> intersecting a <strong className="text-white font-black">scholarly open book</strong>, flanked by bestseller star sparkles.
+                      We have deployed your brand new, official <strong className="text-white font-black">Perkins Publisher logo</strong> as the universal favicon across the entire website. This beautiful, custom-branded asset features a deep navy blue background with a white outline open book and an elegant serif 'P' monogram at its core.
                     </p>
                   </div>
 
@@ -396,9 +396,9 @@ export default function LogoSandbox({ currentConfig, onUpdateConfig }: LogoSandb
                       Design Craftsmanship Highlights
                     </h5>
                     <ul className="space-y-1.5 text-gray-400 pl-4 list-disc">
-                      <li><span className="text-slate-200">Anti-AI-Slop Styling:</span> Removed all circular target loops. Designed an authentic heraldic crest combining the traditional serif stem and flowing literary elements.</li>
-                      <li><span className="text-slate-200">High Contrast Palette:</span> Styled on a custom Deep Slate Slate (#0b0f19) background with gradient luxury gold lines to ensure peak visibility across both light-themed and dark-themed operating systems and browser bars.</li>
-                      <li><span className="text-slate-200">Perfect Resolution Density:</span> Hand-tuned path stroke-widths to render beautifully even at standard 16x16 tab resolutions.</li>
+                      <li><span className="text-slate-200">Custom Branding Alignment:</span> Built from your official Perkins Publisher book-and-letter branding, preserving brand consistency.</li>
+                      <li><span className="text-slate-200">High Contrast Palette:</span> Rendered on a deep navy blue background (#0B1B3D) with high-visibility white lines to ensure gorgeous rendering across both light-themed and dark-themed operating systems and browser tabs.</li>
+                      <li><span className="text-slate-200">Scalable Formats:</span> Generated in both vector (SVG) and multi-size raster (PNG, ICO) formats for maximum device compatibility.</li>
                     </ul>
                   </div>
                 </div>
