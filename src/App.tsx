@@ -16,6 +16,7 @@ import SEO from './components/SEO';
 import DynamicServicePage from './components/DynamicServicePage';
 import DynamicIndustryPage from './components/DynamicIndustryPage';
 import KnowledgeHub from './components/KnowledgeHub';
+import SearchConsoleHub from './components/SearchConsoleHub';
 
 import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2 } from 'lucide-react';
 
@@ -538,6 +539,10 @@ export default function App() {
               </div>
             </div>
           </div>
+        )}
+
+        {activePage === 'search-console' && (
+          <SearchConsoleHub />
         )}
 
       </main>

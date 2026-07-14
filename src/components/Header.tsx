@@ -242,9 +242,20 @@ export default function Header({
 
             <button
               onClick={() => handleNavClick('seo-scorecard')}
-              className="text-xs font-black uppercase tracking-wider transition-all hover:text-amber-600 text-gray-600"
+              className={`text-xs font-black uppercase tracking-wider transition-all hover:text-amber-600 ${
+                activePage === 'seo-scorecard' ? 'text-blue-900 border-b-2 border-amber-500 pb-1' : 'text-gray-600'
+              }`}
             >
               Audit Scorecard
+            </button>
+
+            <button
+              onClick={() => handleNavClick('search-console')}
+              className={`text-xs font-black uppercase tracking-wider transition-all hover:text-amber-600 ${
+                activePage === 'search-console' ? 'text-blue-900 border-b-2 border-amber-500 pb-1' : 'text-gray-600'
+              }`}
+            >
+              Search Console
             </button>
 
           </div>
@@ -351,9 +362,20 @@ export default function Header({
 
             <button
               onClick={() => handleNavClick('seo-scorecard')}
-              className="w-full text-left py-2 px-3 rounded-md text-xs font-black uppercase tracking-wider text-slate-700 hover:bg-gray-50"
+              className={`w-full text-left py-2 px-3 rounded-md text-xs font-black uppercase tracking-wider hover:bg-gray-50 ${
+                activePage === 'seo-scorecard' ? 'text-blue-900 bg-slate-50' : 'text-slate-700'
+              }`}
             >
               Audit Scorecard
+            </button>
+
+            <button
+              onClick={() => handleNavClick('search-console')}
+              className={`w-full text-left py-2 px-3 rounded-md text-xs font-black uppercase tracking-wider hover:bg-gray-50 ${
+                activePage === 'search-console' ? 'text-blue-900 bg-slate-50' : 'text-slate-700'
+              }`}
+            >
+              Search Console
             </button>
 
             <div className="pt-3 border-t border-gray-100 flex flex-col gap-3">

@@ -154,6 +154,14 @@ async function startServer() {
     }
   });
 
+  // Google Search Console Dynamic HTML File Verification Route
+  // Automatically handles any requested google[code].html verification file from Google
+  app.get("/google:id.html", (req, res) => {
+    const id = req.params.id;
+    res.type("text/html");
+    res.send(`google-site-verification: google${id}.html`);
+  });
+
   // Serve static assets or mount Vite HMR middleware depending on NODE_ENV
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
