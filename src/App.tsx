@@ -474,7 +474,7 @@ export default function App() {
 
                 <h3 className="text-sm font-black text-blue-950 uppercase pt-2">4. Author Rights & Opt-Out</h3>
                 <p>
-                  You can opt-out or request the absolute deletion of your lead parameters from our CRM servers at any time by contacting our Brooklyn, New York headquarters at <a href="mailto:info@perkinspublisher.com" className="text-blue-600 hover:underline">info@perkinspublisher.com</a>.
+                  You can opt-out or request the absolute deletion of your lead parameters from our CRM servers at any time by contacting our Columbia, South Carolina headquarters at <a href="mailto:info@perkinspublisher.com" className="text-blue-600 hover:underline">info@perkinspublisher.com</a>.
                 </p>
               </div>
 
@@ -522,7 +522,7 @@ export default function App() {
 
                 <h3 className="text-sm font-black text-blue-950 uppercase pt-2">4. Governing Jurisdiction</h3>
                 <p>
-                  These terms are regulated by the state laws of New York. Any discussions or disputes will be governed inside Kings County, NY (Brooklyn Headquarters).
+                  These terms are regulated by the state laws of South Carolina. Any discussions or disputes will be governed inside Richland County, SC (Columbia Headquarters).
                 </p>
               </div>
 

@@ -76,7 +76,7 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
                 <span>THE GOLD STANDARD IN BOOK PUBLISHING</span>
               </div>
               <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 text-amber-900 px-3.5 py-1.5 rounded-full text-[11px] font-black leading-none">
-                <span className="text-amber-600 font-extrabold animate-pulse">📍 BROOKLYN, NY HQ</span>
+                <span className="text-amber-600 font-extrabold animate-pulse">📍 COLUMBIA, SC HQ</span>
               </div>
             </div>
 
@@ -86,7 +86,7 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
 
             <p className="text-base sm:text-lg text-gray-600 max-w-2xl font-medium leading-relaxed">
               We provide professional manuscript polishing, award-winning illustration artwork, custom formats, and global distribution. 
-              <span className="font-extrabold text-blue-950 ml-1">From our editorial headquarters in Brooklyn, NY, Perkins Publisher offers full-scale self-publishing solutions where you keep 100% of your royalties and rights.</span> We guide you every step of the way.
+              <span className="font-extrabold text-blue-950 ml-1">From our editorial headquarters in Columbia, SC, Perkins Publisher offers full-scale self-publishing solutions where you keep 100% of your royalties and rights.</span> We guide you every step of the way.
             </p>
 
             {/* Checklist of Benefits */}

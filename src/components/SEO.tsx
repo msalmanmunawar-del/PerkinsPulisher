@@ -7,45 +7,45 @@ interface SEOProps {
 
 export default function SEO({ activePage, subId }: SEOProps) {
   useEffect(() => {
-    let title = 'Perkins Publishers New York | #1 Ghostwriting & Bestseller Book Publishing';
-    let description = 'Transform your manuscript into a global bestseller with Perkins Publishers, New York\'s premier publishing agency. Elite Brooklyn book formatting, cover design, NYT-grade ghostwriting, global distribution, and strategic local marketing.';
+    let title = 'Perkins Publishers Columbia | #1 Ghostwriting & Bestseller Book Publishing';
+    let description = 'Transform your manuscript into a global bestseller with Perkins Publishers, South Carolina\'s premier publishing agency. Elite professional book formatting, cover design, NYT-grade ghostwriting, global distribution, and strategic local marketing.';
     let canonical = 'https://perkinspublisher.com/';
 
     // Dynamic metadata depending on page
     if (activePage === 'home') {
-      title = 'Perkins Publishers New York | #1 Ghostwriting & Bestseller Book Publishing';
-      description = 'Turn your professional expertise into a published authority book with New York\'s top-rated self-publishing company. Premium Brooklyn book design, NYT ghostwriting, and global retail distribution.';
+      title = 'Perkins Publishers Columbia | #1 Ghostwriting & Bestseller Book Publishing';
+      description = 'Turn your professional expertise into a published authority book with South Carolina\'s top-rated self-publishing company. Premium professional book design, NYT ghostwriting, and global retail distribution.';
       canonical = 'https://perkinspublisher.com/';
     } else if (activePage.startsWith('service-')) {
       const serviceName = activePage.replace('service-', '').replace('-', ' ');
       const formattedName = serviceName.charAt(0).toUpperCase() + serviceName.slice(1);
-      title = `Professional ${formattedName} Services in New York | Perkins Publishers`;
-      description = `Develop, design, and publish your book with New York's leading professional ${formattedName} services based out of Brooklyn, NY. Elite literary standards with 100% author rights.`;
+      title = `Professional ${formattedName} Services in South Carolina | Perkins Publishers`;
+      description = `Develop, design, and publish your book with South Carolina's leading professional ${formattedName} services based out of Columbia, SC. Elite literary standards with 100% author rights.`;
       canonical = `https://perkinspublisher.com/services/${activePage.replace('service-', '')}`;
     } else if (activePage.startsWith('industry-')) {
       const industryName = activePage.replace('industry-', '').replace('-', ' ');
       const formattedName = industryName.charAt(0).toUpperCase() + industryName.slice(1);
-      title = `Book Publishing in New York for ${formattedName} | Perkins Publishers NY`;
-      description = `Launch your professional authority and sign high-ticket clients with New York's top-tier book publishing solutions custom engineered for elite ${formattedName}.`;
+      title = `Book Publishing in South Carolina for ${formattedName} | Perkins Publishers SC`;
+      description = `Launch your professional authority and sign high-ticket clients with South Carolina's top-tier book publishing solutions custom engineered for elite ${formattedName}.`;
       canonical = `https://perkinspublisher.com/industries/${activePage.replace('industry-', '')}`;
     } else if (activePage === 'knowledge-hub' || activePage.startsWith('hub-')) {
-      title = 'New York Publishing Knowledge Hub | Self-Publishing Guides & Tutorials';
-      description = 'Master KDP metadata, professional editing frameworks, ghostwriting contracts, and expert book marketing strategies with New York\'s elite publisher guides.';
+      title = 'South Carolina Publishing Knowledge Hub | Self-Publishing Guides & Tutorials';
+      description = 'Master KDP metadata, professional editing frameworks, ghostwriting contracts, and expert book marketing strategies with South Carolina\'s elite publisher guides.';
       canonical = 'https://perkinspublisher.com/knowledge-hub';
     } else if (activePage === 'calculator') {
-      title = 'NYC Self-Publishing Cost Calculator | Transparent Flat-Rate Pricing';
-      description = 'Calculate your book production investments instantly. Customize editing, formatting, cover design, and bestseller marketing services. Honest, flat-rate New York pricing.';
+      title = 'South Carolina Self-Publishing Cost Calculator | Transparent Flat-Rate Pricing';
+      description = 'Calculate your book production investments instantly. Customize editing, formatting, cover design, and bestseller marketing services. Honest, flat-rate pricing.';
       canonical = 'https://perkinspublisher.com/calculator';
     } else if (activePage === 'reviews') {
-      title = 'Verified NY Author Success Reviews & Bestseller Chronicles | Perkins';
-      description = 'See verified case studies, reviews, and video success stories from prominent New York entrepreneurs, CEOs, and novelists who published with Perkins Publishers.';
+      title = 'Verified SC Author Success Reviews & Bestseller Chronicles | Perkins';
+      description = 'See verified case studies, reviews, and video success stories from prominent South Carolina entrepreneurs, CEOs, and novelists who published with Perkins Publishers.';
       canonical = 'https://perkinspublisher.com/reviews';
     } else if (activePage === 'seo-scorecard') {
-      title = 'Book Launch Audit & Amazon SEO Scorecard New York | Perkins Publishers';
+      title = 'Book Launch Audit & Amazon SEO Scorecard South Carolina | Perkins Publishers';
       description = 'Audit your book proposal, Amazon keyword competitiveness, and local/national SEO indexing triggers. Claim your actionable publication roadmap for maximum visibility.';
       canonical = 'https://perkinspublisher.com/scorecard';
     } else if (activePage === 'privacy') {
-      title = 'Privacy Policy | Perkins Publishers New York';
+      title = 'Privacy Policy | Perkins Publishers South Carolina';
       description = 'Read the Perkins Publishers Privacy Policy regarding secure data transmission, secure lead forms, and compliant communication standards.';
       canonical = 'https://perkinspublisher.com/#/privacy';
     } else if (activePage === 'terms') {
@@ -95,22 +95,22 @@ export default function SEO({ activePage, subId }: SEOProps) {
         '@type': 'ProfessionalService',
         '@id': 'https://perkinspublisher.com/#organization',
         'name': 'Perkins Publishers',
-        'alternateName': 'Perkins Book Publishing Services New York',
+        'alternateName': 'Perkins Book Publishing Services South Carolina',
         'url': 'https://perkinspublisher.com/',
         'logo': 'https://perkinspublisher.com/logo.png',
         'image': 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800',
-        'description': 'Perkins Publishers matches elite business owners, entrepreneurs, and professional authors with veteran editors and bestseller book marketing campaigns based out of Brooklyn, New York City.',
-        'hasMap': 'https://maps.google.com/?q=170+Myrtle+Ave+Brooklyn+NY+11201',
+        'description': 'Perkins Publishers matches elite business owners, entrepreneurs, and professional authors with veteran editors and bestseller book marketing campaigns based out of Columbia, South Carolina.',
+        'hasMap': 'https://maps.google.com/?q=1201+Main+St+Columbia+SC+29201',
         'areaServed': [
-          'New York City',
-          'Brooklyn',
-          'Manhattan',
-          'Queens',
-          'Bronx',
-          'Staten Island',
-          'New York State',
-          'New Jersey',
-          'Connecticut',
+          'Columbia',
+          'Charleston',
+          'Greenville',
+          'Spartanburg',
+          'Myrtle Beach',
+          'Rock Hill',
+          'South Carolina',
+          'North Carolina',
+          'Georgia',
           'United States'
         ],
         'contactPoint': {
@@ -122,16 +122,16 @@ export default function SEO({ activePage, subId }: SEOProps) {
         },
         'address': {
           '@type': 'PostalAddress',
-          'streetAddress': '170 Myrtle Ave',
-          'addressLocality': 'Brooklyn',
-          'addressRegion': 'NY',
-          'postalCode': '11201',
+          'streetAddress': '1201 Main St',
+          'addressLocality': 'Columbia',
+          'addressRegion': 'SC',
+          'postalCode': '29201',
           'addressCountry': 'US'
         },
         'geo': {
           '@type': 'GeoCoordinates',
-          'latitude': '40.6932',
-          'longitude': '-73.9781'
+          'latitude': '34.0007',
+          'longitude': '-81.0348'
         },
         'telephone': '+1-803-346-3495',
         'priceRange': '$$$',
