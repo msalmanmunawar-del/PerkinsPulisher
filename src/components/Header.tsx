@@ -59,7 +59,7 @@ export default function Header({
     setMobileMenuOpen(false);
     
     // Smooth scroll if target is on home page
-    if (['services', 'portfolio', 'reviews', 'insights', 'seo-scorecard'].includes(id)) {
+    if (['services', 'faq', 'insights', 'seo-scorecard'].includes(id)) {
       onNavigate('home');
       setTimeout(() => {
         const element = document.getElementById(id);

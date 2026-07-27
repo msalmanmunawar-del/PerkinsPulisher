@@ -12,53 +12,53 @@ export default function TimesSquareSection({ onOpenConsultation }: TimesSquareSe
 
   const trailers = {
     thriller: {
-      title: "The Midnight Silhouette",
-      tagline: "A code locked in stone. A target that doesn't exist.",
+      title: "Cinematic Mystery & Thriller",
+      tagline: "High-stakes narrative pacing designed for maximum reader engagement.",
       narration: [
-        "In the silence of New York's cryptographic centers...",
-        "A hidden ledger was unlocked.",
-        "Now, Julian Thorne is running from shadows.",
-        "The bestselling thriller of the year.",
-        "Published, Formatted, and Rocketed to #1 by Perkins Publisher."
+        "In the silence of late-night writing sessions...",
+        "A compelling plot outline takes shape.",
+        "Precision editing sharpens every plot twist and character arc.",
+        "Professional book trailer production for high market visibility.",
+        "Published, Formatted, and Launched Worldwide by Perkins Publisher."
       ],
       color: "bg-red-950",
       accent: "text-red-500"
     },
     romance: {
-      title: "Finding My Pitch",
-      tagline: "Two wandering notes finding harmony in the dark.",
+      title: "Contemporary Romance & Drama",
+      tagline: "Heartfelt storytelling crafted into unforgettable physical keepsakes.",
       narration: [
-        "She lived for classical order.",
-        "He played the chaotic rhythms of Greenwich midnight jazz.",
-        "In the crowded cafe on MacDougal Street...",
-        "A temporary summer duet became an lifelong symphony.",
-        "A beautiful romance masterpiece. Designed by Perkins Publisher."
+        "Every emotional beats calibrated for emotional impact.",
+        "Custom typography and elegant interior layout styling.",
+        "Eye-catching cover art engineered for digital store stands.",
+        "Targeted category placement across major retail platforms.",
+        "A beautiful romance production designed by Perkins Publisher."
       ],
       color: "bg-pink-950",
       accent: "text-pink-400"
     },
     history: {
-      title: "Beyond the Berlin Wall",
-      tagline: "A reporter\'s quiet battle inside the Cold War machinery.",
+      title: "Historical Memoir & Non-Fiction",
+      tagline: "Preserving personal legacies and historical accounts in heirloom quality.",
       narration: [
-        "For thirty years, forty stories lay hidden in an attic archive.",
-        "The names of those who helped others scale the iron boundaries.",
-        "Now, their testimony is printed in full clarity.",
-        "A masterclass historical memoir.",
+        "Transforming decades of archives into structured chapters.",
+        "Academic-grade indexing and clear photo formatting.",
+        "Hardcover foil stamping for distinguished bookshelf display.",
+        "Global print-on-demand and bookstore distribution network.",
         "Edited, structured, and printed worldwide by Perkins Publisher."
       ],
       color: "bg-amber-950",
       accent: "text-amber-500"
     },
     scifi: {
-      title: "Echoes of the Cosmos",
-      tagline: "The core signal wasn\'t a greeting. It was a warning.",
+      title: "Sci-Fi & Cosmic Worldbuilding",
+      tagline: "Immersive speculative fiction formatted for passionate genre readers.",
       narration: [
-        "Underneath Pluto\'s nitrogen ice sheet...",
-        "A regular magnetic oscillation woke up.",
-        "Captain Chen thought it was contact.",
-        "The computer translated it as a clock ticks.",
-        "The year\'s most mind-bending space epic. Published by Perkins Publisher."
+        "Expansive worldbuilding presented in crisp, clear typography.",
+        "Audiobook narration casting and studio audio mastering.",
+        "Global eBook and hardcover launch strategies.",
+        "Amazon category rank strategy for speculative fiction genres.",
+        "Mind-bending storytelling published by Perkins Publisher."
       ],
       color: "bg-violet-950",
       accent: "text-violet-400"

@@ -6,7 +6,6 @@ import Hero from './components/Hero';
 import TimesSquareSection from './components/TimesSquareSection';
 import ServiceHub from './components/ServiceHub';
 import CompareSection from './components/CompareSection';
-import BookSlider from './components/BookSlider';
 import Testimonials from './components/Testimonials';
 import AuthorInsights from './components/AuthorInsights';
 import LeadAuditScorecard from './components/LeadAuditScorecard';
@@ -378,14 +377,6 @@ export default function App() {
               }}
             />
 
-            {/* Portfolio bestseller books showcase */}
-            <BookSlider
-              onOpenConsultation={() => {
-                setSelectedServiceId(undefined);
-                setConsultationModalOpen(true);
-              }}
-            />
-
             {/* Success Stories Testimonials & FAQ Accordions */}
             <Testimonials
               onOpenConsultation={() => {
@@ -474,7 +465,7 @@ export default function App() {
 
                 <h3 className="text-sm font-black text-blue-950 uppercase pt-2">4. Author Rights & Opt-Out</h3>
                 <p>
-                  You can opt-out or request the absolute deletion of your lead parameters from our CRM servers at any time by contacting our Columbia, South Carolina headquarters at <a href="mailto:info@perkinspublisher.com" className="text-blue-600 hover:underline">info@perkinspublisher.com</a>.
+                  You can opt-out or request the absolute deletion of your lead parameters from our CRM servers at any time by contacting our Għajnsielem, Malta headquarters at <a href="mailto:info@perkinspublisher.com" className="text-blue-600 hover:underline">info@perkinspublisher.com</a>.
                 </p>
               </div>
 
@@ -522,7 +513,7 @@ export default function App() {
 
                 <h3 className="text-sm font-black text-blue-950 uppercase pt-2">4. Governing Jurisdiction</h3>
                 <p>
-                  These terms are regulated by the state laws of South Carolina. Any discussions or disputes will be governed inside Richland County, SC (Columbia Headquarters).
+                  These terms are governed by the laws of Malta (Għajnsielem Headquarters).
                 </p>
               </div>
 

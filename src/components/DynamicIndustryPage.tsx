@@ -38,7 +38,7 @@ export default function DynamicIndustryPage({
             'Full support launching audiobook versions for busy professionals who listen on-the-go'
           ],
           quote: 'Perkins Publisher helped me structure my signature program into a beautiful physical book. Since publishing, I no longer chase leads on LinkedIn. They read my book and schedule application calls already pre-sold on working with me.',
-          authorName: 'Marcus Vance, Elite Leadership Coach'
+          authorName: 'Elite Leadership Coach'
         };
       case 'consultants':
         return {
@@ -58,7 +58,7 @@ export default function DynamicIndustryPage({
             'LinkedIn branding programs to leverage your book across corporate decision maker feeds'
           ],
           quote: 'Sending my book instead of a slide deck completely changed our outreach. We booked meetings with 4 key Fortune 500 directors within 3 weeks of mailing copies.',
-          authorName: 'Dr. Eleanor Chase, Enterprise Strategy Consultant'
+          authorName: 'Enterprise Strategy Consultant'
         };
       case 'doctors':
         return {
@@ -78,7 +78,7 @@ export default function DynamicIndustryPage({
             'Strategic SEO distribution getting your book reviewed by medical boards and authors'
           ],
           quote: 'Having a book in our wellness clinic lobby has done more for patient acquisition than ten years of local Google Ads ever did. It establishes instant clinical confidence.',
-          authorName: 'Dr. Robert Chen, Chief Medical Director'
+          authorName: 'Chief Medical Director'
         };
       case 'lawyers':
         return {
@@ -98,7 +98,7 @@ export default function DynamicIndustryPage({
             'Strict adherence to legal board citation and credential styling parameters'
           ],
           quote: 'My book on Corporate IP Law became our primary client lead generator. Corporate directors seek us out because they read our published chapters.',
-          authorName: 'Robert Haynes, Senior Managing Partner'
+          authorName: 'Senior Managing Partner'
         };
       case 'entrepreneurs':
       case 'ceos':
@@ -119,7 +119,7 @@ export default function DynamicIndustryPage({
             'LinkedIn executive posting engines capitalizing on core chapters to drive enterprise engagement'
           ],
           quote: 'Publishing my founder story allowed us to secure our Series B funding ahead of schedule. Investors read my philosophy and felt instant alignment with our goals.',
-          authorName: 'S. J. Miller, Tech Founder & CEO'
+          authorName: 'Tech Founder & CEO'
         };
       default:
         return {
@@ -139,7 +139,7 @@ export default function DynamicIndustryPage({
             'QR code lead capture page configurations to build your backend B2B email lists'
           ],
           quote: 'Writing a book remains the single most impactful career decision I have ever made. It opened doors to stages, TV networks, and elite clients.',
-          authorName: 'Sandra Mitchell, Published Professional'
+          authorName: 'Published Professional'
         };
     }
   };

@@ -113,11 +113,6 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
                   Bestseller Audit Scorecard
                 </button>
               </li>
-              <li>
-                <button onClick={() => handleNav('portfolio')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
-                  Featured Bestsellers Shelf
-                </button>
-              </li>
             </ul>
           </div>
 
@@ -159,7 +154,7 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
             <div className="space-y-3 font-semibold">
               <p className="flex items-start gap-2.5">
                 <MapPin className="text-amber-500 shrink-0 mt-0.5" size={14} />
-                <span>1201 Main St, Columbia, South Carolina, 29201</span>
+                <span>Għajnsielem, Malta</span>
               </p>
               <a href="tel:18033463495" className="flex items-center gap-2.5 hover:text-white transition-colors">
                 <Phone className="text-amber-500 shrink-0" size={14} />
