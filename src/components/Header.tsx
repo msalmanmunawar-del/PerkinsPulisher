@@ -24,6 +24,7 @@ export default function Header({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
+  const [mobileLocationsOpen, setMobileLocationsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,6 +54,13 @@ export default function Header({
     { label: 'Doctors & Dentists', id: 'industry-doctors', desc: 'Establish patient trust & practice growth.' },
     { label: 'Attorneys & Lawyers', id: 'industry-lawyers', desc: 'Command authority in legal niches.' },
     { label: 'CEOs & Executives', id: 'industry-ceos', desc: 'Amplify corporate brand & secure funding.' },
+  ];
+
+  const locationsList = [
+    { label: 'London & UK', id: 'location-uk-london', flag: '🇬🇧', desc: 'Waterstones & British Library deposit.' },
+    { label: 'Deutschland & DACH', id: 'location-germany-berlin', flag: '🇩🇪', desc: 'Thalia, VLB & German print-on-demand.' },
+    { label: 'Switzerland (Zurich)', id: 'location-switzerland-zurich', flag: '🇨🇭', desc: 'Wealth managers & corporate founders.' },
+    { label: 'Għajnsielem HQ (Malta)', id: 'location-malta', flag: '🇲🇹', desc: 'Verified European Union headquarters.' },
   ];
 
   const handleNavClick = (id: string) => {
@@ -239,6 +247,37 @@ export default function Header({
               </div>
             </div>
 
+            {/* Regional European Desks Dropdown */}
+            <div className="relative group py-2">
+              <button
+                className={`text-xs font-black uppercase tracking-wider transition-all hover:text-amber-600 flex items-center gap-1 cursor-pointer ${
+                  activePage.startsWith('location-') ? 'text-blue-900 border-b-2 border-amber-500 pb-1' : 'text-gray-600'
+                }`}
+              >
+                <span>EU Desks</span>
+                <ChevronDown size={14} className="text-gray-400" />
+              </button>
+              
+              <div className="absolute top-full left-0 hidden group-hover:block w-72 bg-white border border-gray-150 p-4 rounded-2xl shadow-2xl animate-scaleUp z-50">
+                <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-3 border-b border-gray-100 pb-2">Regional Publishing Desks</p>
+                <div className="space-y-1">
+                  {locationsList.map((loc) => (
+                    <button
+                      key={loc.id}
+                      onClick={() => handleNavClick(loc.id)}
+                      className="w-full text-left hover:bg-slate-50 p-2 rounded-xl transition-colors cursor-pointer block group/loc"
+                    >
+                      <p className="text-[11px] font-black text-slate-900 uppercase flex items-center gap-1.5 group-hover/loc:text-amber-600">
+                        <span>{loc.flag}</span>
+                        <span>{loc.label}</span>
+                      </p>
+                      <p className="text-[9px] text-slate-400 font-bold mt-0.5 leading-tight">{loc.desc}</p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
             <button
               onClick={() => handleNavClick('knowledge-hub')}
               className={`text-xs font-black uppercase tracking-wider transition-all hover:text-amber-600 ${
@@ -355,6 +394,31 @@ export default function Header({
                       className="w-full text-left py-1.5 text-[10px] font-black uppercase text-slate-500 hover:text-amber-600"
                     >
                       {ind.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile EU Desks Accordion */}
+            <div className="space-y-1">
+              <button
+                onClick={() => setMobileLocationsOpen(!mobileLocationsOpen)}
+                className="w-full text-left py-2 px-3 rounded-md text-xs font-black uppercase tracking-wider text-slate-700 hover:bg-gray-50 flex justify-between items-center"
+              >
+                <span>EU Desks</span>
+                <ChevronDown size={14} className={`transition-transform ${mobileLocationsOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {mobileLocationsOpen && (
+                <div className="pl-6 space-y-1 bg-slate-50 p-2 rounded-xl border border-slate-100">
+                  {locationsList.map((loc) => (
+                    <button
+                      key={loc.id}
+                      onClick={() => handleNavClick(loc.id)}
+                      className="w-full text-left py-1.5 text-[10px] font-black uppercase text-slate-500 hover:text-amber-600 flex items-center gap-1.5"
+                    >
+                      <span>{loc.flag}</span>
+                      <span>{loc.label}</span>
                     </button>
                   ))}
                 </div>

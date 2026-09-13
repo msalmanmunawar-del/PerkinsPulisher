@@ -3,84 +3,184 @@
   <!-- Core Home Page -->
   <url>
     <loc>https://perkinspublisher.com/</loc>
-    <lastmod>2026-07-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   
-  <!-- Core Services Deep Links (Crawlable via deep hash-routing) -->
+  <!-- 11 Core Service Landing Pages -->
   <url>
     <loc>https://perkinspublisher.com/#/service-ghostwriting</loc>
-    <lastmod>2026-07-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://perkinspublisher.com/#/service-editing</loc>
-    <lastmod>2026-07-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/service-publishing</loc>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://perkinspublisher.com/#/service-kdp</loc>
-    <lastmod>2026-07-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/service-cover-design</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://perkinspublisher.com/#/service-business</loc>
-    <lastmod>2026-07-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://perkinspublisher.com/#/service-memoirs</loc>
-    <lastmod>2026-07-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://perkinspublisher.com/#/service-children</loc>
-    <lastmod>2026-07-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://perkinspublisher.com/#/service-audiobook</loc>
-    <lastmod>2026-07-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://perkinspublisher.com/#/service-marketing</loc>
-    <lastmod>2026-07-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Interactive Conversion Tools & SEO Assets -->
-  <url>
-    <loc>https://perkinspublisher.com/#/calculator</loc>
-    <lastmod>2026-07-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://perkinspublisher.com/#/seo-scorecard</loc>
-    <lastmod>2026-07-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://perkinspublisher.com/#/reviews</loc>
-    <lastmod>2026-07-11</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://perkinspublisher.com/#/service-marketing</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/service-pr-branding</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://perkinspublisher.com/#/knowledge-hub</loc>
-    <lastmod>2026-07-11</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://perkinspublisher.com/#/service-linkedin</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/service-podcast-speaking</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 5 Industry Authority Landing Pages -->
+  <url>
+    <loc>https://perkinspublisher.com/#/industry-coaches</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/industry-consultants</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/industry-doctors</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/industry-lawyers</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/industry-ceos</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+
+  <!-- 4 Regional European Desks (Local SEO & Citations) -->
+  <url>
+    <loc>https://perkinspublisher.com/#/location-uk-london</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/location-germany-berlin</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/location-switzerland-zurich</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/location-malta</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- Interactive Conversion Tools & SEO Hubs -->
+  <url>
+    <loc>https://perkinspublisher.com/#/calculator</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/seo-scorecard</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/reviews</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/knowledge-hub</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/privacy</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://perkinspublisher.com/#/terms</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

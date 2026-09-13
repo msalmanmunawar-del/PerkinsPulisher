@@ -14,6 +14,7 @@ import { useToast } from './components/Toast';
 import SEO from './components/SEO';
 import DynamicServicePage from './components/DynamicServicePage';
 import DynamicIndustryPage from './components/DynamicIndustryPage';
+import DynamicLocationPage from './components/DynamicLocationPage';
 import KnowledgeHub from './components/KnowledgeHub';
 import SearchConsoleHub from './components/SearchConsoleHub';
 import GmbLocalAuthority from './components/GmbLocalAuthority';
@@ -427,6 +428,17 @@ export default function App() {
         {activePage.startsWith('industry-') && (
           <DynamicIndustryPage
             industryId={activePage.replace('industry-', '')}
+            onOpenConsultation={() => {
+              setSelectedServiceId(activePage);
+              setConsultationModalOpen(true);
+            }}
+            onNavigate={setActivePage}
+          />
+        )}
+
+        {activePage.startsWith('location-') && (
+          <DynamicLocationPage
+            locationId={activePage.replace('location-', '')}
             onOpenConsultation={() => {
               setSelectedServiceId(activePage);
               setConsultationModalOpen(true);

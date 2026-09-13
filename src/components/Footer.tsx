@@ -114,6 +114,34 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
                 </button>
               </li>
             </ul>
+
+            <h4 className="text-white text-[11px] font-black tracking-widest uppercase pt-3">EUROPEAN DESKS</h4>
+            <ul className="space-y-2 font-bold text-[10px]">
+              <li>
+                <button onClick={() => handleNav('location-uk-london')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
+                  <span>🇬🇧</span>
+                  <span>London & United Kingdom</span>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('location-germany-berlin')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
+                  <span>🇩🇪</span>
+                  <span>Deutschland & DACH</span>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('location-switzerland-zurich')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
+                  <span>🇨🇭</span>
+                  <span>Switzerland (Zurich)</span>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('location-malta')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
+                  <span>🇲🇹</span>
+                  <span>Għajnsielem HQ (Malta)</span>
+                </button>
+              </li>
+            </ul>
           </div>
 
           {/* Core Services shortcuts */}

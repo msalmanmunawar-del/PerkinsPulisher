@@ -28,6 +28,25 @@ export default function SEO({ activePage, subId }: SEOProps) {
       title = `Book Publishing for European ${formattedName} | Perkins Publishers Malta & EU`;
       description = `Launch your executive authority across European markets with top-tier book publishing custom engineered for European ${formattedName}. 100% copyright ownership and global retail reach.`;
       canonical = `https://perkinspublisher.com/industries/${activePage.replace('industry-', '')}`;
+    } else if (activePage.startsWith('location-')) {
+      const locId = activePage.replace('location-', '');
+      if (locId === 'uk-london') {
+        title = 'Book Publishing & Ghostwriting Services London & UK | Perkins Publishers';
+        description = 'Top-rated hybrid book publishing for British entrepreneurs, keynote speakers, and authors in London and across the UK. 100% royalties in GBP (£), British Library legal deposit, and Waterstones distribution.';
+        canonical = 'https://perkinspublisher.com/#/location-uk-london';
+      } else if (locId === 'germany-berlin') {
+        title = 'Buchveröffentlichung & Ghostwriting Deutschland & DACH | Perkins Publishers';
+        description = 'Führender Hybrid-Verlag für Autoren, Geschäftsführer und Berater in Deutschland, Österreich und der Schweiz. 100% Tantiemen in EUR, VLB-Listung und Thalia Buchhandelsvertrieb.';
+        canonical = 'https://perkinspublisher.com/#/location-germany-berlin';
+      } else if (locId === 'switzerland-zurich') {
+        title = 'Executive Book Publishing Zurich & Geneva | Switzerland | Perkins Publishers';
+        description = 'Prestige hardcover book publishing and memoirs for Swiss wealth managers, founders, and consultants in Zurich, Geneva, and Basel. 100% rights retention and international distribution.';
+        canonical = 'https://perkinspublisher.com/#/location-switzerland-zurich';
+      } else {
+        title = 'Perkins Publisher Headquarters | Għajnsielem, Malta & Mediterranean Hub';
+        description = 'Official European headquarters of Perkins Publisher in Għajnsielem, Gozo, Malta. Hybrid book publishing, ghostwriting, and worldwide distribution under EU copyright laws.';
+        canonical = 'https://perkinspublisher.com/#/location-malta';
+      }
     } else if (activePage === 'knowledge-hub' || activePage.startsWith('hub-')) {
       title = 'European Publishing Knowledge Hub | EU & UK Self-Publishing Guides & Tutorials';
       description = 'Master KDP Europe metadata, IngramSpark EU distribution, European ISBN registration, VAT compliance, and bestseller marketing with Perkins Publishers in Għajnsielem, Malta.';
