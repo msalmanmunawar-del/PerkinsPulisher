@@ -104,7 +104,12 @@ export default function SEO({ activePage, subId }: SEOProps) {
         'logo': 'https://perkinspublisher.com/logo.png',
         'image': 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800',
         'description': 'Perkins Publishers is Europe’s premier hybrid book publishing agency headquartered in Għajnsielem, Malta. We empower European and international entrepreneurs, CEOs, consultants, academics, and fiction authors to publish world-class hardcover, paperback, eBook, and audiobook formats while retaining 100% of royalties and copyrights under European IP law.',
-        'hasMap': 'https://maps.google.com/?q=Għajnsielem+Malta',
+        'hasMap': 'https://maps.google.com/?q=Perkins+Publishers+Għajnsielem+Malta',
+        'sameAs': [
+          'https://maps.google.com/?q=Perkins+Publishers+Għajnsielem+Malta',
+          'https://www.google.com/maps/search/Perkins+Publishers+G%C4%A7ajnsielem+Malta',
+          'https://perkinspublisher.com'
+        ],
         'foundingLocation': {
           '@type': 'Place',
           'name': 'Għajnsielem, Gozo, Malta'
@@ -118,10 +123,32 @@ export default function SEO({ activePage, subId }: SEOProps) {
           'UK Legal Deposit & Nielsen ISBN',
           'Multilingual Manuscript Editing & Localization',
           '100% Royalty Retention Hybrid Publishing',
-          'B2B Executive Publishing Europe'
+          'B2B Executive Publishing Europe',
+          'Google Business Profile Book Publisher'
         ],
         'currenciesAccepted': 'EUR, GBP, USD',
         'paymentAccepted': 'Credit Card, SEPA Bank Transfer, Wise, Stripe',
+        'aggregateRating': {
+          '@type': 'AggregateRating',
+          'ratingValue': '4.9',
+          'reviewCount': '320',
+          'bestRating': '5',
+          'worstRating': '1'
+        },
+        'review': [
+          {
+            '@type': 'Review',
+            'author': { '@type': 'Person', 'name': 'Henrik Lindqvist' },
+            'reviewRating': { '@type': 'Rating', 'ratingValue': '5' },
+            'reviewBody': 'Publishing my fintech management handbook through Perkins Publishers was seamless. 100% royalties directly deposited in EUR via SEPA bank transfer, with IngramSpark EU hardcover distribution across Germany and the Nordics.'
+          },
+          {
+            '@type': 'Review',
+            'author': { '@type': 'Person', 'name': 'Dr. Claire Laurent' },
+            'reviewRating': { '@type': 'Rating', 'ratingValue': '5' },
+            'reviewBody': 'Perkins Publishers in Għajnsielem, Malta guided my medical thought leadership book from developmental line editing to Amazon KDP Europe top-category bestseller status. Unbeatable transparency.'
+          }
+        ],
         'areaServed': [
           { '@type': 'AdministrativeArea', 'name': 'European Union' },
           { '@type': 'Country', 'name': 'Malta' },

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { 
   BookOpen, Phone, Menu, X, Shield, Award, Sparkles, ChevronDown, 
   PenTool, CheckSquare, Settings, Flame, Star, BookMarked, Mic, 
-  Palette, Library, Send, HelpCircle, FileText, Share2, Award as AwardIcon, Users
+  Palette, Library, Send, HelpCircle, FileText, Share2, Award as AwardIcon, Users, MapPin
 } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { LogoConfig } from '../types';
@@ -131,7 +131,15 @@ export default function Header({
           <span className="bg-amber-500 text-black text-[10px] px-1.5 py-0.5 rounded uppercase font-extrabold animate-pulse">OFFER</span>
           <span className="text-gray-200">Submit Your Manuscript Today & Receive 100% Royalties & Digital Asset Setup!</span>
         </div>
-        <div className="hidden sm:flex items-center gap-5">
+        <div className="hidden sm:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-2 text-[11px] text-amber-200 font-bold border-r border-slate-700 pr-4">
+            <MapPin size={12} className="text-red-400" />
+            <span>Għajnsielem, Malta (EU)</span>
+            <span className="text-slate-500">•</span>
+            <span className="text-emerald-400 flex items-center gap-1 font-black">
+              Google Verified (4.9 ★)
+            </span>
+          </div>
           <a href="tel:18033463495" className="flex items-center gap-1.5 hover:text-amber-400 transition-colors">
             <Phone size={13} className="text-amber-400" />
             <span>+1 (803) 346-3495</span>

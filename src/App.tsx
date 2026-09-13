@@ -16,6 +16,7 @@ import DynamicServicePage from './components/DynamicServicePage';
 import DynamicIndustryPage from './components/DynamicIndustryPage';
 import KnowledgeHub from './components/KnowledgeHub';
 import SearchConsoleHub from './components/SearchConsoleHub';
+import GmbLocalAuthority from './components/GmbLocalAuthority';
 
 import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2 } from 'lucide-react';
 
@@ -387,6 +388,14 @@ export default function App() {
 
             {/* Author Insights Section with Curated SEO Content by Zhana Xuere */}
             <AuthorInsights
+              onOpenConsultation={() => {
+                setSelectedServiceId(undefined);
+                setConsultationModalOpen(true);
+              }}
+            />
+
+            {/* Google Business Profile (GMB) Verified Local Authority, Exact NAP & AEO Knowledge Section */}
+            <GmbLocalAuthority
               onOpenConsultation={() => {
                 setSelectedServiceId(undefined);
                 setConsultationModalOpen(true);

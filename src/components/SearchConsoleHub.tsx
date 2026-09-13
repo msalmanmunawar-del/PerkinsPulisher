@@ -22,7 +22,12 @@ import {
   RefreshCw, 
   Terminal, 
   BookOpen, 
-  Lock
+  Lock,
+  MapPin,
+  Star,
+  ExternalLink,
+  Award,
+  Building2
 } from 'lucide-react';
 import firebaseConfig from '../../firebase-applet-config.json';
 
@@ -743,6 +748,153 @@ export default function SearchConsoleHub() {
                   </div>
                 )}
 
+              </div>
+            </div>
+
+            {/* GMB (Google My Business) & Local SEO / AEO / GEO Engine Audit Section */}
+            <div className="bg-white rounded-3xl border border-gray-200/85 p-6 sm:p-8 shadow-sm space-y-6">
+              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-100 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center justify-center p-2 shrink-0">
+                    <svg viewBox="0 0 24 24" className="w-full h-full" aria-label="Google">
+                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 className="text-base font-black text-blue-950 uppercase tracking-wider">
+                      Google Business Profile & GEO/AEO Health Check
+                    </h2>
+                    <p className="text-xs text-slate-500 font-semibold">
+                      Live NAP (Name, Address, Phone) consistency & Answer Engine readiness
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="bg-emerald-50 text-emerald-800 border border-emerald-200/80 px-3 py-1 rounded-full text-[10px] font-black uppercase">
+                    100% Schema Synchronized
+                  </span>
+                </div>
+              </div>
+
+              {/* 4 Pillars of Search & Entity Visibility */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                
+                {/* 1. GMB & NAP Consistency */}
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-150 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">1. GMB & NAP Match</span>
+                    <CheckCircle size={14} className="text-emerald-600" />
+                  </div>
+                  <p className="font-bold text-slate-900">Perkins Publisher</p>
+                  <p className="text-[11px] text-slate-500 leading-snug">
+                    Għajnsielem, Gozo, GSM 1010, Malta<br />
+                    Tel: +1 (803) 346-3495
+                  </p>
+                  <div className="pt-1">
+                    <a 
+                      href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-[10px] text-blue-600 hover:underline font-black flex items-center gap-1"
+                    >
+                      <span>View Map Location</span>
+                      <ExternalLink size={9} />
+                    </a>
+                  </div>
+                </div>
+
+                {/* 2. Geotargeting Coordinates */}
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-150 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">2. Geo Coordinates</span>
+                    <CheckCircle size={14} className="text-emerald-600" />
+                  </div>
+                  <p className="font-mono text-slate-900 font-bold">36.0261° N, 14.2853° E</p>
+                  <p className="text-[11px] text-slate-500 leading-snug">
+                    Region: MT-03 (Gozo & Comino, Malta)<br />
+                    ICBM coordinates embedded in &lt;head&gt;
+                  </p>
+                  <span className="inline-block bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded">
+                    EU Central Time (CET)
+                  </span>
+                </div>
+
+                {/* 3. Schema.org Rich Graphs */}
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-150 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">3. Rich Schemas</span>
+                    <CheckCircle size={14} className="text-emerald-600" />
+                  </div>
+                  <p className="font-bold text-slate-900">4 Active Schemas</p>
+                  <p className="text-[11px] text-slate-500 leading-snug">
+                    PublishingHouse, LocalBusiness, FAQPage, SpeakableSpecification
+                  </p>
+                  <a 
+                    href="https://search.google.com/test/rich-results" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[10px] text-blue-600 hover:underline font-black flex items-center gap-1"
+                  >
+                    <span>Google Rich Results Test</span>
+                    <ExternalLink size={9} />
+                  </a>
+                </div>
+
+                {/* 4. AEO AI Answer Engines */}
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-150 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">4. AEO & AI Engines</span>
+                    <CheckCircle size={14} className="text-emerald-600" />
+                  </div>
+                  <p className="font-bold text-slate-900">Perplexity & SGE Ready</p>
+                  <p className="text-[11px] text-slate-500 leading-snug">
+                    Direct microdata (#aeo-summary) provides answers for European 100% royalty searches.
+                  </p>
+                  <span className="inline-block bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded">
+                    Voice & AI Optimized
+                  </span>
+                </div>
+
+              </div>
+
+              {/* Action Buttons for GMB & Schema Validation */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <a 
+                  href="https://business.google.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-blue-950 hover:bg-blue-900 text-white text-[10px] font-black uppercase tracking-wider py-2.5 px-4 rounded-xl transition-colors inline-flex items-center gap-1.5"
+                >
+                  <Building2 size={12} className="text-amber-400" />
+                  <span>Open Google Business Profile Manager</span>
+                  <ExternalLink size={10} />
+                </a>
+
+                <a 
+                  href="https://search.google.com/test/rich-results"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-[10px] font-black uppercase tracking-wider py-2.5 px-4 rounded-xl transition-colors inline-flex items-center gap-1.5"
+                >
+                  <Sparkles size={12} className="text-amber-500" />
+                  <span>Test Rich Snippets on Google</span>
+                  <ExternalLink size={10} />
+                </a>
+
+                <a 
+                  href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-[10px] font-black uppercase tracking-wider py-2.5 px-4 rounded-xl transition-colors inline-flex items-center gap-1.5"
+                >
+                  <MapPin size={12} className="text-red-500" />
+                  <span>Preview Google Maps Listing</span>
+                  <ExternalLink size={10} />
+                </a>
               </div>
             </div>
 

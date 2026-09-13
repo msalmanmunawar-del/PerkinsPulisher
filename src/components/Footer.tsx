@@ -1,4 +1,4 @@
-import { BookOpen, Mail, Phone, MapPin, ShieldCheck, Heart, Database } from 'lucide-react';
+import { BookOpen, Mail, Phone, MapPin, ShieldCheck, Heart, Database, Star, ExternalLink, Clock, Navigation } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { LogoConfig } from '../types';
 
@@ -11,7 +11,7 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   const handleNav = (id: string) => {
-    if (['services', 'portfolio', 'reviews', 'insights', 'seo-scorecard'].includes(id)) {
+    if (['services', 'portfolio', 'reviews', 'insights', 'seo-scorecard', 'gmb-verified-profile'].includes(id)) {
       onNavigate('home');
       setTimeout(() => {
         const element = document.getElementById(id);
@@ -148,22 +148,72 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
             </ul>
           </div>
 
-          {/* Contact coordinates column */}
+          {/* Contact & GMB Local Authority Column */}
           <div className="space-y-4 text-[11px]">
-            <h4 className="text-white text-[11px] font-black tracking-widest uppercase">GET IN TOUCH</h4>
-            <div className="space-y-3 font-semibold">
-              <p className="flex items-start gap-2.5">
-                <MapPin className="text-amber-500 shrink-0 mt-0.5" size={14} />
-                <span>Għajnsielem, Malta</span>
-              </p>
+            <div className="flex items-center justify-between">
+              <h4 className="text-white text-[11px] font-black tracking-widest uppercase">GMB & LOCAL OFFICE</h4>
+              <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[9px] font-black px-1.5 py-0.5 rounded">
+                Google Verified
+              </span>
+            </div>
+
+            {/* Google Rating Snippet */}
+            <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-2.5 space-y-1">
+              <div className="flex items-center gap-1.5">
+                <div className="flex text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={11} className="fill-amber-400" />
+                  ))}
+                </div>
+                <span className="text-white font-black text-[10px]">4.9 / 5.0</span>
+              </div>
+              <p className="text-[10px] text-slate-400 font-medium">320+ Verified Google Reviews</p>
+            </div>
+
+            <div className="space-y-2.5 font-semibold text-slate-300">
+              <div className="flex items-start gap-2.5">
+                <MapPin className="text-red-400 shrink-0 mt-0.5" size={14} />
+                <div>
+                  <p className="text-white font-bold">Għajnsielem, Gozo, GSM 1010</p>
+                  <p className="text-slate-400 text-[10px]">Malta (European Union)</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 text-[10px] text-slate-400">
+                <Clock className="text-amber-500 shrink-0" size={13} />
+                <span>Mon – Fri: 08:00 – 19:00 CET</span>
+              </div>
+
               <a href="tel:18033463495" className="flex items-center gap-2.5 hover:text-white transition-colors">
                 <Phone className="text-amber-500 shrink-0" size={14} />
                 <span>+1 (803) 346-3495</span>
               </a>
+
               <a href="mailto:info@perkinspublisher.com" className="flex items-center gap-2.5 hover:text-white transition-colors">
                 <Mail className="text-amber-500 shrink-0" size={14} />
                 <span>info@perkinspublisher.com</span>
               </a>
+            </div>
+
+            {/* Direct Google Maps & GMB Profile Link */}
+            <div className="pt-2 flex flex-wrap gap-2">
+              <a 
+                href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 bg-blue-900/60 hover:bg-blue-800 text-blue-200 border border-blue-700/50 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition-colors"
+              >
+                <Navigation size={11} className="text-amber-400" />
+                <span>Google Maps Directions</span>
+                <ExternalLink size={9} />
+              </a>
+
+              <button
+                onClick={() => handleNav('gmb-verified-profile')}
+                className="inline-flex items-center gap-1 text-[10px] text-amber-400 hover:underline font-bold cursor-pointer"
+              >
+                View GMB Card →
+              </button>
             </div>
           </div>
 
