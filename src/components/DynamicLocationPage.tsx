@@ -122,6 +122,93 @@ export default function DynamicLocationPage({
           ]
         };
 
+      case 'australia':
+        return {
+          regionName: 'Australia (Sydney, Melbourne & Brisbane)',
+          flagEmoji: '🇦🇺',
+          cityTitle: 'Book Publishing & Ghostwriting Services Australia',
+          heroSubtitle: 'Publish for Dymocks, Angus & Robertson & Global POD with 100% Retained Royalties',
+          summary: 'Tailored hybrid publishing for Australian founders, mining executives, coaches, and biographers. We connect you with local Australian print-on-demand facilities in Melbourne and Sydney, register Thorpe-Bowker ISBNs, and ensure compliance with the National Library of Australia (NED) legal deposit.',
+          currency: 'AUD ($) / USD ($)',
+          distributionFocus: 'Dymocks, Angus & Robertson, Booktopia, Amazon Australia (Amazon.com.au), and IngramSpark Australia',
+          keyStat1: '100% Royalty Retention in AUD ($)',
+          keyStat2: 'National Library of Australia (NED)',
+          keyStat3: 'Local Sydney & Melbourne POD Printing',
+          localFocusPoint: 'Sydney • Melbourne • Brisbane • Perth • Adelaide',
+          faqs: [
+            {
+              q: 'How does distribution to Dymocks and Australian indie bookstores work?',
+              a: 'Through our Ingram Content Group Australian distribution integration, your title is registered on the Australian retail network with title feeds pushing directly into Dymocks, Angus & Robertson, and Booktopia ordering systems.'
+            },
+            {
+              q: 'What about the National Library of Australia legal deposit (NED)?',
+              a: 'Australian copyright legislation requires electronic and physical copies of published works to be deposited with the National edeposit (NED) portal and state libraries. We handle this mandatory submission on your behalf.'
+            },
+            {
+              q: 'Are books printed inside Australia to avoid international freight costs?',
+              a: 'Yes! Books ordered by Australian readers or your own bulk author orders are printed locally at high-speed POD hubs in Melbourne and Sydney, ensuring 48-hour fulfillment without overseas air freight fees.'
+            }
+          ]
+        };
+
+      case 'new-zealand':
+        return {
+          regionName: 'New Zealand (Auckland & Wellington)',
+          flagEmoji: '🇳🇿',
+          cityTitle: 'Book Publishing & Ghostwriting New Zealand | Aotearoa',
+          heroSubtitle: 'Bespoke Executive Publishing for Kiwi Entrepreneurs & Authors',
+          summary: 'Empowering New Zealand innovators, agri-tech founders, consultants, and novelists to publish world-standard hardcovers and paperbacks. Fully integrated with Whitcoulls, Paper Plus, and the National Library of New Zealand legal deposit.',
+          currency: 'NZD ($) / AUD ($) / USD ($)',
+          distributionFocus: 'Whitcoulls, Paper Plus, Unity Books, Amazon Australia/NZ, and IngramSpark NZ',
+          keyStat1: '100% Royalties Paid in NZD ($)',
+          keyStat2: 'National Library of NZ Legal Deposit',
+          keyStat3: 'Trans-Tasman Print & Distribution',
+          localFocusPoint: 'Auckland • Wellington • Christchurch • Hamilton',
+          faqs: [
+            {
+              q: 'How do Kiwi authors get their books into Whitcoulls and Paper Plus?',
+              a: 'We register your 13-digit ISBN with Nielsen BookData NZ and connect your title to wholesale supplier catalogs so any Paper Plus or Whitcoulls store can order copies on demand.'
+            },
+            {
+              q: 'How does legal deposit work with the National Library of New Zealand?',
+              a: 'Under the National Library of New Zealand Act 2003, publishers must provide two copies to the Legal Deposit Office in Wellington. We manage this entire archiving workflow for you.'
+            },
+            {
+              q: 'Can New Zealand authors receive direct NZD payouts?',
+              a: 'Yes, royalty payouts from global Amazon marketplaces and Ingram are converted directly into New Zealand Dollars (NZD) without arbitrary middleman agency cuts.'
+            }
+          ]
+        };
+
+      case 'ireland':
+        return {
+          regionName: 'Ireland (Dublin, Cork & Galway)',
+          flagEmoji: '🇮🇪',
+          cityTitle: 'Book Publishing & Ghostwriting Services Ireland & Dublin',
+          heroSubtitle: 'Premier European Publishing for Irish Tech Leaders & Authors',
+          summary: 'Headquartered in Malta with deep European Union synergies, Perkins Publisher provides Ireland’s corporate executives, Trinity scholars, and creative novelists with elite ghostwriting, Dubray & Easons bookstore distribution, and Irish legal deposit archival.',
+          currency: 'EUR (€) / GBP (£)',
+          distributionFocus: 'Easons, Dubray Books, Hodges Figgis, Amazon.co.uk & Amazon Europe, and IngramSpark EU',
+          keyStat1: '100% Royalty Retention in EUR (€)',
+          keyStat2: 'Trinity College & National Library Deposit',
+          keyStat3: 'EU VAT Compliant Invoicing',
+          localFocusPoint: 'Dublin • Cork • Galway • Limerick • Ireland-Wide',
+          faqs: [
+            {
+              q: 'How does distribution to Easons and Dubray Books work?',
+              a: 'Your title is cataloged with Nielsen BookData Ireland and distributed via Ingram UK/EU, allowing Easons, Dubray, and independent Irish bookshops to stock or special-order your book immediately.'
+            },
+            {
+              q: 'What about Irish legal deposits (Trinity College Dublin & National Library of Ireland)?',
+              a: 'Under the Irish Copyright and Related Rights Act 2000, statutory copies must be provided to the National Library of Ireland and academic copyright libraries, including Trinity College Dublin. We coordinate this entire compliance filing.'
+            },
+            {
+              q: 'Why is Perkins Publisher ideal for Irish authors?',
+              a: 'As a fellow EU member state headquartered in Malta, our contracts comply 100% with EU Copyright Directive 2019/790, allowing seamless SEPA Euro royalty transfers and zero double-taxation hurdles.'
+            }
+          ]
+        };
+
       case 'malta':
       default:
         return {

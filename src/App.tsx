@@ -115,62 +115,109 @@ export default function App() {
     }
   }, []);
 
-  // Sync page state with URL Hash for Technical SEO & Shareability
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (hash.startsWith('#/')) {
-        const page = hash.replace('#/', '');
-        if (page) {
-          if (['services', 'portfolio', 'reviews', 'insights', 'seo-scorecard'].includes(page)) {
-            setActivePage('home');
-            setTimeout(() => {
-              const element = document.getElementById(page);
-              if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-              }
-            }, 150);
-          } else {
-            setActivePage(page);
-          }
+  // Convert URL pathname or hash to internal activePage state
+  const parsePageFromLocation = (): string => {
+    // 1. Check for legacy hash routes (e.g. /#/service-ghostwriting or #/service-ghostwriting)
+    const hash = window.location.hash;
+    if (hash.startsWith('#/')) {
+      const page = hash.replace('#/', '').trim();
+      if (page) {
+        if (['services', 'portfolio', 'reviews', 'insights', 'seo-scorecard'].includes(page)) {
+          return 'home';
         }
-      } else {
-        const rawAnchor = hash.replace('#', '');
-        if (['services', 'portfolio', 'reviews', 'insights', 'seo-scorecard'].includes(rawAnchor)) {
-          setActivePage('home');
-          setTimeout(() => {
-            const element = document.getElementById(rawAnchor);
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth' });
-            }
-          }, 150);
-        } else if (!hash) {
-          setActivePage('home');
-        }
+        return page;
       }
-    };
+    } else if (hash.startsWith('#')) {
+      const rawAnchor = hash.replace('#', '').trim();
+      if (['services', 'portfolio', 'reviews', 'insights', 'seo-scorecard'].includes(rawAnchor)) {
+        return 'home';
+      }
+    }
 
-    handleHashChange();
+    // 2. Parse clean URL pathname
+    const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    if (pathname === '/' || pathname === '') {
+      return 'home';
+    }
+    if (pathname.startsWith('/services/')) {
+      const serviceId = pathname.replace('/services/', '').trim();
+      return serviceId ? `service-${serviceId}` : 'home';
+    }
+    if (pathname.startsWith('/industries/')) {
+      const industryId = pathname.replace('/industries/', '').trim();
+      return industryId ? `industry-${industryId}` : 'home';
+    }
+    if (pathname.startsWith('/locations/')) {
+      const locationId = pathname.replace('/locations/', '').trim();
+      return locationId ? `location-${locationId}` : 'home';
+    }
+    if (pathname === '/knowledge-hub') return 'knowledge-hub';
+    if (pathname === '/calculator') return 'calculator';
+    if (pathname === '/reviews') return 'reviews';
+    if (pathname === '/seo-scorecard') return 'seo-scorecard';
+    if (pathname === '/privacy') return 'privacy';
+    if (pathname === '/terms') return 'terms';
+    if (pathname === '/search-console') return 'search-console';
+
+    return 'home';
+  };
+
+  // Convert activePage state to canonical clean path URL
+  const getPathForPage = (page: string): string => {
+    if (page === 'home') return '/';
+    if (page.startsWith('service-')) return `/services/${page.replace('service-', '')}`;
+    if (page.startsWith('industry-')) return `/industries/${page.replace('industry-', '')}`;
+    if (page.startsWith('location-')) return `/locations/${page.replace('location-', '')}`;
+    if (['knowledge-hub', 'calculator', 'reviews', 'seo-scorecard', 'privacy', 'terms', 'search-console'].includes(page)) {
+      return `/${page}`;
+    }
+    return `/${page}`;
+  };
+
+  // Initial load: parse path or hash, and redirect legacy hash URLs to clean paths
+  useEffect(() => {
+    const initialPage = parsePageFromLocation();
+    setActivePage(initialPage);
+
+    // If loaded with legacy hash like /#/service-ghostwriting or #/knowledge-hub, clean it up with replaceState
+    if (window.location.hash.startsWith('#/')) {
+      const targetPath = getPathForPage(initialPage);
+      window.history.replaceState({ page: initialPage }, '', targetPath);
+    }
+
+    // Handle smooth scroll if an in-page section was targeted
+    const hash = window.location.hash;
+    const targetAnchor = hash.replace(/^#\/?/, '');
+    if (['services', 'portfolio', 'reviews', 'insights', 'seo-scorecard'].includes(targetAnchor)) {
+      setTimeout(() => {
+        const element = document.getElementById(targetAnchor);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 200);
+    }
   }, []);
 
-  // Update URL Hash when activePage state updates to maintain full shareability
+  // Listen for browser popstate (back/forward button navigation)
   useEffect(() => {
-    if (activePage === 'home') {
-      const currentHash = window.location.hash;
-      if (currentHash && !currentHash.startsWith('#/')) {
-        return;
-      }
-      if (currentHash !== '' && currentHash !== '#') {
-        window.history.replaceState(null, '', ' ');
-      }
-    } else {
-      const targetHash = `#/${activePage}`;
-      if (window.location.hash !== targetHash) {
-        window.history.pushState(null, '', targetHash);
-      }
+    const handlePopState = () => {
+      const page = parsePageFromLocation();
+      setActivePage(page);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Synchronize browser URL with activePage using window.history.pushState
+  useEffect(() => {
+    const targetPath = getPathForPage(activePage);
+    const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+
+    // If pathname doesn't match target or if there is an outdated hash, update history
+    if (currentPath !== targetPath || window.location.hash.startsWith('#/')) {
+      window.history.pushState({ page: activePage }, '', targetPath);
     }
   }, [activePage]);
 
@@ -675,6 +722,30 @@ export default function App() {
                         className="w-full bg-gray-50 border border-gray-250 rounded-lg px-3 py-2.5 text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Author Location / Target Market</label>
+                    <select
+                      className="w-full bg-gray-50 border border-gray-250 rounded-lg px-3 py-2 text-xs font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === 'au') setModalPhone(prev => prev.startsWith('+') ? prev : '+61 ');
+                        else if (val === 'nz') setModalPhone(prev => prev.startsWith('+') ? prev : '+64 ');
+                        else if (val === 'ie') setModalPhone(prev => prev.startsWith('+') ? prev : '+353 ');
+                        else if (val === 'uk') setModalPhone(prev => prev.startsWith('+') ? prev : '+44 ');
+                        else if (val === 'de') setModalPhone(prev => prev.startsWith('+') ? prev : '+49 ');
+                      }}
+                    >
+                      <option value="global">🌍 Global / Other Country</option>
+                      <option value="au">🇦🇺 Australia (Sydney, Melbourne, Brisbane - AUD)</option>
+                      <option value="nz">🇳🇿 New Zealand (Auckland, Wellington - NZD)</option>
+                      <option value="ie">🇮🇪 Ireland (Dublin, Cork, Galway - EUR)</option>
+                      <option value="uk">🇬🇧 United Kingdom (London, Manchester - GBP)</option>
+                      <option value="de">🇩🇪 Germany & DACH (EUR)</option>
+                      <option value="mt">🇲🇹 Malta & EU Hub (EUR)</option>
+                      <option value="us">🇺🇸 United States & Canada (USD)</option>
+                    </select>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">

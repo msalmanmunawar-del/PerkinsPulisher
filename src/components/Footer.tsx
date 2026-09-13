@@ -115,12 +115,30 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
               </li>
             </ul>
 
-            <h4 className="text-white text-[11px] font-black tracking-widest uppercase pt-3">EUROPEAN DESKS</h4>
+            <h4 className="text-white text-[11px] font-black tracking-widest uppercase pt-3">GLOBAL & REGIONAL DESKS</h4>
             <ul className="space-y-2 font-bold text-[10px]">
               <li>
                 <button onClick={() => handleNav('location-uk-london')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
                   <span>🇬🇧</span>
                   <span>London & United Kingdom</span>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('location-ireland')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
+                  <span>🇮🇪</span>
+                  <span>Dublin & Ireland</span>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('location-australia')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
+                  <span>🇦🇺</span>
+                  <span>Australia (Sydney/Melb)</span>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('location-new-zealand')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
+                  <span>🇳🇿</span>
+                  <span>New Zealand (Aotearoa)</span>
                 </button>
               </li>
               <li>

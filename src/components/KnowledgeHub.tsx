@@ -259,6 +259,55 @@ Each European Amazon marketplace has unique category browse paths:
 #### 2. Multilingual Search Term Keywords
 Include local-language search phrases in your 7 backend keyword slots to capture localized search traffic from European readers.
       `
+    },
+    {
+      id: 'australia-nz-book-publishing-guide',
+      silo: 'publishing',
+      title: 'Self-Publishing in Australia & New Zealand: Dymocks, Booktopia & Local POD',
+      readingTime: '10 min read',
+      excerpt: 'The complete publishing guide for Australian and Kiwi authors: Thorpe-Bowker ISBNs, Melbourne & Sydney print facilities, and National Library (NED) compliance.',
+      tags: ['Australia Publishing', 'New Zealand Authors', 'Dymocks', 'Booktopia', 'Thorpe-Bowker'],
+      content: `
+### Why Australian and New Zealand Authors Are Bypassing Traditional Contracts
+For decades, authors in Sydney, Melbourne, Brisbane, and Auckland faced severe distribution bottlenecks—either accepting traditional royalty rates of 8% to 10% or facing steep international air shipping costs from US printers.
+
+#### 1. Domestic Print-on-Demand (POD) Facilities
+With high-speed digital print hubs located in Melbourne, Sydney, and trans-Tasman networks:
+* Paperbacks and hardcovers print domestically within 48 hours.
+* Zero international customs or high air freight charges for author copies.
+* Fast delivery across Australia and New Zealand.
+
+#### 2. Getting Into Dymocks, Angus & Robertson, and Whitcoulls
+* **Thorpe-Bowker & Nielsen Title Data:** Your title is registered with full metadata, Australian Dollar (AUD), and New Zealand Dollar (NZD) recommended retail pricing (RRP).
+* **Ingram Australia Wholesale:** Enables independent Australian bookshops, university libraries, and chains like Dymocks, Paper Plus, and Whitcoulls to order through their standard wholesale POS systems.
+
+#### 3. Statutory Legal Deposit: NED & National Library of NZ
+* In Australia, National edeposit (NED) is legally mandated under the Copyright Act 1968. Perkins Publisher handles your electronic deposit automatically.
+* In New Zealand, the Legal Deposit Office in Wellington requires archival copies, which we register and confirm on your behalf.
+      `
+    },
+    {
+      id: 'ireland-book-publishing-guide',
+      silo: 'publishing',
+      title: 'Publishing Your Book in Ireland: Easons, Dubray & Dublin Legal Deposit',
+      readingTime: '8 min read',
+      excerpt: 'How Irish tech founders, academics, and fiction authors can publish world-class hardcovers with 100% royalties, EU VAT compliance, and Irish retail distribution.',
+      tags: ['Ireland Publishing', 'Dublin Authors', 'Easons Distribution', 'Trinity College Deposit'],
+      content: `
+### Publishing in Ireland’s Dynamic Literary and Tech Ecosystem
+From the Silicon Docks in Dublin to literary circles across Cork and Galway, Irish creators hold immense global authority. However, traditional Irish publishers often take 18–24 months to bring a manuscript to shelf.
+
+#### 1. The Modern Hybrid Advantage for Irish Leaders
+* **Speed to Market:** Launch your complete business handbook or novel in 60 to 90 days.
+* **100% Retained Royalties:** Paid in Euros (€) directly to Irish bank accounts via SEPA with zero withholding tax complications.
+* **EU Single Market Protection:** Published under full European Union intellectual property laws and EU Directive 2019/790.
+
+#### 2. Stocking in Easons, Dubray & Hodges Figgis
+By pairing Nielsen BookData Ireland registration with Ingram's UK/EU distribution channels, your paperback or casebound hardcover can be stocked and ordered in every premier bookshop across the Republic of Ireland.
+
+#### 3. Trinity College Dublin & National Library of Ireland
+Statutory deposit under the Irish Copyright and Related Rights Act 2000 is completed seamlessly, ensuring your literary legacy is permanently preserved in Ireland's historic legal archives.
+      `
     }
   ];
 

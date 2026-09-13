@@ -58,6 +58,9 @@ export default function Header({
 
   const locationsList = [
     { label: 'London & UK', id: 'location-uk-london', flag: '🇬🇧', desc: 'Waterstones & British Library deposit.' },
+    { label: 'Ireland (Dublin)', id: 'location-ireland', flag: '🇮🇪', desc: 'Easons, Dubray & Trinity College deposit.' },
+    { label: 'Australia (Sydney/Melb)', id: 'location-australia', flag: '🇦🇺', desc: 'Dymocks, NED deposit & local AU printing.' },
+    { label: 'New Zealand (Auckland)', id: 'location-new-zealand', flag: '🇳🇿', desc: 'Whitcoulls, Paper Plus & NZD royalties.' },
     { label: 'Deutschland & DACH', id: 'location-germany-berlin', flag: '🇩🇪', desc: 'Thalia, VLB & German print-on-demand.' },
     { label: 'Switzerland (Zurich)', id: 'location-switzerland-zurich', flag: '🇨🇭', desc: 'Wealth managers & corporate founders.' },
     { label: 'Għajnsielem HQ (Malta)', id: 'location-malta', flag: '🇲🇹', desc: 'Verified European Union headquarters.' },
@@ -247,19 +250,19 @@ export default function Header({
               </div>
             </div>
 
-            {/* Regional European Desks Dropdown */}
+            {/* Regional & Global Desks Dropdown */}
             <div className="relative group py-2">
               <button
                 className={`text-xs font-black uppercase tracking-wider transition-all hover:text-amber-600 flex items-center gap-1 cursor-pointer ${
                   activePage.startsWith('location-') ? 'text-blue-900 border-b-2 border-amber-500 pb-1' : 'text-gray-600'
                 }`}
               >
-                <span>EU Desks</span>
+                <span>Global Desks</span>
                 <ChevronDown size={14} className="text-gray-400" />
               </button>
               
-              <div className="absolute top-full left-0 hidden group-hover:block w-72 bg-white border border-gray-150 p-4 rounded-2xl shadow-2xl animate-scaleUp z-50">
-                <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-3 border-b border-gray-100 pb-2">Regional Publishing Desks</p>
+              <div className="absolute top-full left-0 hidden group-hover:block w-80 bg-white border border-gray-150 p-4 rounded-2xl shadow-2xl animate-scaleUp z-50">
+                <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-3 border-b border-gray-100 pb-2">Global & Regional Publishing Desks</p>
                 <div className="space-y-1">
                   {locationsList.map((loc) => (
                     <button
@@ -400,13 +403,13 @@ export default function Header({
               )}
             </div>
 
-            {/* Mobile EU Desks Accordion */}
+            {/* Mobile Global Desks Accordion */}
             <div className="space-y-1">
               <button
                 onClick={() => setMobileLocationsOpen(!mobileLocationsOpen)}
                 className="w-full text-left py-2 px-3 rounded-md text-xs font-black uppercase tracking-wider text-slate-700 hover:bg-gray-50 flex justify-between items-center"
               >
-                <span>EU Desks</span>
+                <span>Global Desks</span>
                 <ChevronDown size={14} className={`transition-transform ${mobileLocationsOpen ? 'rotate-180' : ''}`} />
               </button>
               {mobileLocationsOpen && (

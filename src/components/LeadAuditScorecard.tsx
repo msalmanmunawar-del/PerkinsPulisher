@@ -37,6 +37,7 @@ const AUDIT_QUESTIONS: AuditQuestion[] = [
     options: [
       { text: 'I do not know how global wholesale distribution works.', score: 5, tip: 'Read our latest manual on syncing IngramSpark with Amazon KDP so you retain 100% of all royalties.' },
       { text: 'I plan to publish on Amazon only.', score: 15, tip: 'Amazon is massive, but you lose up to 40% of prospective buyers who prefer Barnes & Noble, Apple, or Kobo.' },
+      { text: 'Wide Global & Commonwealth (UK, Australia, NZ, Ireland & EU bookstores).', score: 35, tip: 'We configure custom ISBNs and distribute to Dymocks, Easons, Waterstones, and 40,000+ networks including digital libraries.' },
       { text: 'Fully wide (Amazon, local indie bookstores, academic catalogs).', score: 30, tip: 'We configure custom ISBN registrations and distribute to 40,000+ networks including digital libraries.' }
     ]
   },

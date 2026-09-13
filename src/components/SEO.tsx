@@ -33,19 +33,31 @@ export default function SEO({ activePage, subId }: SEOProps) {
       if (locId === 'uk-london') {
         title = 'Book Publishing & Ghostwriting Services London & UK | Perkins Publishers';
         description = 'Top-rated hybrid book publishing for British entrepreneurs, keynote speakers, and authors in London and across the UK. 100% royalties in GBP (£), British Library legal deposit, and Waterstones distribution.';
-        canonical = 'https://perkinspublisher.com/#/location-uk-london';
+        canonical = 'https://perkinspublisher.com/locations/uk-london';
       } else if (locId === 'germany-berlin') {
         title = 'Buchveröffentlichung & Ghostwriting Deutschland & DACH | Perkins Publishers';
         description = 'Führender Hybrid-Verlag für Autoren, Geschäftsführer und Berater in Deutschland, Österreich und der Schweiz. 100% Tantiemen in EUR, VLB-Listung und Thalia Buchhandelsvertrieb.';
-        canonical = 'https://perkinspublisher.com/#/location-germany-berlin';
+        canonical = 'https://perkinspublisher.com/locations/germany-berlin';
       } else if (locId === 'switzerland-zurich') {
         title = 'Executive Book Publishing Zurich & Geneva | Switzerland | Perkins Publishers';
         description = 'Prestige hardcover book publishing and memoirs for Swiss wealth managers, founders, and consultants in Zurich, Geneva, and Basel. 100% rights retention and international distribution.';
-        canonical = 'https://perkinspublisher.com/#/location-switzerland-zurich';
+        canonical = 'https://perkinspublisher.com/locations/switzerland-zurich';
+      } else if (locId === 'australia') {
+        title = 'Book Publishing & Ghostwriting Services Australia | Perkins Publishers Sydney & Melbourne';
+        description = 'Premier hybrid book publishing for Australian founders, consultants, and authors. 100% AUD royalties, Dymocks & Booktopia distribution, Thorpe-Bowker ISBNs, and National Library of Australia (NED) legal deposit.';
+        canonical = 'https://perkinspublisher.com/locations/australia';
+      } else if (locId === 'new-zealand') {
+        title = 'Book Publishing & Ghostwriting New Zealand | Perkins Publishers Auckland & Wellington';
+        description = 'Bespoke book publishing for Kiwi entrepreneurs and authors across New Zealand. Whitcoulls & Paper Plus distribution, 100% NZD royalties, and National Library of NZ legal deposit compliance.';
+        canonical = 'https://perkinspublisher.com/locations/new-zealand';
+      } else if (locId === 'ireland') {
+        title = 'Book Publishing & Ghostwriting Services Ireland & Dublin | Perkins Publishers';
+        description = 'Elite hybrid book publishing for Irish tech executives, academics, and novelists in Dublin, Cork, and Galway. Easons & Dubray distribution, Trinity College deposit, and 100% EUR royalties.';
+        canonical = 'https://perkinspublisher.com/locations/ireland';
       } else {
         title = 'Perkins Publisher Headquarters | Għajnsielem, Malta & Mediterranean Hub';
         description = 'Official European headquarters of Perkins Publisher in Għajnsielem, Gozo, Malta. Hybrid book publishing, ghostwriting, and worldwide distribution under EU copyright laws.';
-        canonical = 'https://perkinspublisher.com/#/location-malta';
+        canonical = 'https://perkinspublisher.com/locations/malta';
       }
     } else if (activePage === 'knowledge-hub' || activePage.startsWith('hub-')) {
       title = 'European Publishing Knowledge Hub | EU & UK Self-Publishing Guides & Tutorials';
@@ -62,15 +74,19 @@ export default function SEO({ activePage, subId }: SEOProps) {
     } else if (activePage === 'seo-scorecard') {
       title = 'European Book Launch Audit & Amazon SEO Scorecard | Perkins Publishers Malta';
       description = 'Audit your book proposal, European Amazon keyword competitiveness, and global SEO indexing triggers. Claim your actionable publication roadmap for maximum visibility.';
-      canonical = 'https://perkinspublisher.com/scorecard';
+      canonical = 'https://perkinspublisher.com/seo-scorecard';
     } else if (activePage === 'privacy') {
       title = 'Privacy Policy & GDPR Compliance | Perkins Publishers Għajnsielem, Malta';
       description = 'Read the Perkins Publishers Privacy Policy regarding GDPR compliance, European data protection, secure data transmission, and confidential communication standards.';
-      canonical = 'https://perkinspublisher.com/#/privacy';
+      canonical = 'https://perkinspublisher.com/privacy';
     } else if (activePage === 'terms') {
       title = 'Terms of Service & 100% Royalty Protection | Perkins Publishers Europe';
       description = 'Review our European publishing terms, author intellectual property rights under EU copyright laws, non-disclosure confidentiality covenants, and flat-rate service guarantees.';
-      canonical = 'https://perkinspublisher.com/#/terms';
+      canonical = 'https://perkinspublisher.com/terms';
+    } else if (activePage === 'search-console') {
+      title = 'Search Console & Production Verification | Perkins Publishers';
+      description = 'Google Search Console, sitemap inspection, and indexing diagnostic portal for Perkins Publishers.';
+      canonical = 'https://perkinspublisher.com/search-console';
     }
 
     // Update document head
@@ -279,7 +295,7 @@ export default function SEO({ activePage, subId }: SEOProps) {
           '@type': 'ListItem',
           'position': 2,
           'name': 'Services',
-          'item': 'https://perkinspublisher.com/#services'
+          'item': 'https://perkinspublisher.com/'
         });
         pageLabel = activePage.replace('service-', '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
       } else if (activePage.startsWith('industry-')) {
@@ -290,6 +306,14 @@ export default function SEO({ activePage, subId }: SEOProps) {
           'item': 'https://perkinspublisher.com/'
         });
         pageLabel = activePage.replace('industry-', '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      } else if (activePage.startsWith('location-')) {
+        breadcrumbList.itemListElement.push({
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'Locations',
+          'item': 'https://perkinspublisher.com/'
+        });
+        pageLabel = activePage.replace('location-', '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
       }
       
       breadcrumbList.itemListElement.push({
