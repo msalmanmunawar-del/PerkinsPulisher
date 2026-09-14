@@ -35,8 +35,10 @@ export default function Header({
   }, []);
 
   const servicesList = [
+    { label: 'Book Publishing & Distribution', id: 'service-publishing', desc: 'Amazon, Ingram & 40,000+ bookstores worldwide.' },
     { label: 'Ghostwriting Services', id: 'service-ghostwriting', desc: 'Work with NYT bestselling biographers.' },
     { label: 'Elite Editorial & Proofing', id: 'service-editing', desc: 'Grammar, style, and flow refinement.' },
+    { label: 'Custom Cover Design & Layout', id: 'service-cover-design', desc: 'Award-winning book jackets and interior typesetting.' },
     { label: 'Amazon KDP Setup', id: 'service-kdp', desc: 'Self-publishing metadata and uploads.' },
     { label: 'Business & Authority Books', id: 'service-business', desc: 'Lead generation and prestige assets.' },
     { label: 'Memoirs & Legacy Books', id: 'service-memoirs', desc: 'Preserve personal histories in foil linen.' },

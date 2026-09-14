@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { 
   BookOpen, Sparkles, PenTool, CheckCircle, ArrowRight, DollarSign, 
   HelpCircle, ChevronDown, Award, Shield, Users, Mic, Layers, Star, 
-  Clock, CheckSquare, Settings, FileText, Send, HelpCircle as HelpIcon, Play, Pause, ListTodo
+  Clock, CheckSquare, Settings, FileText, Send, HelpCircle as HelpIcon, Play, Pause, ListTodo,
+  Palette, Globe, Layout, Check
 } from 'lucide-react';
 
 interface DynamicServicePageProps {
@@ -78,6 +79,64 @@ export default function DynamicServicePage({
             { q: 'How long does a full edit take?', a: 'Typically 3 to 5 weeks depending on your word count and the depth of editing required.' }
           ],
           authorSpotlight: 'Led by chief editorial supervisor Zhana Xuere, our editorial team has combined experience of over 40 years preparing manuscripts for bestselling status.'
+        };
+      case 'cover-design':
+        return {
+          title: 'Custom Book Cover Design & Interior Typesetting',
+          subtitle: 'Award-Winning Graphic Design for Hardcovers, Paperbacks & Digital Editions',
+          description: 'Your cover is an author’s single most influential marketing asset. Our award-winning art directors craft striking jacket wrappers, mathematically precise spine calculations, custom typography, and elite interior book formatting that captivate readers both on physical retail tables and in Amazon search thumbnails.',
+          tagline: 'DESIGNS THAT ARREST ATTENTION. INTERIORS CRAFTED FOR READABILITY.',
+          stat1: '480+ Bestseller Covers Crafted',
+          stat2: '3 Custom Visual Directions',
+          stat3: '100% Print-Wrap Precision',
+          features: [
+            '3 distinct conceptual cover design directions created after deep genre and comp-title market research',
+            'Full print-ready jacket wraps (Front, Spine, and Back cover with barcode and synopsis typography)',
+            'Mathematical spine thickness calculations matched to your exact page count and paper stock (50lb vs 70lb)',
+            'Interior typesetting and page layout with custom drop caps, section breaks, and running headers',
+            'Photorealistic 3D vector book mockups for social media promotions, Kickstarter, and Amazon A+ detail pages'
+          ],
+          process: [
+            { step: '01', title: 'Creative Brief & Analysis', desc: 'Analyzing your book’s tone, themes, target demographic, and bestselling comp titles in your category.' },
+            { step: '02', title: '3 Visual Concept Directions', desc: 'Developing three divergent artistic directions (illustrative, typographic, and cinematic) for your review.' },
+            { step: '03', title: 'Full Wrap & Spine Math', desc: 'Engineering mathematically exact spine widths, bleeds, and crop marks for Amazon KDP and IngramSpark.' },
+            { step: '04', title: 'Interior Typesetting', desc: 'Formatting interior page layouts, margin gutters, chapter titles, and export to print-ready PDF and EPUB.' }
+          ],
+          faqs: [
+            { q: 'Do I get the source files and commercial copyright?', a: 'Yes. You receive 100% full commercial copyright ownership and all final high-resolution files (layered PSD, print-ready PDF, and digital formats).' },
+            { q: 'How do you determine spine thickness?', a: 'Spine thickness is calculated using exact paper caliper formulas based on your final page count and chosen paper stock (e.g., 50# cream vs 50# white).' },
+            { q: 'Can you work with my existing illustration or photography?', a: 'Absolutely. Our senior designers can incorporate, retouch, color-grade, and elevate your personal assets to meet commercial standards.' }
+          ],
+          authorSpotlight: 'Coordinated by senior art director Stephanie Weldon, our cover designs have earned accolades from independent publishing associations and top industry awards.'
+        };
+      case 'publishing':
+        return {
+          title: 'Turnkey Book Publishing & Global Distribution',
+          subtitle: 'From Raw Manuscript to Global Physical & Digital Bookstore Shelves',
+          description: 'Take full command of your publishing journey. We handle every technical, administrative, and legal requirement to publish your paperback, collector hardcover, and digital eBook across 40,000+ bookstores, libraries, and online portals worldwide.',
+          tagline: 'TOTAL INDEPENDENCE. WORLDWIDE REACH. 100% ROYALTIES.',
+          stat1: '1,400+ Titles Distributed',
+          stat2: '40,000+ Bookstores & Libraries',
+          stat3: '100% Royalties to Author',
+          features: [
+            'Direct global distribution across Amazon, Barnes & Noble, Waterstones, Apple Books, and IngramSpark',
+            'Official Bowker ISBN registration, EAN barcode generation, and formal U.S. Copyright Office filings',
+            'Premium print-on-demand configuration with hardcover case laminate, cloth linen, and jacket options',
+            'BISAC subject codes, search metadata optimization, and Amazon KDP category selection',
+            'Direct author royalty account setup: all retail payouts flow directly into your own bank account'
+          ],
+          process: [
+            { step: '01', title: 'Catalog Registration', desc: 'Securing dedicated ISBNs, registering metadata in Global Books in Print, and setting up legal copyright.' },
+            { step: '02', title: 'Distribution Onboarding', desc: 'Integrating your title into the Ingram Global Catalog, Amazon KDP, and international digital distributors.' },
+            { step: '03', title: 'Metadata Optimization', desc: 'Assigning targeted BISAC codes and high-converting keyword metadata for maximum search discoverability.' },
+            { step: '04', title: 'Global Launch Push', desc: 'Authorizing global availability, coordinating initial physical proof copies, and activating live retail orders.' }
+          ],
+          faqs: [
+            { q: 'How do bookstores and libraries order my book?', a: 'Your title is made available through the Ingram Wholesale Catalog, allowing brick-and-mortar bookstores and libraries worldwide to order directly at standard trade discounts.' },
+            { q: 'Do you take any percentage of my book royalties?', a: 'Zero. Perkins Publisher operates on a transparent service-for-hire model. You keep 100% of all royalties, retail revenues, and intellectual property.' },
+            { q: 'Can I order author copies at cost?', a: 'Yes! You can order print copies directly from the printing plant at raw wholesale print costs (typically $3 to $6 per book) with no markups.' }
+          ],
+          authorSpotlight: 'Our publishing team ensures your book adheres to the exact same production specifications as the Big 5 traditional publishing imprints.'
         };
       case 'kdp':
         return {
@@ -374,6 +433,44 @@ export default function DynamicServicePage({
 
   // Interactive states for Audiobook casting
   const [playingAudition, setPlayingAudition] = useState<string | null>(null);
+
+  // Interactive states for Cover Design & Spine Spec Grader
+  const [coverTrimSize, setCoverTrimSize] = useState('6x9');
+  const [coverPaperStock, setCoverPaperStock] = useState('cream50');
+  const [coverPageCount, setCoverPageCount] = useState(280);
+  const [coverPreviewStyle, setCoverPreviewStyle] = useState('minimalist');
+
+  // Interactive states for Global Distribution Network
+  const [distFilter, setDistFilter] = useState<'all' | 'retail' | 'libraries'>('all');
+
+  // Compute Cover Wrap & Spine Math
+  const computeCoverSpecs = () => {
+    const ppi = coverPaperStock === 'cream50' ? 444 : coverPaperStock === 'white50' ? 500 : 380;
+    const spineWidthInches = coverPageCount / ppi;
+    const spineWidthMm = spineWidthInches * 25.4;
+    
+    const trimDimensions: Record<string, { width: number; height: number; name: string }> = {
+      '5.5x8.5': { width: 5.5, height: 8.5, name: '5.5" × 8.5" (Trade Fiction)' },
+      '6x9': { width: 6.0, height: 9.0, name: '6.0" × 9.0" (Standard Bestseller)' },
+      '7x10': { width: 7.0, height: 10.0, name: '7.0" × 10.0" (Executive Manual)' },
+      '8.5x11': { width: 8.5, height: 11.0, name: '8.5" × 11.0" (Workbook / Illustrated)' }
+    };
+    
+    const trim = trimDimensions[coverTrimSize] || trimDimensions['6x9'];
+    const totalWrapWidth = 0.125 + trim.width + spineWidthInches + trim.width + 0.125;
+    const totalWrapHeight = 0.125 + trim.height + 0.125;
+
+    return {
+      spineInches: spineWidthInches.toFixed(3),
+      spineMm: spineWidthMm.toFixed(1),
+      trimName: trim.name,
+      wrapWidth: totalWrapWidth.toFixed(3),
+      wrapHeight: totalWrapHeight.toFixed(3),
+      safeMargin: '0.25"'
+    };
+  };
+
+  const coverSpecs = computeCoverSpecs();
 
   // Compute KDP Royalties
   const computeKdpRoyalties = () => {
@@ -805,8 +902,230 @@ export default function DynamicServicePage({
             </div>
           )}
 
+          {/* Interactive Widget 6: Cover Design & Spine Width Calculator */}
+          {serviceId === 'cover-design' && (
+            <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xl space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 gap-2">
+                <h3 className="text-md font-black uppercase text-amber-400">Book Spine & Print-Wrap Dimension Grader</h3>
+                <span className="text-[10px] font-black uppercase tracking-wider bg-amber-500/10 text-amber-300 border border-amber-500/20 px-2.5 py-1 rounded-full w-fit">
+                  Amazon KDP & IngramSpark Caliper Math
+                </span>
+              </div>
+
+              <div className="grid md:grid-cols-12 gap-8 items-start">
+                {/* Inputs Column */}
+                <div className="md:col-span-6 space-y-5">
+                  <div className="space-y-2">
+                    <label className="block text-[10px] font-black uppercase text-slate-400 tracking-widest">Target Trim Size</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { id: '5.5x8.5', label: '5.5" × 8.5"', desc: 'Trade Fiction / Memoir' },
+                        { id: '6x9', label: '6" × 9"', desc: 'Standard Bestseller' },
+                        { id: '7x10', label: '7" × 10"', desc: 'Executive Manual' },
+                        { id: '8.5x11', label: '8.5" × 11"', desc: 'Workbook / Large' }
+                      ].map(item => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => setCoverTrimSize(item.id)}
+                          className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                            coverTrimSize === item.id 
+                              ? 'bg-amber-500 text-blue-950 border-amber-500 font-black' 
+                              : 'bg-slate-800/60 text-slate-300 border-slate-700 hover:bg-slate-800'
+                          }`}
+                        >
+                          <div className="text-xs font-black">{item.label}</div>
+                          <div className={`text-[9px] ${coverTrimSize === item.id ? 'text-blue-950 font-bold' : 'text-slate-400 font-medium'}`}>{item.desc}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-[10px] font-black uppercase text-slate-400 tracking-widest">Interior Paper Stock</label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { id: 'cream50', label: '50# Cream', desc: 'Fiction / Warm' },
+                        { id: 'white50', label: '50# White', desc: 'Non-Fiction' },
+                        { id: 'color70', label: '70# Color', desc: 'Premium Art' }
+                      ].map(stock => (
+                        <button
+                          key={stock.id}
+                          type="button"
+                          onClick={() => setCoverPaperStock(stock.id)}
+                          className={`p-2 rounded-xl border text-center transition-all cursor-pointer ${
+                            coverPaperStock === stock.id 
+                              ? 'bg-amber-500 text-blue-950 border-amber-500 font-black' 
+                              : 'bg-slate-800/60 text-slate-300 border-slate-700 hover:bg-slate-800'
+                          }`}
+                        >
+                          <div className="text-xs font-black">{stock.label}</div>
+                          <div className={`text-[8px] ${coverPaperStock === stock.id ? 'text-blue-950 font-bold' : 'text-slate-400 font-medium'}`}>{stock.desc}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs font-bold text-slate-300">
+                      <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Total Formatted Pages</span>
+                      <span className="text-amber-400 font-black">{coverPageCount} Pages (~{Math.round(coverPageCount * 260).toLocaleString()} words)</span>
+                    </div>
+                    <input 
+                      type="range" 
+                      min={100} 
+                      max={650} 
+                      step={10} 
+                      value={coverPageCount} 
+                      onChange={(e) => setCoverPageCount(parseInt(e.target.value))}
+                      className="w-full accent-amber-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-[10px] font-black uppercase text-slate-400 tracking-widest">Art Direction Style</label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { id: 'minimalist', label: 'Minimalist Foil', icon: 'Sparkles' },
+                        { id: 'cinematic', label: 'Cinematic Story', icon: 'Palette' },
+                        { id: 'commercial', label: 'Bold High-Contrast', icon: 'Layout' }
+                      ].map(dir => (
+                        <button
+                          key={dir.id}
+                          type="button"
+                          onClick={() => setCoverPreviewStyle(dir.id)}
+                          className={`p-2 rounded-xl border text-center transition-all cursor-pointer ${
+                            coverPreviewStyle === dir.id 
+                              ? 'bg-amber-500 text-blue-950 border-amber-500 font-black' 
+                              : 'bg-slate-800/60 text-slate-300 border-slate-700 hover:bg-slate-800'
+                          }`}
+                        >
+                          <div className="text-[10px] font-black uppercase">{dir.label}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Output Specifications Column */}
+                <div className="md:col-span-6 bg-slate-800/60 p-6 rounded-2xl border border-slate-800 space-y-4">
+                  <h4 className="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center justify-between">
+                    <span>Engineered Print-Wrap File Specs</span>
+                    <span className="text-emerald-400 text-[10px]">300 DPI CMYK</span>
+                  </h4>
+                  
+                  <div className="space-y-3 divide-y divide-slate-800">
+                    <div className="flex justify-between text-xs font-semibold py-2">
+                      <span className="text-slate-400">Selected Trim Model</span>
+                      <span className="text-white font-bold">{coverSpecs.trimName}</span>
+                    </div>
+                    <div className="flex justify-between text-xs font-semibold py-2 items-center">
+                      <span className="text-slate-400">Calculated Spine Width</span>
+                      <div className="text-right">
+                        <span className="text-amber-400 font-black text-sm">{coverSpecs.spineInches}"</span>
+                        <span className="text-slate-400 text-[10px] ml-1.5">({coverSpecs.spineMm} mm)</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between text-xs font-semibold py-2">
+                      <span className="text-slate-400">Full Print Wrap (W × H with Bleed)</span>
+                      <span className="text-white font-black">{coverSpecs.wrapWidth}" × {coverSpecs.wrapHeight}"</span>
+                    </div>
+                    <div className="flex justify-between text-xs font-semibold py-2">
+                      <span className="text-slate-400">Text Safe Zone Margin</span>
+                      <span className="text-white font-bold">{coverSpecs.safeMargin} interior margin</span>
+                    </div>
+                    <div className="flex justify-between text-xs font-semibold py-2">
+                      <span className="text-slate-400">3D Mockup Asset Formats</span>
+                      <span className="text-amber-300 font-bold">Hardcover + Paperback + EPUB</span>
+                    </div>
+                  </div>
+
+                  <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-xl text-[10px] text-amber-300 font-bold leading-relaxed space-y-1">
+                    <p>✨ <strong>Perkins 3-Direction Guarantee:</strong> We provide 3 completely unique, hand-crafted visual cover concepts before finalizing typography, back-cover blurb layout, and barcode placement.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Interactive Widget 7: Full Publishing & Global Distribution Explorer */}
+          {serviceId === 'publishing' && (
+            <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xl space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 gap-2">
+                <h3 className="text-md font-black uppercase text-amber-400">Global Bookstore Distribution Network</h3>
+                <div className="flex items-center gap-1.5 bg-slate-800 p-1 rounded-lg text-[10px] font-black">
+                  <button
+                    type="button"
+                    onClick={() => setDistFilter('all')}
+                    className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${distFilter === 'all' ? 'bg-amber-500 text-blue-950' : 'text-slate-400 hover:text-white'}`}
+                  >
+                    All Channels (40k+)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDistFilter('retail')}
+                    className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${distFilter === 'retail' ? 'bg-amber-500 text-blue-950' : 'text-slate-400 hover:text-white'}`}
+                  >
+                    Major Retailers
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDistFilter('libraries')}
+                    className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${distFilter === 'libraries' ? 'bg-amber-500 text-blue-950' : 'text-slate-400 hover:text-white'}`}
+                  >
+                    Libraries & Academic
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { name: 'Amazon Worldwide', type: 'retail', reach: '13 National Marketplaces', tag: 'Print + eBook', icon: 'Globe' },
+                  { name: 'Ingram Wholesale', type: 'retail', reach: '40,000+ Bookstores & Hubs', tag: 'Global Catalog', icon: 'BookOpen' },
+                  { name: 'Barnes & Noble', type: 'retail', reach: '600+ US Stores & Online', tag: 'Trade & Hardcover', icon: 'Sparkles' },
+                  { name: 'Waterstones (UK)', type: 'retail', reach: '280+ UK High Street Stores', tag: 'British National Dep.', icon: 'CheckCircle' },
+                  { name: 'Apple Books', type: 'retail', reach: '50+ Countries (iOS / Mac)', tag: 'Digital EPUB', icon: 'FileText' },
+                  { name: 'Public Libraries (OverDrive)', type: 'libraries', reach: '20,000+ Public Libraries', tag: 'Libby Lending App', icon: 'Users' },
+                  { name: 'Gardners & Bertrams', type: 'retail', reach: 'European Book Distribution', tag: 'UK & EU Print', icon: 'Globe' },
+                  { name: 'Bowker Books in Print', type: 'libraries', reach: 'Official Global Registry', tag: 'Dedicated ISBN', icon: 'Award' }
+                ]
+                .filter(item => distFilter === 'all' || item.type === distFilter)
+                .map((ch, idx) => (
+                  <div key={idx} className="bg-slate-800/60 border border-slate-800 rounded-2xl p-3.5 space-y-2 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[9px] font-black uppercase text-amber-400 tracking-wider">{ch.tag}</span>
+                        <Check size={12} className="text-emerald-400" />
+                      </div>
+                      <p className="text-xs font-black text-white mt-1">{ch.name}</p>
+                      <p className="text-[10px] text-slate-400 font-semibold">{ch.reach}</p>
+                    </div>
+                    <div className="text-[9px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 w-fit">
+                      100% Author Royalties
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid sm:grid-cols-3 gap-4 pt-2">
+                <div className="bg-slate-800/40 p-4 rounded-xl border border-slate-800 text-center space-y-1">
+                  <div className="text-2xl font-black text-amber-400">100%</div>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Royalties Directly to You</p>
+                </div>
+                <div className="bg-slate-800/40 p-4 rounded-xl border border-slate-800 text-center space-y-1">
+                  <div className="text-2xl font-black text-amber-400">0%</div>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Rights or Revenue Surrendered</p>
+                </div>
+                <div className="bg-slate-800/40 p-4 rounded-xl border border-slate-800 text-center space-y-1">
+                  <div className="text-2xl font-black text-amber-400">195+</div>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Countries with Local POD Fulfillment</p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Fallback general interactive launch week planner */}
-          {serviceId !== 'kdp' && serviceId !== 'editing' && serviceId !== 'ghostwriting' && serviceId !== 'children' && serviceId !== 'audiobook' && (
+          {serviceId !== 'kdp' && serviceId !== 'editing' && serviceId !== 'ghostwriting' && serviceId !== 'children' && serviceId !== 'audiobook' && serviceId !== 'cover-design' && serviceId !== 'publishing' && (
             <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xl space-y-6">
               <h3 className="text-md font-black uppercase text-amber-400 border-b border-slate-800 pb-2">Launch Week campaign Elements</h3>
               <div className="grid sm:grid-cols-3 gap-4">

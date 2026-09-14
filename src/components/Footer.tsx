@@ -167,6 +167,16 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
             <h4 className="text-white text-[11px] font-black tracking-widest uppercase">CREATIVE SOLUTIONS</h4>
             <ul className="space-y-2.5 font-bold">
               <li>
+                <button onClick={() => handleNav('service-publishing')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
+                  Turnkey Book Publishing & Distribution
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('service-cover-design')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
+                  Book Cover Design & Typesetting
+                </button>
+              </li>
+              <li>
                 <button onClick={() => handleNav('service-ghostwriting')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
                   Professional Ghostwriting
                 </button>

@@ -4,4 +4,4 @@ User-agent: *
 Allow: /
 
 # Specifically request crawlers to read our high fidelity sitemap
-Sitemap: https://perkinspublisher.com/sitemap.xml
+Sitemap: https://www.perkinspublisher.com/sitemap.xml
