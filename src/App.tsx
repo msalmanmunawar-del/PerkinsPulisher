@@ -140,13 +140,25 @@ export default function App() {
     if (pathname === '/' || pathname === '') {
       return 'home';
     }
+    if (pathname === '/services') {
+      setTimeout(() => {
+        document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+      return 'home';
+    }
     if (pathname.startsWith('/services/')) {
       const serviceId = pathname.replace('/services/', '').trim();
       return serviceId ? `service-${serviceId}` : 'home';
     }
+    if (pathname === '/industries') {
+      return 'home';
+    }
     if (pathname.startsWith('/industries/')) {
       const industryId = pathname.replace('/industries/', '').trim();
       return industryId ? `industry-${industryId}` : 'home';
+    }
+    if (pathname === '/locations') {
+      return 'home';
     }
     if (pathname.startsWith('/locations/')) {
       const locationId = pathname.replace('/locations/', '').trim();

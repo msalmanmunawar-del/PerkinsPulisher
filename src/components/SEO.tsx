@@ -132,7 +132,51 @@ export default function SEO({ activePage, subId }: SEOProps) {
 
     const schemas: any[] = [];
 
-    // Add Breadcrumb List Schema
+    // Page label lookup matching actual visible website hierarchy
+    const pageNames: Record<string, string> = {
+      'service-ghostwriting': 'Book Ghostwriting',
+      'service-editing': 'Developmental Editing',
+      'service-publishing': 'Hybrid Publishing',
+      'service-kdp': 'Amazon KDP Publishing',
+      'service-cover-design': 'Cover & Interior Design',
+      'service-business': 'Business Thought Leadership',
+      'service-memoirs': 'Memoirs & Family Histories',
+      'service-children': 'Children’s Book Production',
+      'service-audiobook': 'Audiobook Production',
+      'service-marketing': 'Book Launch & PR',
+      'service-pr-branding': 'Executive Personal Branding',
+      'service-linkedin': 'LinkedIn Thought Leadership',
+      'service-podcast-speaking': 'Podcast & Keynote Booking',
+      'industry-coaches': 'Coaches & Mentors',
+      'industry-consultants': 'Management Consultants',
+      'industry-doctors': 'Physicians & Healthcare',
+      'industry-lawyers': 'Attorneys & Legal Professionals',
+      'industry-ceos': 'Founders & Tech Executives',
+      'location-uk-london': 'London & United Kingdom',
+      'location-germany-berlin': 'Berlin, Germany',
+      'location-switzerland-zurich': 'Zurich & Geneva, Switzerland',
+      'location-malta': 'Għajnsielem, Malta',
+      'location-ireland': 'Dublin, Ireland',
+      'location-australia': 'Sydney & Melbourne, Australia',
+      'location-new-zealand': 'Auckland & Wellington, NZ',
+      'knowledge-hub': 'Knowledge Hub',
+      'calculator': 'Cost Calculator',
+      'reviews': 'Author Reviews',
+      'seo-scorecard': 'Audit Scorecard',
+      'privacy': 'Privacy Policy',
+      'terms': 'Terms of Service',
+      'search-console': 'Search Console'
+    };
+
+    let pageLabel = pageNames[activePage];
+    if (!pageLabel) {
+      pageLabel = activePage.replace(/^(service|industry|location)-/, '')
+        .split('-')
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ');
+    }
+
+    // Exactly one valid BreadcrumbList representing actual visible hierarchy
     const breadcrumbList: any = {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
@@ -146,31 +190,27 @@ export default function SEO({ activePage, subId }: SEOProps) {
       ]
     };
 
-    let pageLabel = activePage.toUpperCase();
     if (activePage.startsWith('service-')) {
       breadcrumbList.itemListElement.push({
         '@type': 'ListItem',
         'position': 2,
         'name': 'Services',
-        'item': 'https://www.perkinspublisher.com/#services'
+        'item': 'https://www.perkinspublisher.com/services'
       });
-      pageLabel = activePage.replace('service-', '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     } else if (activePage.startsWith('industry-')) {
       breadcrumbList.itemListElement.push({
         '@type': 'ListItem',
         'position': 2,
         'name': 'Industries',
-        'item': 'https://www.perkinspublisher.com/#industries'
+        'item': 'https://www.perkinspublisher.com/industries'
       });
-      pageLabel = activePage.replace('industry-', '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     } else if (activePage.startsWith('location-')) {
       breadcrumbList.itemListElement.push({
         '@type': 'ListItem',
         'position': 2,
-        'name': 'Locations',
-        'item': 'https://www.perkinspublisher.com/#locations'
+        'name': 'Global Desks',
+        'item': 'https://www.perkinspublisher.com/locations'
       });
-      pageLabel = activePage.replace('location-', '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     }
     
     breadcrumbList.itemListElement.push({
