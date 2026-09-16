@@ -10,6 +10,11 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  // API health route FIRST (strictly compliant with container/reverse-proxy requirements)
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "ok" });
+  });
+
   // Middleware to parse incoming bodies as JSON
   app.use(express.json());
 
@@ -180,8 +185,12 @@ async function startServer() {
   }
 
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`🟢 [Perkins Backend] Running seamlessly on port ${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on port ${PORT}`);
   });
 }
 
-startServer();
+startServer().catch((err) => {
+  console.error("Failed to start server:", err);
+  process.exit(1);
+});

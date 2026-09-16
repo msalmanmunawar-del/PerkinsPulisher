@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <circle cx="200" cy="200" r="180" fill="none" stroke="#10223b" stroke-width="8" />
+  
+  <!-- Left Page (Navy with 3 white lines) -->
+  <path d="M 194 142 
+           C 152 125, 102 134, 75 152 
+           C 70 177, 70 216, 75 241 
+           C 102 225, 152 216, 194 233 Z" 
+        fill="#10223b" />
+        
+  <!-- 3 White Manuscript Lines -->
+  <line x1="96" y1="172" x2="175" y2="164" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+  <line x1="96" y1="194" x2="175" y2="186" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+  <line x1="96" y1="216" x2="175" y2="208" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+  
+  <!-- Golden Center Spine Accent -->
+  <rect x="195" y="140" width="10" height="95" rx="2" fill="#c59b27" />
+  
+  <!-- Right Page (Ochre Gold) -->
+  <path d="M 206 142 
+           C 248 125, 298 134, 325 152 
+           C 330 177, 330 216, 325 241 
+           C 298 225, 248 216, 206 233 Z" 
+        fill="#c59b27" />
+</svg>

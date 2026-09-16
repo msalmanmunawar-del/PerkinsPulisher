@@ -174,7 +174,7 @@ export default function DynamicServicePage({
           description: 'A premium, physical book is the single most powerful business card in the world. We specialize in helping entrepreneurs, founders, consultants, and speakers plan, write, and launch authority-building business books that command high-ticket client signatures, premium speaking fees, and massive industry prestige.',
           tagline: 'DO NOT JUST BUILD A BUSINESS. PUBLISH YOUR INDUSTRY STANDARD.',
           stat1: '180+ Authority Books Published',
-          stat2: 'Average 4.9x ROI on Leads',
+          stat2: 'High-Conversion Lead Pipeline',
           stat3: 'Instant Industry Prestige',
           features: [
             'Direct guidance on structuring your book as a premium lead generation asset',

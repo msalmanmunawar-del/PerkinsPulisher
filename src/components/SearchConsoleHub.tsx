@@ -792,7 +792,8 @@ export default function SearchConsoleHub() {
                   <p className="font-bold text-slate-900">Perkins Publisher</p>
                   <p className="text-[11px] text-slate-500 leading-snug">
                     Għajnsielem, Gozo, GSM 1010, Malta<br />
-                    Tel: +1 (803) 346-3495
+                    Int'l Calling Line: +1 (803) 346-3495<br />
+                    Local Malta Desk: +356 9944 4044
                   </p>
                   <div className="pt-1">
                     <a 

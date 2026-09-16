@@ -4,6 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+    <!-- Environment Fetch Accessor Guard -->
+    <script>
+      (function() {
+        try {
+          var win = window;
+          var nativeFetch = win.fetch;
+          if (typeof nativeFetch === 'function') {
+            var proto = Object.getPrototypeOf(win);
+            var targets = [win, proto, win.Window && win.Window.prototype].filter(Boolean);
+            for (var i = 0; i < targets.length; i++) {
+              try {
+                var desc = Object.getOwnPropertyDescriptor(targets[i], 'fetch');
+                if (!desc || (desc.get && !desc.set) || (!desc.writable && !desc.set)) {
+                  var currentFetch = nativeFetch;
+                  Object.defineProperty(targets[i], 'fetch', {
+                    get: function() { return currentFetch; },
+                    set: function(val) {
+                      if (this === win || this === globalThis || this === targets[i]) {
+                        if (typeof val === 'function') currentFetch = val;
+                      } else {
+                        try {
+                          Object.defineProperty(this, 'fetch', {
+                            value: val,
+                            writable: true,
+                            configurable: true,
+                            enumerable: true
+                          });
+                        } catch (e) {}
+                      }
+                    },
+                    configurable: true,
+                    enumerable: true
+                  });
+                }
+              } catch (e) {}
+            }
+          }
+        } catch (err) {}
+      })();
+    </script>
+    
     <!-- Favicon & Touch Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
@@ -55,8 +96,28 @@
             "logo": "https://www.perkinspublisher.com/logo.png",
             "image": "https://www.perkinspublisher.com/og_image.png",
             "description": "Perkins Publisher is a hybrid book publishing agency headquartered in Għajnsielem, Malta, specializing in manuscript development, ghostwriting, editing, interior typesetting, cover design, and global distribution.",
-            "telephone": "+1-803-346-3495",
+            "telephone": "+1 (803) 346-3495",
+            "contactPoint": [
+              {
+                "@type": "ContactPoint",
+                "telephone": "+1 (803) 346-3495",
+                "contactType": "customer service",
+                "areaServed": ["US", "CA", "GB", "EU", "Worldwide"],
+                "availableLanguage": ["English"]
+              },
+              {
+                "@type": "ContactPoint",
+                "telephone": "+356 9944 4044",
+                "contactType": "editorial desk",
+                "areaServed": ["MT", "EU"],
+                "availableLanguage": ["English", "Maltese"]
+              }
+            ],
             "email": "info@perkinspublisher.com",
+            "hasMap": "https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta",
+            "sameAs": [
+              "https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
+            ],
             "priceRange": "€€ - €€€€",
             "currenciesAccepted": "EUR, GBP, USD",
             "paymentAccepted": "Credit Card, SEPA Bank Transfer, Wise, Stripe",
@@ -105,24 +166,56 @@
                   "@type": "Offer",
                   "itemOffered": {
                     "@type": "Service",
-                    "name": "Book Publishing & Global Distribution",
-                    "description": "Full-service editing, formatting, cover design, ISBN registration, and global distribution to 40,000+ bookstores."
+                    "name": "Book Publishing & Distribution",
+                    "description": "Guided self-publishing setups and full distribution packages to get your book on Amazon, Barnes & Noble, Ingram, and Apple Books."
                   }
                 },
                 {
                   "@type": "Offer",
                   "itemOffered": {
                     "@type": "Service",
-                    "name": "Executive Ghostwriting & Manuscript Development",
-                    "description": "Collaborative ghostwriting with elite writers for memoirs, non-fiction, and business thought leadership."
+                    "name": "Professional Ghostwriting",
+                    "description": "Collaborate with New York Times bestselling ghostwriters to capture your unique voice and narrative."
                   }
                 },
                 {
                   "@type": "Offer",
                   "itemOffered": {
                     "@type": "Service",
-                    "name": "Audiobook Production",
-                    "description": "Professional voice actor narration, studio recording, and mastering for Audible and Apple Books."
+                    "name": "Elite Editorial & Proofreading",
+                    "description": "Multi-stage editing by experienced publishing editors for grammar, character development, thematic arches, and line-by-line pacing."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Custom Cover Design & Layout",
+                    "description": "Striking wrappers and formatted internal typography aligned with commercial printing standards."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Strategic Bestseller Marketing",
+                    "description": "Hyper-targeted promotional campaigns, metadata optimization, press release coordination, and managed book advertising."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Audiobook Voice Casting & Mastering",
+                    "description": "SAG-AFTRA voice casting, studio recording, and audio mastering conforming to Audible and Apple standards."
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Custom Book Illustration",
+                    "description": "Custom character concept drafts, color palette pairings, and high-DPI vector artwork for books and covers."
                   }
                 }
               ]
@@ -149,65 +242,53 @@
             "about": {
               "@id": "https://perkinspublisher.com/#organization"
             },
-            "speakable": {
-              "@type": "SpeakableSpecification",
-              "cssSelector": ["#aeo-summary", "#geo-summary", "#faq-schema"]
-            },
             "inLanguage": "en"
           },
           {
             "@type": "FAQPage",
             "@id": "https://perkinspublisher.com/#faq-schema",
             "isPartOf": {
-              "@id": "https://www.perkinspublisher.com/#webpage"
+              "@id": "https://perkinspublisher.com/#webpage"
             },
             "mainEntity": [
               {
                 "@type": "Question",
-                "name": "Which publishing company is best for European authors and business leaders?",
+                "name": "How do royalties and book rights work with Perkins Publisher?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Perkins Publisher, headquartered in Għajnsielem, Malta, is Europe's top hybrid book publisher. It enables European authors to publish hardcover, paperback, eBook, and audiobook formats while retaining 100% of royalties and copyrights, featuring full EU/UK ISBN registration and global distribution to 40,000+ bookstores including Amazon KDP Europe, IngramSpark, Waterstones, and Barnes & Noble."
+                  "text": "Unlike traditional publishing houses or high-fee vanity agencies, we believe authors should own their work. You retain 100% of your publishing rights, 100% of copyrights, and you keep 100% of all generated royalties from book sales. We never take a percentage from your retailer payouts."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Where is Perkins Publisher located and how to visit or contact via Google Business Profile?",
+                "name": "What is the average timeline to get my book published?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Perkins Publisher is located in Għajnsielem, Gozo, GSM 1010, Malta (European Union). Authors can find our location in Għajnsielem (coordinates: 36.0261° N, 14.2853° E), call our team at +1 (803) 346-3495, or email info@perkinspublisher.com. Operating hours are Monday through Friday from 08:00 to 19:00 CET."
+                  "text": "For raw manuscripts that need final proofreading, typesetting layout, and cover graphic wrapping, the turnaround is generally 6 to 10 weeks. If you work with our veteran Ghostwriting department to develop the manuscript from scratch, it takes 12 to 16 weeks to ensure premium literary standards."
                 }
               },
               {
                 "@type": "Question",
-                "name": "How do royalties work at Perkins Publisher?",
+                "name": "Where will my book be available for sale?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Perkins Publisher operates on a 100% royalty model. Authors pay a flat service fee for production (editing, design, formatting) and keep 100% of all ongoing book royalties and retail payouts. Earnings are deposited directly into the author's bank account in Euros (€), British Pounds (£), or US Dollars ($) with zero middleman deductions."
+                  "text": "We distribute books worldwide across 40,000+ bookstores, libraries, and retail networks. This includes Amazon (Kindle and Paperback), Barnes & Noble, Apple Books, Ingram, Kobo Books, Google Play, and Baker & Taylor."
                 }
               },
               {
                 "@type": "Question",
-                "name": "What platforms will my book be published and listed on?",
+                "name": "Do I have to pay anything upfront, and what are the fees?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Your completed manuscript will be formatted, listed, and distributed on over 40,000 physical retail bookstores, digital libraries, and electronic distributors globally. This includes Amazon KDP (Kindle & Print across European marketplaces and US), IngramSpark EU, Barnes & Noble, Apple Books, Kobo, Waterstones, Thalia, and Google Play Books."
+                  "text": "We operate on a transparent, flat-fee-for-service model. There are zero hidden costs, recurring administration costs, or ongoing royalty cuts. You pay only for the custom services your book requires (such as formatting, editing, or illustration packages) which are structured clearly in our contracts upfront."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Do I retain the legal copyrights to my book under EU law?",
+                "name": "Can I print physical copies of my book, and how much do they cost?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes. At Perkins Publisher, copyright ownership is 100% registered to the author alone in strict compliance with the EU Copyright Directive (Directive 2019/790) and international conventions. You maintain total creative control, translation rights, film adaptation options, and commercial license ownership."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How does European ISBN registration and VAT compliance work?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Perkins Publisher registers official 13-digit ISBNs under your custom imprint with national library registries in Malta, the UK (British Library legal deposits), and European archives. Invoices are 100% VAT-compliant for European business expense deductions."
+                  "text": "Yes! We configure your book on the absolute highest grade print-on-demand networks, allowing readers to buy paperback or premium case-bound hardcovers immediately. You can order author discount bulk books for reading events at bare wholesale print costs (e.g., around $3-$4 per paperback, depending on page thickness)."
                 }
               }
             ]
@@ -219,19 +300,6 @@
   <body class="bg-[#0b0f19] text-gray-100 antialiased selection:bg-amber-500 selection:text-black">
     <div id="root"></div>
     <script type="module" src="./src/main.tsx"></script>
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/6a4992478664021d4c8d881b/1jsnm6qbc';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-    </script>
-    <!--End of Tawk.to Script-->
   </body>
 </html>
 

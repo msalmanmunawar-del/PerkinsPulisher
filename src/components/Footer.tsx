@@ -1,6 +1,7 @@
-import { BookOpen, Mail, Phone, MapPin, ShieldCheck, Heart, Database, Star, ExternalLink, Clock, Navigation } from 'lucide-react';
+import { BookOpen, Mail, Phone, MapPin, ShieldCheck, Heart, Database, Star, ExternalLink, Clock, Navigation, Building2 } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { LogoConfig } from '../types';
+import PerkinsLogo from './PerkinsLogo';
 
 interface FooterProps {
   logoConfig: LogoConfig;
@@ -27,6 +28,15 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
 
   const renderLogo = () => {
     if (!logoConfig) return null;
+
+    if (logoConfig.type === 'emblem') {
+      return (
+        <PerkinsLogo 
+          variant="footer" 
+          markSize={40} 
+        />
+      );
+    }
 
     if (logoConfig.type === 'custom_svg' && logoConfig.customSvgMarkup) {
       return (
@@ -204,34 +214,55 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
             </ul>
           </div>
 
-          {/* Contact & GMB Local Authority Column */}
+          {/* Contact & Local Authority Column */}
           <div className="space-y-4 text-[11px]">
             <div className="flex items-center justify-between">
-              <h4 className="text-white text-[11px] font-black tracking-widest uppercase">GMB & LOCAL OFFICE</h4>
-              <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[9px] font-black px-1.5 py-0.5 rounded">
-                Google Verified
+              <h4 className="text-white text-[11px] font-black tracking-widest uppercase">EDITORIAL HEADQUARTERS</h4>
+              <span className="bg-emerald-950 text-emerald-300 border border-emerald-800 text-[9px] font-bold px-1.5 py-0.5 rounded">
+                Registered in Malta (EU)
               </span>
             </div>
 
-            {/* Google Rating Snippet */}
-            <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-2.5 space-y-1">
+            {/* Official Directory Card */}
+            <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-3 space-y-2">
               <div className="flex items-center gap-1.5">
-                <div className="flex text-amber-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={11} className="fill-amber-400" />
-                  ))}
-                </div>
-                <span className="text-white font-black text-[10px]">4.9 / 5.0</span>
+                <Building2 size={14} className="text-amber-400 shrink-0" />
+                <span className="text-white font-black text-[11px]">Perkins Publisher</span>
               </div>
-              <p className="text-[10px] text-slate-400 font-medium">320+ Verified Google Reviews</p>
+              <p className="text-[10px] text-slate-400 font-medium leading-relaxed">
+                Registered European publishing house headquartered in Gozo, Malta. Authors retain 100% royalties and rights.
+              </p>
+              <div className="flex flex-col gap-1.5 pt-1">
+                <a 
+                  href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[10px] text-amber-400 hover:text-amber-300 font-bold transition-colors cursor-pointer"
+                  title="View official business profile, photos, and verified reviews on Google Maps"
+                >
+                  <span>View Profile & Verified Reviews on Google Maps</span>
+                  <ExternalLink size={10} />
+                </a>
+                <a 
+                  href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[10px] text-blue-400 hover:text-blue-300 font-bold transition-colors cursor-pointer"
+                  title="Get directions to Perkins Publisher on Google Maps"
+                >
+                  <Navigation size={10} className="text-blue-400" />
+                  <span>Get Directions on Google Maps</span>
+                  <ExternalLink size={10} />
+                </a>
+              </div>
             </div>
 
             <div className="space-y-2.5 font-semibold text-slate-300">
               <div className="flex items-start gap-2.5">
                 <MapPin className="text-red-400 shrink-0 mt-0.5" size={14} />
                 <div>
-                  <p className="text-white font-bold">Għajnsielem, Gozo, GSM 1010</p>
-                  <p className="text-slate-400 text-[10px]">Malta (European Union)</p>
+                  <p className="text-white font-bold">Għajnsielem, Gozo, GSM 1010, Malta</p>
+                  <p className="text-slate-400 text-[10px]">European Union Legal Jurisdiction</p>
                 </div>
               </div>
 
@@ -240,10 +271,17 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
                 <span>Mon – Fri: 08:00 – 19:00 CET</span>
               </div>
 
-              <a href="tel:18033463495" className="flex items-center gap-2.5 hover:text-white transition-colors">
-                <Phone className="text-amber-500 shrink-0" size={14} />
-                <span>+1 (803) 346-3495</span>
-              </a>
+              <div className="space-y-1.5 pt-1">
+                <a href="tel:18033463495" className="flex items-center gap-2 hover:text-white transition-colors" title="International Calling Line (Global Desk)">
+                  <Phone className="text-amber-500 shrink-0" size={14} />
+                  <span className="text-white font-bold">+1 (803) 346-3495</span>
+                  <span className="text-[9px] bg-slate-800 text-amber-400 font-bold px-1.5 py-0.5 rounded border border-slate-700">Int'l Line</span>
+                </a>
+                <a href="tel:+35699444044" className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors pl-5 text-xs" title="Malta & EU Local Direct Desk">
+                  <span>+356 9944 4044</span>
+                  <span className="text-[9px] bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded border border-slate-700">Malta Desk</span>
+                </a>
+              </div>
 
               <a href="mailto:info@perkinspublisher.com" className="flex items-center gap-2.5 hover:text-white transition-colors">
                 <Mail className="text-amber-500 shrink-0" size={14} />
@@ -251,24 +289,13 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
               </a>
             </div>
 
-            {/* Direct Google Maps & GMB Profile Link */}
-            <div className="pt-2 flex flex-wrap gap-2">
-              <a 
-                href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 bg-blue-900/60 hover:bg-blue-800 text-blue-200 border border-blue-700/50 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition-colors"
-              >
-                <Navigation size={11} className="text-amber-400" />
-                <span>Google Maps Directions</span>
-                <ExternalLink size={9} />
-              </a>
-
+            {/* Quick GMB Card Navigation */}
+            <div className="pt-1">
               <button
                 onClick={() => handleNav('gmb-verified-profile')}
                 className="inline-flex items-center gap-1 text-[10px] text-amber-400 hover:underline font-bold cursor-pointer"
               >
-                View GMB Card →
+                <span>View Full GMB Entity & Credentials Matrix →</span>
               </button>
             </div>
           </div>

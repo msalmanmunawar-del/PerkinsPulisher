@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 620" width="800" height="620">
+  <defs>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&amp;display=swap");
+      .brand-title {
+        font-family: "Plus Jakarta Sans", "Liberation Sans", "DejaVu Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-weight: 800;
+        font-size: 64px;
+        fill: #10223b;
+        letter-spacing: 0.22em;
+        text-anchor: middle;
+      }
+      .brand-subtitle {
+        font-family: "Plus Jakarta Sans", "Liberation Sans", "DejaVu Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-weight: 700;
+        font-size: 34px;
+        fill: #c59b27;
+        letter-spacing: 0.35em;
+        text-anchor: middle;
+      }
+      .brand-tagline {
+        font-family: "Plus Jakarta Sans", "Liberation Sans", "DejaVu Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-weight: 600;
+        font-size: 15px;
+        fill: #5c6b7d;
+        letter-spacing: 0.22em;
+        text-anchor: middle;
+      }
+    </style>
+  </defs>
+
+  <!-- Circular Book Emblem Mark -->
+  <g id="brand-mark" transform="translate(400, 160)">
+    <!-- Outer Circle -->
+    <circle cx="0" cy="0" r="125" fill="none" stroke="#10223b" stroke-width="6" />
+
+    <!-- Open Book -->
+    <g transform="translate(0, 5)">
+      <!-- Left Page (Navy with 3 white lines) -->
+      <path d="M -5 -38 
+               C -35 -50, -74 -42, -94 -26 
+               C -98 -5, -98 25, -94 45 
+               C -74 31, -35 23, -5 37 
+               Z" 
+            fill="#10223b" />
+
+      <!-- 3 White Manuscript Lines -->
+      <line x1="-80" y1="-10" x2="-20" y2="-17" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+      <line x1="-80" y1="7" x2="-20" y2="0" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+      <line x1="-80" y1="24" x2="-20" y2="17" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+
+      <!-- Center Golden Spine Notch -->
+      <rect x="-4" y="-39" width="8" height="78" rx="1.5" fill="#c59b27" />
+
+      <!-- Right Page (Ochre Gold) -->
+      <path d="M 5 -38 
+               C 35 -50, 74 -42, 94 -26 
+               C 98 -5, 98 25, 94 45 
+               C 74 31, 35 23, 5 37 
+               Z" 
+            fill="#c59b27" />
+    </g>
+  </g>
+
+  <!-- Typography Lockup -->
+  <g transform="translate(400, 375)">
+    <!-- PERKINS -->
+    <text x="0" y="0" class="brand-title">PERKINS</text>
+
+    <!-- PUBLISHER -->
+    <text x="0" y="60" class="brand-subtitle">PUBLISHER</text>
+
+    <!-- Gold Accent Divider -->
+    <line x1="-95" y1="92" x2="95" y2="92" stroke="#c59b27" stroke-width="1.8" />
+
+    <!-- Tagline -->
+    <text x="0" y="128" class="brand-tagline">PUBLISHING  •  EDITING  •  AUTHOR BRANDING</text>
+  </g>
+</svg>

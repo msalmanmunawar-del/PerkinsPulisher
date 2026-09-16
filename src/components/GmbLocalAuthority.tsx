@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { 
   MapPin, 
-  Star, 
   ExternalLink, 
   Clock, 
   Phone, 
@@ -9,12 +8,15 @@ import {
   ShieldCheck, 
   CheckCircle2, 
   Navigation, 
-  Share2, 
   Globe, 
   Sparkles,
-  MessageSquare,
   Award,
-  Building2
+  Building2,
+  Copy,
+  Check,
+  FileCheck,
+  BookCheck,
+  Compass
 } from 'lucide-react';
 
 interface GmbLocalAuthorityProps {
@@ -23,14 +25,21 @@ interface GmbLocalAuthorityProps {
 
 export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthorityProps) {
   const [copiedAddress, setCopiedAddress] = useState(false);
+  const [copiedFullNap, setCopiedFullNap] = useState(false);
 
   const googleMapsUrl = 'https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta';
-  const googleReviewUrl = 'https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta';
 
   const copyAddressToClipboard = () => {
     navigator.clipboard.writeText('Perkins Publisher, Għajnsielem, Gozo, GSM 1010, Malta');
     setCopiedAddress(true);
     setTimeout(() => setCopiedAddress(false), 2500);
+  };
+
+  const copyFullNapToClipboard = () => {
+    const fullNap = `Business Name: Perkins Publisher\nAddress: Għajnsielem, Gozo, GSM 1010, Malta\nInternational Calling Line: +1 (803) 346-3495\nLocal Malta Desk: +356 9944 4044\nEmail: info@perkinspublisher.com\nWebsite: https://www.perkinspublisher.com/\nGoogle Maps: https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta`;
+    navigator.clipboard.writeText(fullNap);
+    setCopiedFullNap(true);
+    setTimeout(() => setCopiedFullNap(false), 2500);
   };
 
   return (
@@ -43,72 +52,105 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs font-black tracking-wider uppercase">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-            <span>Google Business Profile (GMB) Verified</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 text-amber-300 text-xs font-black tracking-wider uppercase">
+            <Building2 size={13} className="text-amber-400" />
+            <span>European Publishing Headquarters & Local Authority Desk</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
             European Headquarters & Local Authority
           </h2>
           <p className="text-sm text-slate-600 font-semibold leading-relaxed">
-            Verified local presence in <strong className="text-slate-900">Għajnsielem, Malta</strong> serving authors, entrepreneurs, and executives across the European Union, the UK, and international markets.
+            Verified local presence in <strong className="text-slate-900">Għajnsielem, Gozo, GSM 1010, Malta</strong> serving authors, entrepreneurs, and executives across the European Union, the UK, and international markets.
           </p>
+        </div>
+
+        {/* Google Recommendation Transparency Banner */}
+        <div className="bg-blue-50 border border-blue-200/80 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-xl bg-blue-900 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+              <Compass size={18} />
+            </div>
+            <div className="space-y-0.5">
+              <p className="text-xs font-black uppercase text-blue-950 tracking-wide">
+                Google Search & Business Profile Transparency Standard
+              </p>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                Rather than relying on unverified star widgets, Google recommends providing <strong>direct Google Maps links</strong> so visitors can inspect authentic customer reviews, office photos, and GPS directions directly on Google's platform, with <strong>100% exact NAP consistency</strong> and <strong>verifiable business credentials</strong>.
+              </p>
+            </div>
+          </div>
+          <a
+            href={googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold shrink-0 transition-colors shadow-sm"
+          >
+            <span>Inspect on Google Maps</span>
+            <ExternalLink size={12} />
+          </a>
         </div>
 
         {/* Main GMB & Local SEO Dashboard Card */}
         <div className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden grid lg:grid-cols-12">
           
-          {/* Left Column: GMB Profile Card (7 Cols) */}
+          {/* Left Column: Local Profile Card (7 Cols) */}
           <div className="lg:col-span-7 p-6 sm:p-10 space-y-8 flex flex-col justify-between">
             
-            {/* GMB Identity Header */}
+            {/* Business Identity Header */}
             <div className="space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  {/* Google Multicolor 'G' Icon Badge */}
-                  <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center justify-center p-2.5 shrink-0">
-                    <svg viewBox="0 0 24 24" className="w-full h-full" aria-label="Google">
-                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
-                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
-                    </svg>
+                  {/* Official Emblem Icon Badge */}
+                  <div className="w-12 h-12 rounded-2xl bg-blue-950 text-amber-400 border border-blue-900 shadow-sm flex items-center justify-center p-2.5 shrink-0">
+                    <Building2 size={24} />
                   </div>
                   <div>
                     <h3 className="text-xl sm:text-2xl font-black text-slate-950">
                       Perkins Publisher
                     </h3>
                     <p className="text-xs font-bold text-slate-500 flex items-center gap-1.5">
-                      <Building2 size={13} className="text-amber-600" />
-                      <span>Book Publisher • Għajnsielem, Malta</span>
+                      <MapPin size={13} className="text-amber-600" />
+                      <span>Book Publisher • Għajnsielem, Gozo, GSM 1010, Malta</span>
                     </p>
                   </div>
                 </div>
 
-                {/* Verified Pill */}
-                <div className="flex items-center gap-1.5 bg-blue-50 text-blue-900 border border-blue-200/80 px-3 py-1 rounded-full text-xs font-black">
-                  <ShieldCheck size={14} className="text-blue-700" />
-                  <span>Google Verified</span>
+                {/* Verified Location Pill */}
+                <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-900 border border-emerald-200/80 px-3 py-1 rounded-full text-xs font-black">
+                  <ShieldCheck size={14} className="text-emerald-700" />
+                  <span>Registered in Malta (EU)</span>
                 </div>
               </div>
 
-              {/* Rating and Reviews Line */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                <div className="flex items-center gap-1 text-amber-500">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={18} className="fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <span className="text-sm font-black text-slate-900">4.9 / 5.0</span>
-                <span className="text-xs text-slate-500 font-semibold">• 320+ Verified Author Reviews</span>
+              {/* Author Protection & Publishing Credentials */}
+              <div className="flex flex-wrap items-center gap-2.5 pt-2">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-lg">
+                  <CheckCircle2 size={13} className="text-emerald-600" />
+                  <span>100% Author Royalties & Rights</span>
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-lg">
+                  <CheckCircle2 size={13} className="text-emerald-600" />
+                  <span>EU ISBN & Legal Deposit</span>
+                </span>
+                <span className="text-xs text-slate-500 font-semibold">• 500+ Books Published</span>
               </div>
             </div>
 
             {/* Exact NAP (Name, Address, Phone, Hours) Section */}
             <div className="space-y-4 pt-4 border-t border-slate-100">
-              <h4 className="text-xs font-black uppercase text-slate-400 tracking-wider">
-                Official Business Listing Information (NAP)
-              </h4>
+              <div className="flex items-center justify-between">
+                <h4 className="text-xs font-black uppercase text-slate-400 tracking-wider">
+                  Official Business Listing Information (Exact NAP)
+                </h4>
+                <button
+                  onClick={copyFullNapToClipboard}
+                  className="text-[11px] text-blue-700 hover:text-blue-900 font-black inline-flex items-center gap-1 cursor-pointer transition-colors"
+                  title="Copy full NAP data block for audit verification"
+                >
+                  {copiedFullNap ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
+                  <span>{copiedFullNap ? '✓ Full NAP Copied!' : 'Copy Full NAP Data'}</span>
+                </button>
+              </div>
 
               <div className="grid sm:grid-cols-2 gap-4 text-xs font-semibold text-slate-700">
                 
@@ -116,7 +158,7 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
                 <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-150">
                   <MapPin className="text-red-500 shrink-0 mt-0.5" size={18} />
                   <div className="space-y-1">
-                    <p className="text-slate-900 font-black">Physical Address</p>
+                    <p className="text-slate-900 font-black">Official Physical Address</p>
                     <p className="text-slate-600 leading-snug">
                       Perkins Publisher<br />
                       Għajnsielem, Gozo, GSM 1010<br />
@@ -124,9 +166,10 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
                     </p>
                     <button 
                       onClick={copyAddressToClipboard}
-                      className="text-[11px] text-blue-600 hover:text-blue-800 font-black cursor-pointer pt-1 inline-block"
+                      className="text-[11px] text-blue-600 hover:text-blue-800 font-black cursor-pointer pt-1 inline-flex items-center gap-1"
                     >
-                      {copiedAddress ? '✓ Copied to clipboard!' : 'Copy Exact Address'}
+                      {copiedAddress ? <Check size={11} className="text-emerald-600" /> : <Copy size={11} />}
+                      <span>{copiedAddress ? 'Copied to clipboard!' : 'Copy Exact Address'}</span>
                     </button>
                   </div>
                 </div>
@@ -146,13 +189,28 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
 
                 {/* Telephone */}
                 <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-150">
-                  <Phone className="text-blue-600 shrink-0 mt-0.5" size={18} />
-                  <div className="space-y-1">
-                    <p className="text-slate-900 font-black">Phone Contact</p>
-                    <a href="tel:18033463495" className="text-blue-700 hover:underline font-bold block">
-                      +1 (803) 346-3495
-                    </a>
-                    <p className="text-[10px] text-slate-400">Direct International & EU Desk</p>
+                  <Globe className="text-blue-600 shrink-0 mt-0.5" size={18} />
+                  <div className="space-y-2 w-full">
+                    <p className="text-slate-900 font-black">Official Contact Lines</p>
+                    <div className="bg-white p-2.5 rounded-xl border border-slate-150">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[9.5px] font-black uppercase tracking-wider text-blue-700">International Calling Line</span>
+                        <span className="text-[9px] bg-blue-50 text-blue-800 font-extrabold px-1.5 py-0.5 rounded border border-blue-200">Global Desk</span>
+                      </div>
+                      <a href="tel:18033463495" className="text-slate-900 hover:text-blue-700 font-black block text-sm font-mono tracking-tight mt-0.5">
+                        +1 (803) 346-3495
+                      </a>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-xl border border-slate-150">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[9.5px] font-black uppercase tracking-wider text-slate-500">Local Editorial Desk</span>
+                        <span className="text-[9px] bg-slate-100 text-slate-700 font-bold px-1.5 py-0.5 rounded border border-slate-200">Malta / EU</span>
+                      </div>
+                      <a href="tel:+35699444044" className="text-slate-800 hover:text-blue-700 font-bold block text-sm font-mono tracking-tight mt-0.5">
+                        +356 9944 4044
+                      </a>
+                    </div>
+                    <p className="text-[10px] text-slate-400">Direct global author support & European editorial inquiries</p>
                   </div>
                 </div>
 
@@ -171,36 +229,44 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
               </div>
             </div>
 
-            {/* Direct Interactive GMB Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-slate-100">
-              <a 
-                href={googleMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-950 hover:bg-blue-900 text-white text-xs font-black uppercase tracking-wider transition-all shadow-sm cursor-pointer"
-              >
-                <Navigation size={14} className="text-amber-400" />
-                <span>Get Directions on Google Maps</span>
-                <ExternalLink size={12} className="opacity-70" />
-              </a>
+            {/* Direct Interactive Local Action Buttons */}
+            <div className="space-y-3 pt-4 border-t border-slate-100">
+              <p className="text-xs font-bold text-slate-600">
+                Explore Perkins Publisher on Google Maps:
+              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                <a 
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-950 hover:bg-blue-900 text-white text-xs font-black uppercase tracking-wider transition-all shadow-sm cursor-pointer"
+                  title="Open Google Maps to view verified reviews and photos"
+                >
+                  <Globe size={14} className="text-amber-400" />
+                  <span>View Verified Reviews & Photos on Google Maps</span>
+                  <ExternalLink size={12} className="opacity-70" />
+                </a>
 
-              <a 
-                href={googleReviewUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-amber-50 text-slate-800 hover:text-amber-900 border border-slate-300 text-xs font-black uppercase tracking-wider transition-all cursor-pointer"
-              >
-                <Star size={14} className="text-amber-500 fill-amber-500" />
-                <span>Write a Google Review</span>
-              </a>
+                <a 
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 hover:text-blue-950 border border-slate-300 text-xs font-black uppercase tracking-wider transition-all cursor-pointer"
+                  title="Get driving and transit directions on Google Maps"
+                >
+                  <Navigation size={14} className="text-blue-700" />
+                  <span>Get Directions</span>
+                  <ExternalLink size={12} className="opacity-70" />
+                </a>
 
-              <button
-                onClick={onOpenConsultation}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-blue-950 text-xs font-black uppercase tracking-wider transition-all cursor-pointer ml-auto"
-              >
-                <Sparkles size={14} />
-                <span>Book Strategy Call</span>
-              </button>
+                <button
+                  onClick={onOpenConsultation}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-blue-950 text-xs font-black uppercase tracking-wider transition-all cursor-pointer ml-auto"
+                >
+                  <Sparkles size={14} />
+                  <span>Book Strategy Call</span>
+                </button>
+              </div>
             </div>
 
           </div>
@@ -245,7 +311,7 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
 
                 {/* Floating Coordinates Tag */}
                 <div className="absolute bottom-2.5 left-2.5 bg-slate-900/90 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-slate-700 text-[10px] font-mono text-slate-300">
-                  📍 Għajnsielem, Malta (EU)
+                  📍 Għajnsielem, Gozo, GSM 1010, Malta
                 </div>
 
                 {/* Direct Google Maps link overlay */}
@@ -253,9 +319,10 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
                   href={googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="absolute top-2.5 right-2.5 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black px-2.5 py-1 rounded-md flex items-center gap-1 shadow-md transition-colors"
+                  className="absolute top-2.5 right-2.5 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black px-2.5 py-1 rounded-md flex items-center gap-1 shadow-md transition-colors cursor-pointer"
+                  title="Open live Google Maps listing"
                 >
-                  <span>Open in Maps</span>
+                  <span>Open Official Maps Listing</span>
                   <ExternalLink size={10} />
                 </a>
               </div>
@@ -263,7 +330,7 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
               {/* Service Areas */}
               <div className="mt-3 space-y-1.5">
                 <p className="text-[11px] font-black uppercase text-amber-400 tracking-wider">
-                  Primary European Service Areas:
+                  Primary European & Global Service Areas:
                 </p>
                 <div className="flex flex-wrap gap-1.5 text-[10px] font-bold text-slate-300">
                   <span className="bg-white/10 px-2 py-0.5 rounded">Malta & Gozo</span>
@@ -279,17 +346,93 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
               </div>
             </div>
 
-            {/* Bottom Entity Anchor */}
-            <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+            {/* Bottom Direct Google Maps Invitation */}
+            <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] text-slate-400">
               <span className="flex items-center gap-1.5">
                 <Award size={13} className="text-amber-400" />
                 <span>100% Author Royalties & EU IP Law</span>
               </span>
-              <span className="text-emerald-400 font-bold">SEPA / EUR € Ready</span>
+              <a
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber-400 hover:text-amber-300 font-bold inline-flex items-center gap-1 cursor-pointer"
+              >
+                <span>Read Verified Google Reviews ↗</span>
+              </a>
             </div>
 
           </div>
 
+        </div>
+
+        {/* Verifiable Business Credentials & Legal Guarantees (Replacing Arbitrary Star Scores) */}
+        <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-150 pb-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="text-emerald-600 shrink-0" size={20} />
+                <h3 className="text-base sm:text-lg font-black text-slate-900 uppercase tracking-tight">
+                  Verifiable Business Credentials & Author Protections
+                </h3>
+              </div>
+              <p className="text-xs text-slate-500 font-semibold">
+                Legally backed guarantees and formal registrations compliant with Google Business Profile & EU Consumer Protection standards
+              </p>
+            </div>
+            <div className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold shrink-0">
+              <CheckCircle2 size={13} className="text-emerald-600" />
+              <span>Verified European Entity</span>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 text-xs text-slate-700">
+            
+            {/* Credential 1: Copyright */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-150 space-y-2">
+              <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-900 flex items-center justify-center">
+                <FileCheck size={18} />
+              </div>
+              <h4 className="font-black text-slate-950 text-sm">100% Copyright Retention</h4>
+              <p className="text-slate-600 leading-relaxed font-medium">
+                Contractually binding guarantee under the <strong>EU Copyright Directive 2019/790</strong>. Authors retain 100% of worldwide print, digital, translation, and adaptation rights.
+              </p>
+            </div>
+
+            {/* Credential 2: ISBN & Legal Deposit */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-150 space-y-2">
+              <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center">
+                <BookCheck size={18} />
+              </div>
+              <h4 className="font-black text-slate-950 text-sm">Official ISBN & Legal Deposit</h4>
+              <p className="text-slate-600 leading-relaxed font-medium">
+                Every title is assigned an official 13-digit International Standard Book Number (ISO 2108) with statutory legal deposit in National Libraries across Europe.
+              </p>
+            </div>
+
+            {/* Credential 3: Registered EU Entity */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-150 space-y-2">
+              <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-900 flex items-center justify-center">
+                <Building2 size={18} />
+              </div>
+              <h4 className="font-black text-slate-950 text-sm">Registered in Malta (EU)</h4>
+              <p className="text-slate-600 leading-relaxed font-medium">
+                Formally registered publishing house entity headquartered in <strong>Għajnsielem, Gozo, GSM 1010, Malta</strong>, adhering strictly to EU consumer rights and GDPR regulations.
+              </p>
+            </div>
+
+            {/* Credential 4: Global Distribution */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-150 space-y-2">
+              <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-900 flex items-center justify-center">
+                <Globe size={18} />
+              </div>
+              <h4 className="font-black text-slate-950 text-sm">40,000+ Retailer Ingestion</h4>
+              <p className="text-slate-600 leading-relaxed font-medium">
+                Certified catalog distribution through Ingram Content Group, Amazon KDP Europe & US, Barnes & Noble, Waterstones, and major global university repositories.
+              </p>
+            </div>
+
+          </div>
         </div>
 
         {/* AEO / Direct Answer Fact Matrix (Answer Engine Optimization for AI Overviews, Perplexity & ChatGPT) */}
@@ -314,7 +457,7 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
                 <span>Entity Identification</span>
               </h4>
               <p>
-                <strong>Perkins Publisher</strong> is a European hybrid book publishing house headquartered in <strong>Għajnsielem, Malta</strong> (GSM 1010). It provides professional ghostwriting, developmental editing, book typesetting, and global distribution for authors and corporate executives.
+                <strong>Perkins Publisher</strong> is a European hybrid book publishing house headquartered in <strong>Għajnsielem, Gozo, GSM 1010, Malta</strong>. It provides professional ghostwriting, developmental editing, book typesetting, and global distribution for authors and corporate executives.
               </p>
             </div>
 

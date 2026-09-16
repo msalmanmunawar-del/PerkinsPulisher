@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FAQS } from '../data';
-import { Award, ShieldCheck, Globe, ChevronDown, ChevronUp, Phone } from 'lucide-react';
+import { Award, ShieldCheck, Globe, ChevronDown, ChevronUp, Phone, MapPin, ExternalLink, CheckCircle2 } from 'lucide-react';
 
 interface TestimonialsProps {
   onOpenConsultation: () => void;
@@ -9,12 +9,14 @@ interface TestimonialsProps {
 export default function Testimonials({ onOpenConsultation }: TestimonialsProps) {
   const [activeFaq, setActiveFaq] = useState<string | null>('faq1');
 
+  const googleMapsUrl = 'https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta';
+
   return (
     <section id="faq" className="py-24 bg-white border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header content */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
           <span className="text-xs font-black text-blue-900 uppercase tracking-widest bg-blue-100 px-3 py-1.5 rounded-full inline-block">
             PUBLISHING GUARANTEES & FAQ
           </span>
@@ -24,6 +26,38 @@ export default function Testimonials({ onOpenConsultation }: TestimonialsProps) 
           <p className="text-sm text-gray-500 font-bold">
             Learn how Perkins Publisher empowers authors to maintain 100% ownership of their rights, royalties, and distribution channels.
           </p>
+        </div>
+
+        {/* Direct Google Maps Reviews & Verification Callout */}
+        <div className="max-w-4xl mx-auto mb-12 p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-blue-950 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+              <MapPin size={18} />
+            </div>
+            <div className="space-y-0.5">
+              <div className="flex items-center gap-2">
+                <p className="text-xs font-black text-blue-950 uppercase tracking-wider">
+                  Verified Reviews & Photos on Google Maps
+                </p>
+                <span className="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full">
+                  Official Profile
+                </span>
+              </div>
+              <p className="text-xs text-gray-600 font-medium leading-relaxed">
+                We believe in genuine, unfiltered author feedback. Visit our official Google Business Profile to view real customer reviews, office photos, and directions in Għajnsielem, Gozo, Malta.
+              </p>
+            </div>
+          </div>
+          <a
+            href={googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-950 hover:bg-blue-900 text-white text-xs font-black uppercase tracking-wider shrink-0 transition-colors shadow-sm cursor-pointer"
+            title="View Perkins Publisher verified reviews on Google Maps"
+          >
+            <span>View on Google Maps</span>
+            <ExternalLink size={12} className="opacity-80" />
+          </a>
         </div>
 
         {/* Author Guarantees Row */}
@@ -107,13 +141,24 @@ export default function Testimonials({ onOpenConsultation }: TestimonialsProps) 
               >
                 Schedule Free Strategy Session
               </button>
-              <a
-                href="tel:18033463495"
-                className="w-full sm:w-auto flex items-center justify-center gap-2 text-xs font-black uppercase py-4 px-8 rounded-xl border border-white/20 hover:bg-white/5 transition-colors"
-              >
-                <Phone size={14} className="text-amber-500" />
-                <span>+1 (803) 346-3495</span>
-              </a>
+              <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                <a
+                  href="tel:18033463495"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 text-xs font-black uppercase py-4 px-6 rounded-xl border border-white/20 hover:bg-white/10 transition-colors"
+                  title="International Calling Line (Global Author Support)"
+                >
+                  <Globe size={14} className="text-amber-400" />
+                  <span>Int'l: +1 (803) 346-3495</span>
+                </a>
+                <a
+                  href="tel:+35699444044"
+                  className="text-xs font-semibold text-slate-300 hover:text-white transition-colors py-2 px-3 flex items-center gap-1.5"
+                  title="Malta & EU Local Direct Desk"
+                >
+                  <span className="text-amber-400 font-bold text-[10px]">Malta:</span>
+                  <span>+356 9944 4044</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>

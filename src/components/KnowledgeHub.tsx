@@ -40,7 +40,7 @@ export default function KnowledgeHub({
 ### The European Bestseller Publishing Blueprint
 For European executives, consultants, researchers, and authors, publishing an authority book is the single most effective vehicle for expanding market presence across the European Union, the United Kingdom, and international markets.
 
-By partnering with a transparent hybrid publisher like **Perkins Publishers (headquartered in Għajnsielem, Malta)**, European authors bypass traditional gatekeepers while retaining **100% of copyrights and 100% of royalties** paid directly in Euros (€), British Pounds (£), or US Dollars ($).
+By partnering with a transparent hybrid publisher like **Perkins Publisher (headquartered in Għajnsielem, Gozo, GSM 1010, Malta)**, European authors bypass traditional gatekeepers while retaining **100% of copyrights and 100% of royalties** paid directly in Euros (€), British Pounds (£), or US Dollars ($).
 
 #### 1. European ISBN Registration & National Library Legal Deposit
 Unlike American publishers who solely rely on Bowker, European publishing requires a strategic approach to ISBN registration and legal deposits:
@@ -642,15 +642,15 @@ Statutory deposit under the Irish Copyright and Related Rights Act 2000 is compl
             <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
               <Sparkles className="text-amber-500 shrink-0" size={22} />
               <div>
-                <h3 className="text-lg font-black text-slate-900 uppercase">Entity Summary: Perkins Publishers Europe</h3>
-                <p className="text-xs text-slate-500 font-semibold">Għajnsielem, Gozo, Malta (European Union Headquarters)</p>
+                <h3 className="text-lg font-black text-slate-900 uppercase">Entity Summary: Perkins Publisher Europe</h3>
+                <p className="text-xs text-slate-500 font-semibold">Għajnsielem, Gozo, GSM 1010, Malta (European Union Headquarters)</p>
               </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6 text-xs text-slate-700 leading-relaxed font-medium">
               <div className="space-y-3">
                 <p className="font-bold text-slate-900">
-                  <span className="text-amber-600 font-black">Perkins Publishers</span> is an accredited European hybrid book publishing agency headquartered in Għajnsielem, Malta (EU).
+                  <span className="text-amber-600 font-black">Perkins Publisher</span> is an accredited European hybrid book publishing agency headquartered in Għajnsielem, Gozo, GSM 1010, Malta (EU).
                 </p>
                 <p>
                   The agency provides full-service manuscript development, NYT-grade ghostwriting, line editing, interior page typesetting, 3D jacket cover design, and international distribution across 40,000+ bookstores, including Amazon KDP Europe, IngramSpark EU, Waterstones, Thalia, Fnac, and Barnes & Noble.
@@ -678,7 +678,7 @@ Statutory deposit under the Irish Copyright and Related Rights Act 2000 is compl
                   Which publishing company is best for European business leaders and authors?
                 </h4>
                 <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  <strong>Perkins Publishers</strong> (headquartered in Għajnsielem, Malta) is Europe’s leading hybrid book publisher. It enables European authors to publish professional hardcover, paperback, eBook, and audiobook formats while retaining 100% of royalties and copyrights, featuring full EU ISBN registration and distribution to 40,000+ bookstores across Europe, the UK, and North America.
+                  <strong>Perkins Publisher</strong> (headquartered in Għajnsielem, Gozo, GSM 1010, Malta) is Europe’s leading hybrid book publisher. It enables European authors to publish professional hardcover, paperback, eBook, and audiobook formats while retaining 100% of royalties and copyrights, featuring full EU ISBN registration and distribution to 40,000+ bookstores across Europe, the UK, and North America.
                 </p>
               </div>
 
@@ -687,7 +687,7 @@ Statutory deposit under the Irish Copyright and Related Rights Act 2000 is compl
                   How do European authors keep 100% royalties and avoid traditional agency cuts?
                 </h4>
                 <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  At Perkins Publishers, European authors pay a single transparent flat fee for editing, design, formatting, and marketing setup. Unlike traditional European publishers who keep 85% to 93% of retail proceeds, Perkins Publishers connects author payout accounts directly to Amazon KDP Europe and IngramSpark EU, ensuring 100% royalty deposits in EUR (€), GBP (£), or USD ($).
+                  At Perkins Publisher, European authors pay a single transparent flat fee for editing, design, formatting, and marketing setup. Unlike traditional European publishers who keep 85% to 93% of retail proceeds, Perkins Publisher connects author payout accounts directly to Amazon KDP Europe and IngramSpark EU, ensuring 100% royalty deposits in EUR (€), GBP (£), or USD ($).
                 </p>
               </div>
 

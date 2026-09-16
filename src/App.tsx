@@ -1,7 +1,8 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { Inquiry, LogoConfig } from './types';
 import Header from './components/Header';
-import { ORIGINAL_LOGO_PRESET } from './components/LogoSandbox';
+import LogoSandbox, { OFFICIAL_EMBLEM_LOGO_PRESET, ORIGINAL_LOGO_PRESET } from './components/LogoSandbox';
+import LogoAuditModal from './components/LogoAuditModal';
 import Hero from './components/Hero';
 import TimesSquareSection from './components/TimesSquareSection';
 import ServiceHub from './components/ServiceHub';
@@ -85,7 +86,8 @@ const MODAL_TRANSLATIONS = {
 export default function App() {
   const { success: showSuccessToast, warn: showWarningToast } = useToast();
   const [activePage, setActivePage] = useState<string>('home');
-  const [logoConfig, setLogoConfig] = useState<LogoConfig>(ORIGINAL_LOGO_PRESET);
+  const [logoConfig, setLogoConfig] = useState<LogoConfig>(OFFICIAL_EMBLEM_LOGO_PRESET);
+  const [logoAuditOpen, setLogoAuditOpen] = useState<boolean>(false);
   const [consultationModalOpen, setConsultationModalOpen] = useState<boolean>(false);
   const [selectedServiceId, setSelectedServiceId] = useState<string | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -103,15 +105,24 @@ export default function App() {
 
   const t = MODAL_TRANSLATIONS[modalLang];
 
-  // Load saved configurations
+  // Load saved configurations (upgrades to official emblem preset)
   useEffect(() => {
     const savedLogo = localStorage.getItem('perkins_publisher_logo_config');
     if (savedLogo) {
       try {
-        setLogoConfig(JSON.parse(savedLogo));
+        const parsed = JSON.parse(savedLogo);
+        if (parsed && (parsed.id === 'preset-original' || !parsed.type)) {
+          setLogoConfig(OFFICIAL_EMBLEM_LOGO_PRESET);
+          localStorage.setItem('perkins_publisher_logo_config', JSON.stringify(OFFICIAL_EMBLEM_LOGO_PRESET));
+        } else {
+          setLogoConfig(parsed);
+        }
       } catch (err) {
-        setLogoConfig(ORIGINAL_LOGO_PRESET);
+        setLogoConfig(OFFICIAL_EMBLEM_LOGO_PRESET);
       }
+    } else {
+      setLogoConfig(OFFICIAL_EMBLEM_LOGO_PRESET);
+      localStorage.setItem('perkins_publisher_logo_config', JSON.stringify(OFFICIAL_EMBLEM_LOGO_PRESET));
     }
   }, []);
 
@@ -387,6 +398,7 @@ export default function App() {
           setSelectedServiceId(undefined);
           setConsultationModalOpen(true);
         }}
+        onOpenLogoAudit={() => setLogoAuditOpen(true)}
       />
 
       {/* Main Client Replica Site */}
@@ -859,6 +871,19 @@ export default function App() {
         </div>
       )}
 
+      {/* Brand Asset Sandbox & Live Logo Customizer with Built-in Audit */}
+      <LogoSandbox 
+        currentConfig={logoConfig} 
+        onUpdateConfig={setLogoConfig} 
+      />
+
+      {/* Full-Screen Brand Logo Audit Modal */}
+      <LogoAuditModal
+        isOpen={logoAuditOpen}
+        onClose={() => setLogoAuditOpen(false)}
+        currentConfig={logoConfig}
+        onSelectLogo={setLogoConfig}
+      />
 
     </div>
   );

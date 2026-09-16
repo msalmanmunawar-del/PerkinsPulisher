@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { CheckCircle2, Star, Sparkles, Send, Gift, BookOpen } from 'lucide-react';
+import { CheckCircle2, Sparkles, Gift, BookOpen, ExternalLink, ShieldCheck, MapPin, Send } from 'lucide-react';
 
 interface HeroProps {
   onSubmitInquiry: (data: {
@@ -75,9 +75,21 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
                 <Sparkles size={14} className="text-amber-500 fill-amber-500" />
                 <span>THE GOLD STANDARD IN BOOK PUBLISHING</span>
               </div>
-              <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 text-amber-900 px-3.5 py-1.5 rounded-full text-[11px] font-black leading-none">
-                <span className="text-amber-600 font-extrabold animate-pulse">📍 GĦAJNSIELEM, MALTA HQ</span>
-              </div>
+              <a 
+                href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-950 px-3.5 py-1.5 rounded-full text-[11px] font-black leading-none transition-colors cursor-pointer"
+                title="View Perkins Publisher on Google Maps"
+              >
+                <MapPin size={12} className="text-red-500 shrink-0" />
+                <span>Għajnsielem, Gozo, GSM 1010, Malta</span>
+                <span className="text-amber-600">•</span>
+                <span className="text-blue-900 underline font-black flex items-center gap-0.5">
+                  View on Google Maps
+                  <ExternalLink size={10} />
+                </span>
+              </a>
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-blue-950 leading-none tracking-tight">
@@ -99,7 +111,7 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
               ))}
             </div>
 
-            {/* Live review indicators */}
+            {/* Authentic Credentials & Direct Google Maps Verification */}
             <div className="flex flex-wrap items-center gap-6 pt-4 border-t border-gray-100">
               <div className="flex -space-x-2">
                 <img className="w-9 h-9 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100" alt="Author" />
@@ -107,14 +119,32 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
                 <img className="w-9 h-9 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Author" />
                 <img className="w-9 h-9 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="Author" />
               </div>
-              <div>
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={15} className="text-amber-400 fill-amber-400" />
-                  ))}
-                  <span className="text-sm font-black text-gray-900 ml-1">4.9/5 Rat.</span>
+              <div className="space-y-1">
+                <div className="flex flex-wrap items-center gap-2.5 text-blue-950 font-bold text-sm">
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 size={16} className="text-emerald-600" />
+                    <span>100% Author Royalties & Rights Retained</span>
+                  </span>
+                  <span className="text-slate-300">•</span>
+                  <span className="flex items-center gap-1 text-slate-700 text-xs font-semibold">
+                    <ShieldCheck size={14} className="text-blue-700" />
+                    <span>EU ISBN & Legal Deposit</span>
+                  </span>
                 </div>
-                <p className="text-xs text-gray-500 font-bold">Trusted by 500+ Published Authors Worldwide</p>
+                <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 font-semibold">
+                  <span>Registered in Malta (EU)</span>
+                  <span>•</span>
+                  <a 
+                    href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-700 hover:text-blue-900 font-bold inline-flex items-center gap-1 underline transition-colors cursor-pointer"
+                    title="View Perkins Publisher on Google Maps"
+                  >
+                    <span>View Verified Reviews & Photos on Google Maps</span>
+                    <ExternalLink size={10} />
+                  </a>
+                </div>
               </div>
             </div>
           </div>

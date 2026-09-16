@@ -60,7 +60,7 @@ export interface FAQItem {
 export interface LogoConfig {
   id: string;
   name: string;
-  type: 'original' | 'serif' | 'modern' | 'custom_image' | 'custom_svg';
+  type: 'original' | 'serif' | 'modern' | 'custom_image' | 'custom_svg' | 'emblem';
   text: string;
   textSize: string;      // e.g. "text-base", "text-lg", "text-xl", "text-sm"
   letterSpacing: string; // e.g. "tracking-[0.18em]", "tracking-widest", etc.
