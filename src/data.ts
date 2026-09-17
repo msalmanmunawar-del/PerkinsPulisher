@@ -1,6 +1,83 @@
 import { Book, Service, Testimonial, FAQItem } from './types';
 
+export interface PromotionalPackage {
+  id: string;
+  badge: string;
+  title: string;
+  subtitle: string;
+  originalPrice: number;
+  promotionalPrice: number;
+  discountPercentage: number;
+  currency: string;
+  slotsTotal: number;
+  slotsRemaining: number;
+  platformsCount: string;
+  deliverables: {
+    title: string;
+    description: string;
+  }[];
+}
+
+export const PROMOTIONAL_PACKAGE: PromotionalPackage = {
+  id: 'promo-publishing-499',
+  badge: '🔥 SPECIAL AUTHOR GRANT • 74% OFF',
+  title: 'All-Inclusive €499 Complete Publishing Package',
+  subtitle: 'Full book production with custom cover design, line editing, interior typesetting across all 3 versions (eBook, Paperback, Hardcover), and global publishing on 100+ major platforms.',
+  originalPrice: 1899,
+  promotionalPrice: 499,
+  discountPercentage: 74,
+  currency: '€',
+  slotsTotal: 15,
+  slotsRemaining: 4,
+  platformsCount: '100+',
+  deliverables: [
+    {
+      title: 'Custom Book Cover Design',
+      description: 'Striking front, back, and spine wrap art tailored to your genre, optimized for digital displays and physical printing.'
+    },
+    {
+      title: 'Professional Line Editing & Proofreading',
+      description: 'Comprehensive manuscript polish by senior literary editors for punctuation, syntax, consistency, and pacing.'
+    },
+    {
+      title: 'Interior Formatting in All 3 Versions',
+      description: 'Typesetting for 1) Universal eBook (EPUB/Kindle), 2) Paperback with print bleed, and 3) Premium Hardcover case-wrap edition.'
+    },
+    {
+      title: 'Publishing on 100+ Major Platforms',
+      description: 'Worldwide distribution on Amazon KDP, Barnes & Noble, Apple Books, IngramSpark, Google Play, Kobo, Waterstones, and 40,000+ bookstores.'
+    },
+    {
+      title: '100% Royalties & Full Copyrights',
+      description: 'You keep 100% of your book earnings and retain full intellectual ownership. Zero ongoing publisher commission.'
+    },
+    {
+      title: 'Official ISBN & Commercial Barcodes',
+      description: 'Official EU and international ISBN allocation and compliant print barcodes provided with zero hidden fees.'
+    }
+  ]
+};
+
 export const SERVICES: Service[] = [
+  {
+    id: 'promo-publishing-499',
+    title: '🌟 Flash Promotion: €499 All-Inclusive Package (74% OFF)',
+    description: 'Special promotional publishing package: Complete custom cover design, professional line editing, interior formatting for all three versions (eBook, paperback, hardcover), and worldwide publishing across 100+ major platforms with 100% royalties retained.',
+    iconName: 'Sparkles',
+    benefits: [
+      'Save €1,400 with our promotional author grant (Now only €499)',
+      'Includes custom cover + professional editing + 3 formats (eBook, paper, hard)',
+      'Worldwide live distribution on 100+ major platforms with 100% royalties retained'
+    ],
+    timeline: '4 to 6 weeks',
+    deliverables: [
+      'Custom Cover Design (Front, Back & Spine wrap)',
+      'Line Editing & Complete Manuscript Proofreading',
+      'All 3 formats: Responsive eBook (EPUB), Paperback, & Hardcover',
+      'Worldwide distribution on Amazon, Barnes & Noble, Apple Books, IngramSpark, & 100+ platforms'
+    ],
+    startingPrice: 499
+  },
   {
     id: 'publishing',
     title: 'Book Publishing & Distribution',

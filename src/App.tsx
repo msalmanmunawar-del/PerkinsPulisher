@@ -1,9 +1,8 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { Inquiry, LogoConfig } from './types';
+import { Inquiry, LogoConfig, OFFICIAL_EMBLEM_LOGO_PRESET } from './types';
 import Header from './components/Header';
-import LogoSandbox, { OFFICIAL_EMBLEM_LOGO_PRESET, ORIGINAL_LOGO_PRESET } from './components/LogoSandbox';
-import LogoAuditModal from './components/LogoAuditModal';
 import Hero from './components/Hero';
+import PromotionalOffer from './components/PromotionalOffer';
 import TimesSquareSection from './components/TimesSquareSection';
 import ServiceHub from './components/ServiceHub';
 import CompareSection from './components/CompareSection';
@@ -17,10 +16,9 @@ import DynamicServicePage from './components/DynamicServicePage';
 import DynamicIndustryPage from './components/DynamicIndustryPage';
 import DynamicLocationPage from './components/DynamicLocationPage';
 import KnowledgeHub from './components/KnowledgeHub';
-import SearchConsoleHub from './components/SearchConsoleHub';
 import GmbLocalAuthority from './components/GmbLocalAuthority';
 
-import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2 } from 'lucide-react';
+import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2, Flame } from 'lucide-react';
 
 const MODAL_TRANSLATIONS = {
   en: {
@@ -87,7 +85,6 @@ export default function App() {
   const { success: showSuccessToast, warn: showWarningToast } = useToast();
   const [activePage, setActivePage] = useState<string>('home');
   const [logoConfig, setLogoConfig] = useState<LogoConfig>(OFFICIAL_EMBLEM_LOGO_PRESET);
-  const [logoAuditOpen, setLogoAuditOpen] = useState<boolean>(false);
   const [consultationModalOpen, setConsultationModalOpen] = useState<boolean>(false);
   const [selectedServiceId, setSelectedServiceId] = useState<string | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -99,6 +96,7 @@ export default function App() {
   const [modalGenre, setModalGenre] = useState('fiction');
   const [modalWordCount, setModalWordCount] = useState<number>(45000);
   const [modalMessage, setModalMessage] = useState('');
+  const [modalClaimPromo, setModalClaimPromo] = useState(true);
   const [modalSubmitted, setModalSubmitted] = useState(false);
   const [modalLang, setModalLang] = useState<'en' | 'es'>('en');
   const [modalExpressCallback, setModalExpressCallback] = useState(false);
@@ -181,7 +179,6 @@ export default function App() {
     if (pathname === '/seo-scorecard') return 'seo-scorecard';
     if (pathname === '/privacy') return 'privacy';
     if (pathname === '/terms') return 'terms';
-    if (pathname === '/search-console') return 'search-console';
 
     return 'home';
   };
@@ -192,7 +189,7 @@ export default function App() {
     if (page.startsWith('service-')) return `/services/${page.replace('service-', '')}`;
     if (page.startsWith('industry-')) return `/industries/${page.replace('industry-', '')}`;
     if (page.startsWith('location-')) return `/locations/${page.replace('location-', '')}`;
-    if (['knowledge-hub', 'calculator', 'reviews', 'seo-scorecard', 'privacy', 'terms', 'search-console'].includes(page)) {
+    if (['knowledge-hub', 'calculator', 'reviews', 'seo-scorecard', 'privacy', 'terms'].includes(page)) {
       return `/${page}`;
     }
     return `/${page}`;
@@ -372,13 +369,22 @@ export default function App() {
     e.preventDefault();
     if (!modalName || !modalEmail || !modalPhone) return;
 
+    const isPromo = modalClaimPromo || selectedServiceId === 'promo-publishing-499';
+    const finalMessage = isPromo
+      ? (modalMessage 
+          ? `[€499 COMPLETE PUBLISHING PACKAGE CLAIM]: ${modalMessage}` 
+          : `[€499 COMPLETE PUBLISHING PACKAGE CLAIM]: Author claimed the €499 promotional package (Cover, Editing, 3 Formats eBook/Paper/Hard, 100+ Platforms).`)
+      : modalMessage;
+
     handleAddNewInquiry({
       name: modalName,
       email: modalEmail,
       phone: modalPhone,
       genre: modalGenre,
       wordCount: modalWordCount,
-      message: modalMessage,
+      services: isPromo ? ['promo-publishing-499'] : (selectedServiceId ? [selectedServiceId] : ['publishing']),
+      estimatedPrice: isPromo ? 499 : undefined,
+      message: finalMessage,
       expressCallback: modalExpressCallback,
     });
   };
@@ -398,7 +404,6 @@ export default function App() {
           setSelectedServiceId(undefined);
           setConsultationModalOpen(true);
         }}
-        onOpenLogoAudit={() => setLogoAuditOpen(true)}
       />
 
       {/* Main Client Replica Site */}
@@ -415,6 +420,9 @@ export default function App() {
                   phone: data.phone,
                   genre: data.genre,
                   wordCount: data.wordCount,
+                  services: data.services || (data.message?.includes('€499') ? ['promo-publishing-499'] : ['publishing']),
+                  estimatedPrice: data.estimatedPrice || (data.message?.includes('€499') ? 499 : undefined),
+                  expressCallback: data.expressCallback ?? true,
                   message: data.message
                 });
               }}
@@ -423,6 +431,29 @@ export default function App() {
                 if (element) {
                   element.scrollIntoView({ behavior: 'smooth' });
                 }
+              }}
+            />
+
+            {/* Special €499 All-Inclusive Publishing Package Promotional Section */}
+            <PromotionalOffer
+              onOpenConsultation={(msg) => {
+                setSelectedServiceId('promo-publishing-499');
+                setModalClaimPromo(true);
+                if (msg) setModalMessage(msg);
+                setConsultationModalOpen(true);
+              }}
+              onSubmitInquiry={(data) => {
+                handleAddNewInquiry({
+                  name: data.name,
+                  email: data.email,
+                  phone: data.phone,
+                  genre: data.genre,
+                  wordCount: data.wordCount,
+                  services: data.services || ['promo-publishing-499'],
+                  estimatedPrice: 499,
+                  message: data.message,
+                  expressCallback: true
+                });
               }}
             />
 
@@ -624,10 +655,6 @@ export default function App() {
           </div>
         )}
 
-        {activePage === 'search-console' && (
-          <SearchConsoleHub />
-        )}
-
       </main>
 
       {/* Brand Site Footer */}
@@ -704,7 +731,41 @@ export default function App() {
               ) : (
                 <form onSubmit={handleModalSubmit} className="space-y-4">
                   
-                  {selectedServiceId && (
+                  {/* Special €499 Promotion Highlight Banner */}
+                  <div 
+                    onClick={() => setModalClaimPromo(!modalClaimPromo)}
+                    className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-start gap-3 select-none ${
+                      modalClaimPromo 
+                        ? 'bg-gradient-to-r from-amber-500/15 via-amber-400/20 to-amber-500/15 border-amber-500/50 shadow-xs' 
+                        : 'bg-slate-50 border-gray-200 hover:bg-slate-100'
+                    }`}
+                  >
+                    <div className="flex items-center h-5">
+                      <input 
+                        type="checkbox"
+                        checked={modalClaimPromo}
+                        onChange={(e) => setModalClaimPromo(e.target.checked)}
+                        onClick={(e) => e.stopPropagation()}
+                        className="w-4 h-4 rounded text-amber-500 focus:ring-amber-500 accent-amber-500 cursor-pointer"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-black text-blue-950 uppercase flex items-center gap-1.5">
+                          <Flame size={13} className="text-amber-600 fill-amber-600 animate-pulse" />
+                          <span>Apply €499 Complete Package (74% OFF)</span>
+                        </span>
+                        <span className="text-[9px] bg-amber-500 text-blue-950 px-1.5 py-0.2 rounded font-black uppercase">
+                          SAVE €1,400
+                        </span>
+                      </div>
+                      <p className="text-[10.5px] text-gray-600 font-bold mt-0.5 leading-snug">
+                        Custom Cover + Full Editing + 3 Formats (eBook, Paperback, Hardcover) + 100+ Major Platforms. Was €1,899 &rarr; <strong className="text-amber-700 font-black">Now €499 flat</strong>.
+                      </p>
+                    </div>
+                  </div>
+
+                  {selectedServiceId && !modalClaimPromo && (
                     <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg flex items-center justify-between text-xs font-bold text-amber-800">
                       <span>🎯 {t.targetedInquiry.replace('{id}', selectedServiceId.toUpperCase())}</span>
                       <span className="text-[9px] bg-amber-500 text-blue-950 py-0.5 px-2 rounded uppercase font-black">{t.activeStatus}</span>
@@ -852,7 +913,11 @@ export default function App() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-amber-500 hover:bg-amber-600 disabled:opacity-55 disabled:cursor-not-allowed text-blue-950 font-black text-xs uppercase tracking-wider py-3.5 rounded-lg shadow-lg text-center cursor-pointer transition-all active:translate-y-0.5 flex items-center justify-center gap-2"
+                    className={`w-full font-black text-xs uppercase tracking-wider py-3.5 rounded-lg shadow-lg text-center cursor-pointer transition-all active:translate-y-0.5 flex items-center justify-center gap-2 ${
+                      modalClaimPromo
+                        ? 'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-600 hover:to-amber-700 text-blue-950 shadow-amber-500/25 border border-amber-300'
+                        : 'bg-amber-500 hover:bg-amber-600 text-blue-950'
+                    }`}
                   >
                     {isSubmitting ? (
                       <>
@@ -860,7 +925,7 @@ export default function App() {
                         <span>{t.submitting}</span>
                       </>
                     ) : (
-                      <span>{t.submitBtn}</span>
+                      <span>{modalClaimPromo ? 'Claim €499 Complete Publishing Package & Proposal' : t.submitBtn}</span>
                     )}
                   </button>
                 </form>
@@ -870,20 +935,6 @@ export default function App() {
           </div>
         </div>
       )}
-
-      {/* Brand Asset Sandbox & Live Logo Customizer with Built-in Audit */}
-      <LogoSandbox 
-        currentConfig={logoConfig} 
-        onUpdateConfig={setLogoConfig} 
-      />
-
-      {/* Full-Screen Brand Logo Audit Modal */}
-      <LogoAuditModal
-        isOpen={logoAuditOpen}
-        onClose={() => setLogoAuditOpen(false)}
-        currentConfig={logoConfig}
-        onSelectLogo={setLogoConfig}
-      />
 
     </div>
   );

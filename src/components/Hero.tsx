@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { CheckCircle2, Sparkles, Gift, BookOpen, ExternalLink, ShieldCheck, MapPin, Send } from 'lucide-react';
+import { CheckCircle2, Sparkles, Gift, BookOpen, ExternalLink, ShieldCheck, MapPin, Send, Flame, ArrowRight, Clock, Star, Zap } from 'lucide-react';
 
 interface HeroProps {
   onSubmitInquiry: (data: {
@@ -8,6 +8,9 @@ interface HeroProps {
     phone: string;
     genre: string;
     wordCount: number;
+    services?: string[];
+    estimatedPrice?: number;
+    expressCallback?: boolean;
     message?: string;
   }) => void;
   onOpenScorecard: () => void;
@@ -19,6 +22,7 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
   const [phone, setPhone] = useState('');
   const [genre, setGenre] = useState('fiction');
   const [wordCount, setWordCount] = useState<number>(45000);
+  const [applyPromoOffer, setApplyPromoOffer] = useState(true);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
@@ -31,7 +35,12 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
       phone,
       genre,
       wordCount,
-      message: 'Quick Consultation request from Hero section.',
+      services: applyPromoOffer ? ['promo-publishing-499'] : ['publishing'],
+      estimatedPrice: applyPromoOffer ? 499 : undefined,
+      expressCallback: true,
+      message: applyPromoOffer 
+        ? `[€499 COMPLETE PUBLISHING PACKAGE CLAIM FROM HERO]: Author claimed the 74% OFF Complete Publishing Package (€499 flat rate for custom cover, line editing, 3 versions: eBook/paperback/hardcover, and 100+ platform distribution).`
+        : 'Quick Consultation request from Hero section.',
     });
     setSubmitted(true);
     setTimeout(() => {
@@ -39,11 +48,11 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
       setName('');
       setEmail('');
       setPhone('');
-    }, 4000);
+    }, 5000);
   };
 
   const trustSymbols = [
-    { text: "Amazon Kindle", color: "hover:text-amber-500", icon: "📖" },
+    { text: "Amazon KDP", color: "hover:text-amber-500", icon: "📖" },
     { text: "Barnes & Noble", color: "hover:text-blue-500", icon: "📌" },
     { text: "Apple Books", color: "hover:text-pink-500", icon: "🍎" },
     { text: "Ingram Content", color: "hover:text-cyan-500", icon: "📦" },
@@ -60,33 +69,33 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
   ];
 
   return (
-    <section id="home" className="relative bg-gradient-to-b from-blue-50/50 via-white to-white pt-12 pb-20 overflow-hidden">
+    <section id="home" className="relative bg-gradient-to-b from-blue-50/50 via-white to-white pt-8 pb-20 overflow-hidden">
       {/* Abstract Background Accents */}
       <div className="absolute right-0 top-0 -mr-40 -mt-40 w-96 h-96 bg-blue-300 rounded-full blur-3xl opacity-20 pointer-events-none"></div>
       <div className="absolute left-0 bottom-0 -ml-40 -mb-40 w-96 h-96 bg-amber-200 rounded-full blur-3xl opacity-25 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Left Side: Compelling Copy */}
-          <div className="lg:col-span-7 space-y-8">
+          {/* Left Side: Compelling Copy & Attention-Grabbing Offer Spotlight */}
+          <div className="lg:col-span-7 space-y-6">
             <div className="flex flex-wrap items-center gap-2 animate-fadeIn">
-              <div className="inline-flex items-center gap-2 bg-blue-900/10 border border-blue-900/20 text-blue-950 px-3.5 py-1.5 rounded-full text-xs font-bold leading-none">
-                <Sparkles size={14} className="text-amber-500 fill-amber-500" />
+              <div className="inline-flex items-center gap-2 bg-blue-900/10 border border-blue-900/20 text-blue-950 px-3 py-1 rounded-full text-xs font-bold leading-none">
+                <Sparkles size={13} className="text-amber-500 fill-amber-500" />
                 <span>THE GOLD STANDARD IN BOOK PUBLISHING</span>
               </div>
               <a 
                 href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-950 px-3.5 py-1.5 rounded-full text-[11px] font-black leading-none transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-950 px-3 py-1 rounded-full text-[11px] font-black leading-none transition-colors cursor-pointer"
                 title="View Perkins Publisher on Google Maps"
               >
                 <MapPin size={12} className="text-red-500 shrink-0" />
                 <span>Għajnsielem, Gozo, GSM 1010, Malta</span>
                 <span className="text-amber-600">•</span>
                 <span className="text-blue-900 underline font-black flex items-center gap-0.5">
-                  View on Google Maps
+                  View on Maps
                   <ExternalLink size={10} />
                 </span>
               </a>
@@ -96,16 +105,96 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
               Make Your Book A <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-amber-600">Best Seller</span> With Our Expert Book Publishing Services
             </h1>
 
+            {/* UNMISSABLE ATTENTION-GRABBING €499 HERO OFFER SPOTLIGHT BANNER */}
+            <div className="relative overflow-hidden rounded-2xl border-2 border-amber-500 bg-gradient-to-br from-amber-500/15 via-amber-400/20 to-orange-500/15 p-5 sm:p-6 shadow-2xl shadow-amber-500/20 ring-4 ring-amber-500/20 animate-fadeIn">
+              {/* Subtle pulsing background glow */}
+              <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-amber-400/30 rounded-full blur-2xl pointer-events-none animate-pulse" />
+              
+              {/* Top Banner Tags */}
+              <div className="flex flex-wrap items-center justify-between gap-2.5 mb-3.5">
+                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 via-amber-600 to-amber-500 text-white px-3.5 py-1 rounded-full text-xs font-black tracking-wider uppercase shadow-md animate-pulse">
+                  <Flame size={14} className="fill-white" />
+                  <span>FLASH OFFER • 74% DISCOUNT</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs font-black text-amber-950 bg-white/90 border border-amber-300 px-3 py-1 rounded-full shadow-2xs">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping shrink-0" />
+                  <span>Only 4 of 15 Subsidized Slots Left</span>
+                </div>
+              </div>
+
+              {/* Price & Primary Value Proposition */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-500/40 pb-4 mb-4">
+                <div>
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-4xl sm:text-5xl font-black text-blue-950 tracking-tight">€499</span>
+                    <span className="text-xl text-gray-400 font-bold line-through">€1,899</span>
+                    <span className="bg-amber-500 text-blue-950 text-xs font-black px-2.5 py-1 rounded-md uppercase tracking-wider shadow-xs">
+                      SAVE €1,400
+                    </span>
+                  </div>
+                  <p className="text-sm font-black text-blue-950 mt-1 flex items-center gap-1.5">
+                    <Zap size={14} className="text-amber-600 fill-amber-600" />
+                    <span>Complete 3-Format Publishing Package — Zero Hidden Fees</span>
+                  </p>
+                </div>
+
+                {/* Direct Action Button that points straight to the Hero Form */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setApplyPromoOffer(true);
+                    const nameInput = document.getElementById('hero-author-name');
+                    if (nameInput) {
+                      nameInput.focus();
+                      nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                  }}
+                  className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-950 via-slate-900 to-blue-950 hover:from-amber-500 hover:to-amber-600 text-white hover:text-blue-950 px-5 py-3 rounded-xl font-black text-xs uppercase tracking-wider shadow-xl transition-all transform hover:-translate-y-0.5 cursor-pointer whitespace-nowrap active:scale-95 border border-amber-400/40"
+                >
+                  <span>Claim €499 Deal Now</span>
+                  <ArrowRight size={14} />
+                </button>
+              </div>
+
+              {/* Comprehensive Deliverables Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px] font-extrabold text-blue-950">
+                <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-2 rounded-lg border border-amber-200/80 shadow-2xs">
+                  <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
+                  <span>Custom 3D Cover Design</span>
+                </div>
+                <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-2 rounded-lg border border-amber-200/80 shadow-2xs">
+                  <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
+                  <span>Professional Line Editing</span>
+                </div>
+                <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-2 rounded-lg border border-amber-200/80 shadow-2xs">
+                  <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
+                  <span>eBook + Paper + Hardcover</span>
+                </div>
+                <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-2 rounded-lg border border-amber-200/80 shadow-2xs">
+                  <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
+                  <span>100+ Global Retail Stores</span>
+                </div>
+                <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-2 rounded-lg border border-amber-200/80 shadow-2xs">
+                  <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
+                  <span>100% Royalties Retained</span>
+                </div>
+                <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-2 rounded-lg border border-amber-200/80 shadow-2xs">
+                  <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
+                  <span>Official EU ISBN & Barcode</span>
+                </div>
+              </div>
+            </div>
+
             <p className="text-base sm:text-lg text-gray-600 max-w-2xl font-medium leading-relaxed">
               We provide professional manuscript polishing, award-winning illustration artwork, custom formats, and global distribution. 
               <span className="font-extrabold text-blue-950 ml-1">From our editorial headquarters in Għajnsielem, Malta, Perkins Publisher offers full-scale self-publishing solutions where you keep 100% of your royalties and rights.</span> We guide you every step of the way.
             </p>
 
             {/* Checklist of Benefits */}
-            <div className="space-y-3 pt-2">
+            <div className="space-y-2.5 pt-1">
               {highlights.map((text, idx) => (
                 <div key={idx} className="flex items-start gap-3">
-                  <CheckCircle2 className="text-amber-500 shrink-0 mt-0.5" size={18} />
+                  <CheckCircle2 className="text-amber-500 shrink-0 mt-0.5" size={17} />
                   <span className="text-sm font-bold text-gray-700">{text}</span>
                 </div>
               ))}
@@ -149,138 +238,187 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
             </div>
           </div>
 
-          {/* Right Side: Lead submission form & book stack mockup */}
+          {/* Right Side: Lead submission form transformed into the €499 Claim Engine */}
           <div className="lg:col-span-5 relative">
-            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-2xl border border-gray-100 relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-blue-900 text-white text-[10px] font-extrabold uppercase px-3 py-1 rounded-bl-xl tracking-wider flex items-center gap-1 shadow">
-                <Gift size={11} className="text-amber-400" />
-                <span>Free Guide Included</span>
+            <div className="bg-white rounded-2xl shadow-2xl border-2 border-amber-500/80 ring-4 ring-amber-500/10 relative overflow-hidden">
+              
+              {/* Header Banner on the Form Card */}
+              <div className="bg-gradient-to-r from-blue-950 via-slate-900 to-amber-950 text-white px-5 py-3 flex items-center justify-between border-b border-amber-500/30">
+                <div className="flex items-center gap-2">
+                  <Flame size={15} className="text-amber-400 fill-amber-400 animate-pulse" />
+                  <span className="text-xs font-black uppercase tracking-wider text-amber-300">
+                    €499 Package Reservation
+                  </span>
+                </div>
+                <span className="text-[10px] font-black bg-amber-500 text-blue-950 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  74% OFF
+                </span>
               </div>
 
-              <h3 className="text-xl font-extrabold text-blue-950 mb-1 flex items-center gap-2">
-                <BookOpen size={18} className="text-amber-500" />
-                <span>Submit Your Manuscript</span>
-              </h3>
-              <p className="text-xs text-gray-500 font-bold mb-6">
-                Receive a custom publishing blueprint & book estimate directly.
-              </p>
+              <div className="p-6 sm:p-7">
+                <h3 className="text-xl font-extrabold text-blue-950 mb-1 flex items-center gap-2">
+                  <BookOpen size={18} className="text-amber-500" />
+                  <span>Claim Your €499 Package</span>
+                </h3>
+                <p className="text-xs text-gray-500 font-bold mb-5">
+                  Receive your instant publishing proposal & lock in the subsidized €499 rate.
+                </p>
 
-              {submitted ? (
-                <div className="py-12 text-center space-y-4 animate-scaleUp">
-                  <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto border border-green-200">
-                    <CheckCircle2 size={36} className="text-green-500" />
+                {submitted ? (
+                  <div className="py-12 text-center space-y-4 animate-scaleUp">
+                    <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto border border-green-200">
+                      <CheckCircle2 size={36} className="text-green-500" />
+                    </div>
+                    <h4 className="text-lg font-extrabold text-green-700">Inquiry & Promotion Claimed!</h4>
+                    <p className="text-xs text-gray-600 font-bold leading-relaxed max-w-xs mx-auto">
+                      Your €499 publishing package reservation has been logged. Our senior publishing team will review your manuscript summary and contact you within 15 minutes.
+                    </p>
                   </div>
-                  <h4 className="text-lg font-extrabold text-green-700">Inquiry Received!</h4>
-                  <p className="text-xs text-gray-600 font-bold leading-relaxed max-w-xs mx-auto">
-                    A Perkins senior publishing coordinator is reviewing your summary. Check your status in the <strong>Publisher CRM console</strong>!
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-[11px] font-extrabold text-gray-500 uppercase tracking-wider mb-1">
-                      Author Name *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="e.g. Sandra Vance"
-                      className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2.5 text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                       <label className="block text-[11px] font-extrabold text-gray-500 uppercase tracking-wider mb-1">
-                        Email Address *
+                        Author Name *
                       </label>
                       <input
-                        type="email"
+                        id="hero-author-name"
+                        type="text"
                         required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="sandra@example.com"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="e.g. Sandra Vance"
                         className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2.5 text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
                       />
                     </div>
-                    <div>
-                      <label className="block text-[11px] font-extrabold text-gray-500 uppercase tracking-wider mb-1">
-                        Phone Number *
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="+1 (555) 0199"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2.5 text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                      />
-                    </div>
-                  </div>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-[11px] font-extrabold text-gray-500 uppercase tracking-wider mb-1">
-                        Book Genre
-                      </label>
-                      <select
-                        value={genre}
-                        onChange={(e) => setGenre(e.target.value)}
-                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-bold text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                      >
-                        <option value="fiction">Fiction / Novel</option>
-                        <option value="nonfiction">Non-Fiction</option>
-                        <option value="scifi">Sci-Fi / Fantasy</option>
-                        <option value="selfhelp">Self-Help / Business</option>
-                        <option value="memoir">Memoir / Biography</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-extrabold text-gray-500 uppercase tracking-wider mb-1">
-                        Word Count ({wordCount.toLocaleString()})
-                      </label>
-                      <div className="pt-2">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-[11px] font-extrabold text-gray-500 uppercase tracking-wider mb-1">
+                          Email Address *
+                        </label>
                         <input
-                          type="range"
-                          min={5000}
-                          max={120000}
-                          step={5000}
-                          value={wordCount}
-                          onChange={(e) => setWordCount(parseInt(e.target.value))}
-                          className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                          type="email"
+                          required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="sandra@example.com"
+                          className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2.5 text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] font-extrabold text-gray-500 uppercase tracking-wider mb-1">
+                          Phone / WhatsApp *
+                        </label>
+                        <input
+                          type="tel"
+                          required
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder="+1 (555) 0199"
+                          className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2.5 text-xs font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         />
                       </div>
                     </div>
-                  </div>
 
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-blue-900 to-indigo-950 text-white py-3 px-4 rounded-lg text-xs uppercase tracking-wider font-extrabold hover:from-amber-500 hover:to-amber-600 hover:text-blue-950 transition-all shadow-md active:translate-y-0.5 mt-2 cursor-pointer flex items-center justify-center gap-2"
-                  >
-                    <Send size={13} />
-                    <span>Get My Editorial Proposal</span>
-                  </button>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-[11px] font-extrabold text-gray-500 uppercase tracking-wider mb-1">
+                          Book Genre
+                        </label>
+                        <select
+                          value={genre}
+                          onChange={(e) => setGenre(e.target.value)}
+                          className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-bold text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                        >
+                          <option value="fiction">Fiction / Novel</option>
+                          <option value="nonfiction">Non-Fiction</option>
+                          <option value="scifi">Sci-Fi / Fantasy</option>
+                          <option value="selfhelp">Self-Help / Business</option>
+                          <option value="memoir">Memoir / Biography</option>
+                          <option value="children">Children's Book</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[11px] font-extrabold text-gray-500 uppercase tracking-wider mb-1">
+                          Word Count ({wordCount.toLocaleString()})
+                        </label>
+                        <div className="pt-2">
+                          <input
+                            type="range"
+                            min={5000}
+                            max={120000}
+                            step={5000}
+                            value={wordCount}
+                            onChange={(e) => setWordCount(parseInt(e.target.value))}
+                            className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                          />
+                        </div>
+                      </div>
+                    </div>
 
-                  <div className="text-center pt-2">
-                    <button
-                      type="button"
-                      onClick={onOpenScorecard}
-                      className="text-[11px] font-bold text-amber-600 hover:text-amber-700 underline transition-colors"
+                    {/* Special €499 Package Promotion Checkbox Card */}
+                    <div 
+                      onClick={() => setApplyPromoOffer(!applyPromoOffer)}
+                      className={`border-2 rounded-xl p-3.5 transition-all cursor-pointer select-none flex items-start gap-3 ${
+                        applyPromoOffer
+                          ? 'bg-gradient-to-r from-amber-500/15 via-amber-400/20 to-amber-500/15 border-amber-500 shadow-sm'
+                          : 'bg-gray-50 border-gray-200 hover:bg-gray-100/70'
+                      }`}
                     >
-                      Or, Take the Free Bestseller Audit Scorecard
+                      <input
+                        type="checkbox"
+                        checked={applyPromoOffer}
+                        onChange={(e) => setApplyPromoOffer(e.target.checked)}
+                        onClick={(e) => e.stopPropagation()}
+                        className="w-4 h-4 mt-0.5 rounded border-gray-300 text-amber-500 focus:ring-amber-500 accent-amber-500 cursor-pointer shrink-0"
+                      />
+                      <div className="text-left">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span className="text-xs font-black text-blue-950 uppercase">
+                            Lock In €499 Complete Package
+                          </span>
+                          <span className="text-[9px] bg-amber-500 text-blue-950 px-1.5 py-0.2 rounded font-black uppercase">
+                            74% OFF
+                          </span>
+                        </div>
+                        <p className="text-[10.5px] text-gray-600 font-bold leading-tight mt-0.5">
+                          Includes custom cover, line editing, 3 versions (eBook, paperback, hardcover) + 100+ platform distribution.
+                        </p>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className={`w-full py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider font-black transition-all shadow-xl active:translate-y-0.5 mt-2 cursor-pointer flex items-center justify-center gap-2 ${
+                        applyPromoOffer
+                          ? 'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-600 hover:to-amber-700 text-blue-950 border border-amber-300 shadow-amber-500/25'
+                          : 'bg-gradient-to-r from-blue-900 to-indigo-950 hover:from-amber-500 hover:to-amber-600 hover:text-blue-950 text-white'
+                      }`}
+                    >
+                      <Flame size={15} className="fill-current text-blue-950" />
+                      <span>{applyPromoOffer ? 'Claim €499 Package & Get Proposal' : 'Get My Editorial Proposal'}</span>
+                      <ArrowRight size={14} />
                     </button>
-                  </div>
-                </form>
-              )}
+
+                    <div className="text-center pt-1">
+                      <button
+                        type="button"
+                        onClick={onOpenScorecard}
+                        className="text-[11px] font-bold text-amber-600 hover:text-amber-700 underline transition-colors"
+                      >
+                        Or, Check Manuscript Publishing Readiness
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
             </div>
           </div>
 
         </div>
 
         {/* Brand partners scroll strip */}
-        <div className="mt-20 pt-8 border-t border-gray-100">
+        <div className="mt-16 pt-8 border-t border-gray-100">
           <p className="text-center text-xs text-gray-400 font-extrabold tracking-widest uppercase mb-6">
             Global Books Distributed & Indexed On Major Retailing Channels
           </p>
@@ -296,7 +434,6 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
             ))}
           </div>
         </div>
-
       </div>
     </section>
   );

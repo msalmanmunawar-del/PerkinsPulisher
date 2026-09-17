@@ -4,34 +4,54 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Environment Fetch Accessor Guard -->
+    <!-- Environment Fetch Accessor Guard & Error Suppressor -->
     <script>
       (function() {
         try {
+          var isFetchGetterError = function(e) {
+            if (!e) return false;
+            var msg = (typeof e === 'string' ? e : (e.message || ''));
+            return msg.indexOf('fetch') !== -1 && (msg.indexOf('only a getter') !== -1 || msg.indexOf('Cannot set property') !== -1);
+          };
+
+          // 1. Intercept capture-phase window error events
+          window.addEventListener('error', function(event) {
+            if (isFetchGetterError(event.error) || isFetchGetterError(event.message)) {
+              if (event.preventDefault) event.preventDefault();
+              if (event.stopPropagation) event.stopPropagation();
+              if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+              return true;
+            }
+          }, true);
+
+          // 2. Wrap window.onerror
+          var prevOnError = window.onerror;
+          window.onerror = function(message, source, lineno, colno, error) {
+            if (isFetchGetterError(message) || isFetchGetterError(error)) {
+              return true;
+            }
+            if (typeof prevOnError === 'function') {
+              return prevOnError.apply(this, arguments);
+            }
+            return false;
+          };
+
+          // 3. Proactively configure window.fetch with cooperative getter/setter
           var win = window;
-          var nativeFetch = win.fetch;
-          if (typeof nativeFetch === 'function') {
-            var proto = Object.getPrototypeOf(win);
-            var targets = [win, proto, win.Window && win.Window.prototype].filter(Boolean);
+          var nativeFetch = (typeof win.fetch === 'function') ? win.fetch.bind(win) : null;
+          if (nativeFetch) {
+            var currentFetch = nativeFetch;
+            var targets = [win, Object.getPrototypeOf(win), (typeof Window !== 'undefined' ? Window.prototype : null)].filter(Boolean);
             for (var i = 0; i < targets.length; i++) {
               try {
-                var desc = Object.getOwnPropertyDescriptor(targets[i], 'fetch');
-                if (!desc || (desc.get && !desc.set) || (!desc.writable && !desc.set)) {
-                  var currentFetch = nativeFetch;
-                  Object.defineProperty(targets[i], 'fetch', {
+                var target = targets[i];
+                var desc = Object.getOwnPropertyDescriptor(target, 'fetch');
+                if (!desc || desc.configurable !== false) {
+                  Object.defineProperty(target, 'fetch', {
                     get: function() { return currentFetch; },
                     set: function(val) {
-                      if (this === win || this === globalThis || this === targets[i]) {
-                        if (typeof val === 'function') currentFetch = val;
-                      } else {
-                        try {
-                          Object.defineProperty(this, 'fetch', {
-                            value: val,
-                            writable: true,
-                            configurable: true,
-                            enumerable: true
-                          });
-                        } catch (e) {}
+                      if (typeof val === 'function') {
+                        currentFetch = val;
                       }
                     },
                     configurable: true,

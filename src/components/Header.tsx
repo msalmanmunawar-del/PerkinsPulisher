@@ -150,10 +150,21 @@ export default function Header({
     <header className="w-full z-50">
       
       {/* Promo Bar */}
-      <div className="bg-gradient-to-r from-slate-950 via-[#103460] to-amber-950 text-white py-1.5 px-4 text-xs font-semibold flex flex-wrap justify-between items-center border-b border-amber-500/10">
-        <div className="flex items-center gap-2 mx-auto sm:mx-0">
-          <span className="bg-amber-500 text-black text-[10px] px-1.5 py-0.5 rounded uppercase font-extrabold animate-pulse">OFFER</span>
-          <span className="text-gray-200">Submit Your Manuscript Today & Receive 100% Royalties & Digital Asset Setup!</span>
+      <div className="bg-gradient-to-r from-slate-950 via-[#0f294a] to-amber-950 text-white py-2 px-4 text-xs font-semibold flex flex-wrap justify-between items-center border-b border-amber-500/20">
+        <div 
+          className="flex items-center gap-2 mx-auto sm:mx-0 cursor-pointer group" 
+          onClick={onOpenConsultation}
+          title="Click to claim the €499 All-Inclusive Publishing Package"
+        >
+          <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-blue-950 text-[10px] px-2 py-0.5 rounded-full uppercase font-black tracking-wider animate-pulse shadow-sm">
+            FLASH OFFER • 74% OFF
+          </span>
+          <span className="text-gray-100 group-hover:text-amber-300 transition-colors">
+            Complete Publishing Package: <strong className="text-amber-300">€499</strong> <span className="line-through text-gray-400 text-[11px]">€1,899</span> • Cover + Editing + 3 Formats (eBook, Paper, Hard) + 100+ Platforms!
+          </span>
+          <span className="hidden lg:inline-flex items-center gap-1 text-amber-400 group-hover:text-amber-300 font-black text-[11px] underline ml-1">
+            Claim €499 Deal &rarr;
+          </span>
         </div>
         <div className="hidden sm:flex items-center gap-3.5 text-[11px]">
           <div className="hidden md:flex items-center gap-1.5 text-amber-200/90 font-medium">
@@ -350,6 +361,21 @@ export default function Header({
               <span>Royalty Calculator</span>
             </button>
 
+            {/* €499 Special Offer Quick Link */}
+            <button
+              onClick={() => {
+                handleNavClick('home');
+                setTimeout(() => {
+                  document.getElementById('special-offer')?.scrollIntoView({ behavior: 'smooth' });
+                }, 150);
+              }}
+              className="px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer bg-gradient-to-r from-amber-500/15 via-amber-400/20 to-amber-500/15 hover:bg-amber-500/25 text-amber-900 border border-amber-500/40 flex items-center gap-1.5 shadow-2xs"
+            >
+              <Flame size={13} className="text-amber-600 fill-amber-600 animate-pulse" />
+              <span>€499 Package</span>
+              <span className="text-[9px] bg-amber-500 text-blue-950 px-1 py-0.2 rounded font-black">74% OFF</span>
+            </button>
+
           </div>
 
           {/* Clean Executive Contact & Consultation CTAs */}
@@ -468,6 +494,27 @@ export default function Header({
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-3 absolute top-full left-0 w-full shadow-2xl animate-fadeIn z-50 max-h-[80vh] overflow-y-auto">
             
+            {/* Promo Banner inside mobile menu */}
+            <div 
+              onClick={() => {
+                setMobileMenuOpen(false);
+                handleNavClick('home');
+                setTimeout(() => {
+                  document.getElementById('special-offer')?.scrollIntoView({ behavior: 'smooth' });
+                }, 150);
+              }}
+              className="bg-gradient-to-r from-blue-950 via-slate-900 to-amber-950 p-3.5 rounded-2xl border border-amber-500/40 text-white cursor-pointer shadow-md"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-[9px] font-black uppercase tracking-wider bg-amber-500 text-blue-950 px-2 py-0.5 rounded-full">
+                  74% OFF FLASH DEAL
+                </span>
+                <span className="text-xs font-black text-amber-400">Now €499</span>
+              </div>
+              <p className="text-xs font-black text-white">Complete 3-Format Publishing Package</p>
+              <p className="text-[10px] text-gray-300 mt-0.5">Cover + Editing + eBook, Paper & Hardcover + 100+ Platforms</p>
+            </div>
+
             <button
               onClick={() => handleNavClick('home')}
               className="w-full text-left py-2 px-3 rounded-md text-xs font-black uppercase tracking-wider text-slate-700 hover:bg-gray-50"

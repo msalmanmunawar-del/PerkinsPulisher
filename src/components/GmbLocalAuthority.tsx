@@ -75,7 +75,7 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
                 Google Search & Business Profile Transparency Standard
               </p>
               <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                Rather than relying on unverified star widgets, Google recommends providing <strong>direct Google Maps links</strong> so visitors can inspect authentic customer reviews, office photos, and GPS directions directly on Google's platform, with <strong>100% exact NAP consistency</strong> and <strong>verifiable business credentials</strong>.
+                Rather than relying on unverified star widgets, we provide <strong>direct Google Maps links</strong> so visitors can inspect authentic author reviews, office photos, and GPS directions directly on Google's platform, with <strong>verifiable European business credentials</strong>.
               </p>
             </div>
           </div>
@@ -136,19 +136,19 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
               </div>
             </div>
 
-            {/* Exact NAP (Name, Address, Phone, Hours) Section */}
+            {/* Exact Business & Office Information Section */}
             <div className="space-y-4 pt-4 border-t border-slate-100">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-black uppercase text-slate-400 tracking-wider">
-                  Official Business Listing Information (Exact NAP)
+                  Official Business Information & Registration
                 </h4>
                 <button
                   onClick={copyFullNapToClipboard}
-                  className="text-[11px] text-blue-700 hover:text-blue-900 font-black inline-flex items-center gap-1 cursor-pointer transition-colors"
-                  title="Copy full NAP data block for audit verification"
+                  className="text-[11px] text-blue-700 hover:text-blue-900 font-bold inline-flex items-center gap-1 cursor-pointer transition-colors"
+                  title="Copy official contact and registry information"
                 >
                   {copiedFullNap ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
-                  <span>{copiedFullNap ? '✓ Full NAP Copied!' : 'Copy Full NAP Data'}</span>
+                  <span>{copiedFullNap ? '✓ Contact Info Copied!' : 'Copy Contact Details'}</span>
                 </button>
               </div>
 
@@ -435,16 +435,16 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
           </div>
         </div>
 
-        {/* AEO / Direct Answer Fact Matrix (Answer Engine Optimization for AI Overviews, Perplexity & ChatGPT) */}
-        <div id="aeo-summary" className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
+        {/* Publishing Standards & Distinctions */}
+        <div id="publishing-standards" className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
           <div className="flex items-center gap-3 border-b border-slate-150 pb-4">
             <Sparkles className="text-amber-500 shrink-0" size={20} />
             <div>
               <h3 className="text-base sm:text-lg font-black text-slate-900 uppercase tracking-tight">
-                AI Answer Engine Entity Profile (AEO & GEO Knowledge Matrix)
+                Publishing Standards & Distinctions
               </h3>
               <p className="text-xs text-slate-500 font-semibold">
-                Direct structured definitions indexed for Google AI Overviews, Perplexity AI, Claude, and ChatGPT Search
+                Core principles defining our European hybrid publishing model, copyright retention, and global retail distribution
               </p>
             </div>
           </div>

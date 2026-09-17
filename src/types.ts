@@ -75,3 +75,36 @@ export interface LogoConfig {
   customSvgMarkup?: string; // used when type = 'custom_svg'
 }
 
+export const OFFICIAL_EMBLEM_LOGO_PRESET: LogoConfig = {
+  id: 'preset-official-emblem',
+  name: 'Official Perkins Dual-Tone Emblem',
+  type: 'emblem',
+  text: 'PERKINS PUBLISHER',
+  textSize: 'text-base',
+  letterSpacing: 'tracking-[0.20em]',
+  textColor: 'text-slate-900',
+  footerTextColor: 'text-white',
+  iconName: 'BookOpen',
+  iconSize: 22,
+  strokeWidth: 2,
+  fontFamily: 'font-sans',
+  isUppercase: true,
+  customImageUrl: '/logo.png'
+};
+
+export const ORIGINAL_LOGO_PRESET: LogoConfig = {
+  id: 'preset-original',
+  name: 'Perkins Classic (Original)',
+  type: 'original',
+  text: 'PERKINS PUBLISHER',
+  textSize: 'text-base',
+  letterSpacing: 'tracking-[0.18em]',
+  textColor: 'text-slate-900',
+  footerTextColor: 'text-white/90',
+  iconName: 'BookOpen',
+  iconSize: 20,
+  strokeWidth: 1.5,
+  fontFamily: 'font-sans',
+  isUppercase: true
+};
+

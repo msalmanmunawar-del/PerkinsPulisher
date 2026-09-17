@@ -1,0 +1,52 @@
+[
+  {
+    "id": "inq-1789639443236",
+    "receivedAt": "2026-09-17T10:04:03.236Z",
+    "status": "New",
+    "name": "Prof. Arthur Pendelton",
+    "email": "arthur.pendelton@oxford-research.org",
+    "phone": "+44 20 7946 0912",
+    "genre": "Non-Fiction / Academic",
+    "wordCount": 94000,
+    "services": [
+      "promo-publishing-499"
+    ],
+    "estimatedPrice": 499,
+    "expressCallback": true,
+    "message": "Testing delivery systems for the €499 promotional publishing package. Urgent call requested."
+  },
+  {
+    "id": "inq-1789639391921",
+    "receivedAt": "2026-09-17T10:03:11.921Z",
+    "status": "New",
+    "name": "David Mitchell",
+    "email": "david.mitchell@author-demo.com",
+    "phone": "+1 646 555 0184",
+    "genre": "Historical Fiction",
+    "wordCount": 82000,
+    "services": [
+      "promo-publishing-499"
+    ],
+    "estimatedPrice": 499,
+    "expressCallback": true,
+    "message": "Manuscript completed. Claiming the €499 Special Publishing Offer with line editing and 3 formats!"
+  },
+  {
+    "id": "inq-5032",
+    "receivedAt": "2026-09-17T10:01:48.490Z",
+    "name": "test 2026",
+    "email": "test@gmail.com",
+    "phone": "+3537789992",
+    "genre": "nonfiction",
+    "wordCount": 90000,
+    "services": [
+      "promo-publishing-499"
+    ],
+    "status": "New",
+    "date": "Sep 17, 2026",
+    "estimatedPrice": 499,
+    "message": "[€499 COMPLETE PUBLISHING PACKAGE CLAIM FROM HERO]: Author claimed the 74% OFF Complete Publishing Package (€499 flat rate for custom cover, line editing, 3 versions: eBook/paperback/hardcover, and 100+ platform distribution).",
+    "expressCallback": true,
+    "expressService": true
+  }
+]

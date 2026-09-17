@@ -83,10 +83,6 @@ export default function SEO({ activePage, subId }: SEOProps) {
       title = 'Terms of Service & 100% Royalty Protection | Perkins Publisher Europe';
       description = 'Review our European publishing terms, author intellectual property rights under EU copyright laws, non-disclosure confidentiality covenants, and flat-rate service guarantees.';
       canonical = 'https://www.perkinspublisher.com/terms';
-    } else if (activePage === 'search-console') {
-      title = 'Search Console & Production Verification | Perkins Publisher';
-      description = 'Google Search Console, sitemap inspection, and indexing diagnostic portal for Perkins Publisher.';
-      canonical = 'https://www.perkinspublisher.com/search-console';
     }
 
     // Update document head
@@ -164,8 +160,7 @@ export default function SEO({ activePage, subId }: SEOProps) {
       'reviews': 'Author Reviews',
       'seo-scorecard': 'Audit Scorecard',
       'privacy': 'Privacy Policy',
-      'terms': 'Terms of Service',
-      'search-console': 'Search Console'
+      'terms': 'Terms of Service'
     };
 
     let pageLabel = pageNames[activePage];

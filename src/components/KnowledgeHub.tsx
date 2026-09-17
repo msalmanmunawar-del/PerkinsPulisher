@@ -568,7 +568,7 @@ Statutory deposit under the Irish Copyright and Related Rights Act 2000 is compl
               onClick={() => onNavigate('seo-scorecard')}
               className="w-full bg-slate-900 hover:bg-slate-950 text-white text-[10px] font-black uppercase tracking-wider py-2.5 rounded-lg text-center cursor-pointer block"
             >
-              Take Bestseller Audit Scorecard
+              Check Publishing Readiness Scorecard
             </button>
           </div>
         </div>

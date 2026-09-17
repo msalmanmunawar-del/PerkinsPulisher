@@ -120,7 +120,7 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
               </li>
               <li>
                 <button onClick={() => handleNav('seo-scorecard')} className="hover:text-amber-500 transition-colors cursor-pointer text-left block">
-                  Bestseller Audit Scorecard
+                  Publishing Readiness Scorecard
                 </button>
               </li>
             </ul>
@@ -289,13 +289,13 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
               </a>
             </div>
 
-            {/* Quick GMB Card Navigation */}
+            {/* Quick European Headquarters Card Navigation */}
             <div className="pt-1">
               <button
                 onClick={() => handleNav('gmb-verified-profile')}
                 className="inline-flex items-center gap-1 text-[10px] text-amber-400 hover:underline font-bold cursor-pointer"
               >
-                <span>View Full GMB Entity & Credentials Matrix →</span>
+                <span>View European Headquarters & Verified Credentials →</span>
               </button>
             </div>
           </div>
@@ -312,7 +312,7 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
             <p className="text-slate-600 font-medium">All trademarks, trade names, and covers remain property of their respective author owners.</p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 text-[10px] text-slate-500 font-black uppercase tracking-wider">
+          <div className="flex flex-wrap justify-center gap-4 text-[10px] text-slate-500 font-black uppercase tracking-wider items-center">
             <button onClick={() => onNavigate('privacy')} className="hover:text-amber-500 transition-colors cursor-pointer">
               Privacy Policy
             </button>
