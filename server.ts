@@ -546,9 +546,13 @@ async function startServer() {
       console.warn("⚠️ Webhook dispatch warning:", err);
       return { sent: false, error: err.message };
     });
+        const sheetsWebhookPromise = dispatchWebhook(enrichedLead, process.env.GOOGLE_SHEETS_WEBHOOK_URL || "").catch((err) => {
+      console.warn("⚠️ Sheets webhook dispatch warning:", err);
+      return { sent: false, error: err.message };
+    });
 
     // Await both delivery pipelines concurrently with resilient timeout
-    const [emailDelivery, webhookDelivery] = await Promise.all([emailPromise, webhookPromise]);
+    const [emailDelivery, webhookDelivery] = await Promise.all([emailPromise, webhookPromise, sheetsWebhookPromise]);
 
     const isPromo = enrichedLead.estimatedPrice === 499 || (enrichedLead.services && enrichedLead.services.includes('promo-publishing-499'));
 
