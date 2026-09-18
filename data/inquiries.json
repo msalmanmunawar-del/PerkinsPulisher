@@ -1,5 +1,21 @@
 [
   {
+    "id": "inq-1789761673093",
+    "receivedAt": "2026-09-18T20:01:13.093Z",
+    "status": "New",
+    "name": "Salman Munawar",
+    "email": "msalmanmunawar@gmail.com",
+    "phone": "+44 7123 456789",
+    "genre": "Fiction / Mystery",
+    "wordCount": 65000,
+    "estimatedPrice": 499,
+    "services": [
+      "promo-publishing-499"
+    ],
+    "expressCallback": true,
+    "message": "Testing direct transmission to Google Sheets and Hostinger SMTP."
+  },
+  {
     "id": "inq-1789639443236",
     "receivedAt": "2026-09-17T10:04:03.236Z",
     "status": "New",

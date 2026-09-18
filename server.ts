@@ -14,6 +14,7 @@ const INTEGRATIONS_FILE = path.join(DATA_DIR, "integrations.json");
 interface IntegrationConfig {
   recipientEmail: string;
   webhookUrl?: string;
+  googleSheetsUrl?: string;
   smtpHost?: string;
   smtpPort?: number;
   smtpUser?: string;
@@ -40,9 +41,10 @@ function getIntegrationsConfig(): IntegrationConfig {
   return {
     recipientEmail: fileConfig.recipientEmail || defaultRecipient,
     webhookUrl: fileConfig.webhookUrl !== undefined ? fileConfig.webhookUrl : (process.env.WEBHOOK_URL || ""),
+    googleSheetsUrl: fileConfig.googleSheetsUrl !== undefined ? fileConfig.googleSheetsUrl : (process.env.GOOGLE_SHEETS_WEBHOOK_URL || ""),
     smtpHost: fileConfig.smtpHost || process.env.SMTP_HOST || "smtp.hostinger.com",
-    smtpPort: fileConfig.smtpPort || Number(process.env.SMTP_PORT) || 587,
-    smtpUser: fileConfig.smtpUser || process.env.SMTP_USER || "",
+    smtpPort: fileConfig.smtpPort || Number(process.env.SMTP_PORT) || 465,
+    smtpUser: fileConfig.smtpUser || process.env.SMTP_USER || "info@perkinspublisher.com",
     smtpPass: fileConfig.smtpPass || process.env.SMTP_PASS || "",
   };
 }
@@ -102,7 +104,7 @@ function getStoredInquiries(): any[] {
   }
 }
 
-// Helper: Dispatch automated email (Direct Cloud Delivery via FormSubmit + Optional SMTP)
+// Helper: Dispatch automated email directly via Hostinger SMTP (No FormSubmit middleman)
 async function dispatchLeadEmail(lead: any, config: IntegrationConfig) {
   const recipientString = config.recipientEmail || "msalmanmunawar@gmail.com, info@perkinspublisher.com";
   const recipientList = recipientString.split(",").map(e => e.trim()).filter(Boolean);
@@ -113,74 +115,32 @@ async function dispatchLeadEmail(lead: any, config: IntegrationConfig) {
 
   const result = {
     recipients: recipientList,
-    formSubmitSuccess: false,
-    formSubmitMessage: "",
     smtpSuccess: false,
     smtpMessage: "",
   };
 
-  // 1. Direct Cloud Dispatch to FormSubmit for each recipient
-  try {
-    const formSubmitPayload = {
-      _subject: subject,
-      _replyto: lead.email || recipientList[0],
-      _template: "table",
-      _captcha: "false",
-      "Perkins Publisher Alert": isPromo ? "★ €499 PROMOTIONAL PUBLISHING PACKAGE CLAIM ★" : "NEW AUTHOR INQUIRY",
-      "Author Name": lead.name,
-      "Author Email": lead.email,
-      "Phone / WhatsApp": lead.phone,
-      "Book Genre": lead.genre,
-      "Word Count": `${lead.wordCount ? lead.wordCount.toLocaleString() : 0} words`,
-      "Package Quoted": isPromo ? "€499 Complete Publishing Package (74% OFF)" : (lead.services ? lead.services.join(", ") : "Standard"),
-      "Quoted Price": `€${lead.estimatedPrice || 499}`,
-      "Priority Status": isExpress ? "🚨 HIGH PRIORITY - 15 MIN CALLBACK REQUESTED" : "Standard",
-      "Author Notes / Story Plan": lead.message || "None provided",
-      "Timestamp": new Date().toUTCString(),
-    };
+  const smtpHost = config.smtpHost || process.env.SMTP_HOST || "smtp.hostinger.com";
+  const smtpPort = Number(config.smtpPort || process.env.SMTP_PORT) || 465;
+  const smtpUser = config.smtpUser || process.env.SMTP_USER || "info@perkinspublisher.com";
+  const smtpPass = config.smtpPass || process.env.SMTP_PASS || "";
 
-    const fsPromises = recipientList.map(async (email) => {
-      console.log("📨 [Perkins Delivery Engine] Forwarding lead to:", email, "via Cloud Mail Relay");
-      const fsRes = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(email)}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Origin": "https://perkinspublisher.com",
-          "Referer": "https://perkinspublisher.com",
-        },
-        body: JSON.stringify(formSubmitPayload),
-        signal: AbortSignal.timeout(8000),
-      });
-      const data: any = await fsRes.json().catch(() => ({}));
-      return { email, ok: fsRes.ok && data.success !== "false", data };
-    });
-
-    const fsResults = await Promise.all(fsPromises);
-    const anySuccess = fsResults.some(r => r.ok);
-    result.formSubmitSuccess = anySuccess;
-    result.formSubmitMessage = fsResults.map(r => `${r.email}: ${r.data.message || (r.ok ? "Sent" : "Pending")}`).join(" | ");
-    console.log("📨 [Perkins Delivery Engine] Cloud Mail Relay results:", result.formSubmitMessage);
-  } catch (err: any) {
-    console.warn("⚠️ [Perkins Delivery Engine] Cloud Mail Relay notice:", err.message);
-    result.formSubmitMessage = err.message;
-  }
-
-  // 2. SMTP Dispatch (if SMTP credentials are provided)
-  if (config.smtpHost && config.smtpUser && config.smtpPass) {
+  if (smtpHost && smtpUser && smtpPass) {
     try {
       const transporter = nodemailer.createTransport({
-        host: config.smtpHost,
-        port: Number(config.smtpPort) || 587,
-        secure: Number(config.smtpPort) === 465,
+        host: smtpHost,
+        port: smtpPort,
+        secure: smtpPort === 465,
         auth: {
-          user: config.smtpUser,
-          pass: config.smtpPass,
+          user: smtpUser,
+          pass: smtpPass,
+        },
+        tls: {
+          rejectUnauthorized: false,
         },
       });
 
       const emailHtml = `
-        <div style="font-family: 'Inter', system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff; color: #1e293b;">
+        <div style="font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff; color: #1e293b;">
           <div style="background-color: #0b0f19; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 25px; border-bottom: 3px solid #f59e0b;">
             <h1 style="color: #ffffff; margin: 0; font-size: 20px; letter-spacing: 0.15em;">PERKINS PUBLISHER</h1>
             <p style="color: #f59e0b; margin: 5px 0 0 0; font-size: 11px; font-weight: bold; text-transform: uppercase;">
@@ -196,39 +156,110 @@ async function dispatchLeadEmail(lead: any, config: IntegrationConfig) {
             🚨 URGENT: Author requested an immediate callback at <a href="tel:${lead.phone}" style="color: #ef4444;">${lead.phone}</a>!
           </div>` : ""}
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
-            <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Author Name</td><td style="padding: 10px; font-weight: bold;">${lead.name}</td></tr>
+            <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px; width: 35%;">Author Name</td><td style="padding: 10px; font-weight: bold;">${lead.name}</td></tr>
             <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Email Address</td><td style="padding: 10px;"><a href="mailto:${lead.email}">${lead.email}</a></td></tr>
             <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Phone / WhatsApp</td><td style="padding: 10px;"><a href="tel:${lead.phone}">${lead.phone}</a></td></tr>
             <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Genre / Words</td><td style="padding: 10px;">${lead.genre} • ${(lead.wordCount || 0).toLocaleString()} words</td></tr>
             <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Quoted Price</td><td style="padding: 10px; font-weight: bold; color: #ca8a04; font-size: 16px;">€${lead.estimatedPrice || 499}</td></tr>
-            ${lead.message ? `<tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px; vertical-align: top;">Author Notes</td><td style="padding: 10px; white-space: pre-line;">${lead.message}</td></tr>` : ""}
+            <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Package / Services</td><td style="padding: 10px;">${isPromo ? "€499 Complete Promotional Package" : (Array.isArray(lead.services) ? lead.services.join(", ") : lead.services || "Custom Selection")}</td></tr>
+            ${lead.message ? `<tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px; vertical-align: top;">Author Notes</td><td style="padding: 10px; white-space: pre-line;">${lead.message}</td></tr>` : ""}
           </table>
           <div style="text-align: center; border-top: 1px solid #f1f5f9; padding-top: 15px; font-size: 11px; color: #94a3b8;">
-            Recipients: ${recipientList.join(", ")} • Perkins Automated Publishing Pipeline
+            Sent directly to ${recipientList.join(", ")} via Perkins Official Mail Server
           </div>
         </div>
       `;
 
       const info = await transporter.sendMail({
-        from: `"Perkins Publisher" <${config.smtpUser}>`,
+        from: `"Perkins Publisher" <${smtpUser}>`,
         to: recipientList.join(", "),
+        replyTo: lead.email || undefined,
         subject: subject,
         html: emailHtml,
       });
 
       result.smtpSuccess = true;
       result.smtpMessage = `Delivered via SMTP (${info.messageId})`;
-      console.log("✅ [Perkins Delivery Engine] SMTP delivery successful:", info.messageId);
+      console.log("✅ [Perkins Delivery Engine] SMTP delivery successful to:", recipientList.join(", "), info.messageId);
     } catch (err: any) {
       console.error("⚠️ [Perkins Delivery Engine] SMTP delivery error:", err.message);
       result.smtpMessage = err.message;
     }
+  } else {
+    result.smtpMessage = "SMTP credentials missing";
+    console.warn("⚠️ [Perkins Delivery Engine] SMTP credentials missing, email skipped");
   }
 
   return result;
 }
 
-// Helper: Dispatch automated webhook (Discord, Slack, Zapier, Make, Google Sheets)
+// Helper: Dispatch automated Google Sheets sync (Apps Script Web App, Zapier, Make, or n8n)
+async function dispatchGoogleSheets(payload: any, sheetsUrlOverride?: string) {
+  const config = getIntegrationsConfig();
+  const targetUrl = sheetsUrlOverride || config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+  if (!targetUrl || !targetUrl.trim()) {
+    return { sent: false, reason: "No Google Sheets webhook configured" };
+  }
+
+  const isPromo = payload.estimatedPrice === 499 || (payload.services && payload.services.includes('promo-publishing-499')) || (payload.message && payload.message.includes('€499'));
+  const isExpress = payload.expressCallback || payload.expressService;
+
+  try {
+    console.log("📊 [Perkins Delivery Engine] Dispatching lead to Google Sheets:", targetUrl);
+    const bodyPayload = {
+      timestamp: new Date().toISOString(),
+      dateFormatted: new Date().toLocaleString("en-GB", { timeZone: "UTC" }),
+      id: payload.id || `inq-${Date.now()}`,
+      name: payload.name || "",
+      email: payload.email || "",
+      phone: payload.phone || "",
+      genre: payload.genre || "General",
+      wordCount: payload.wordCount || 0,
+      package: isPromo ? "€499 Promo Publishing Package (74% OFF)" : (Array.isArray(payload.services) ? payload.services.join(", ") : payload.services || "Standard"),
+      quotedPrice: payload.estimatedPrice || 499,
+      isPromoOffer: isPromo ? "YES" : "NO",
+      priority: isExpress ? "URGENT 15-MIN CALLBACK" : "Standard",
+      notes: payload.message || "",
+      message: payload.message || "",
+      row: [
+        new Date().toISOString(),
+        payload.id || "",
+        payload.name || "",
+        payload.email || "",
+        payload.phone || "",
+        payload.genre || "General",
+        payload.wordCount || 0,
+        isPromo ? "€499 Promo (74% OFF)" : "Standard",
+        `€${payload.estimatedPrice || 499}`,
+        isExpress ? "URGENT 15-MIN" : "Standard",
+        payload.message || "",
+      ],
+    };
+
+    const res = await fetch(targetUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bodyPayload),
+      redirect: "follow", // Critical for Google Apps Script 302 redirects!
+      signal: AbortSignal.timeout(10000),
+    });
+
+    console.log(`📊 [Perkins Delivery Engine] Google Sheets response status: ${res.status}`);
+    return {
+      sent: res.ok,
+      statusCode: res.status,
+      statusText: res.statusText,
+    };
+  } catch (err: any) {
+    console.warn("⚠️ [Perkins Delivery Engine] Google Sheets sync error:", err.message);
+    return {
+      sent: false,
+      error: err.message,
+    };
+  }
+}
+
+// Helper: Dispatch automated webhook (Discord, Slack, Zapier, Make)
 async function dispatchWebhook(payload: any, webhookUrlOverride?: string) {
   const config = getIntegrationsConfig();
   const webhookUrl = webhookUrlOverride || config.webhookUrl;
@@ -281,6 +312,17 @@ async function dispatchWebhook(payload: any, webhookUrlOverride?: string) {
         event: "lead.created",
         source: "Perkins Publisher Web Portal",
         timestamp: new Date().toISOString(),
+        id: payload.id,
+        name: payload.name || "",
+        email: payload.email || "",
+        phone: payload.phone || "",
+        genre: payload.genre || "General",
+        wordCount: payload.wordCount || 0,
+        package: isPromo ? "€499 Promo Publishing Package" : (Array.isArray(payload.services) ? payload.services.join(", ") : payload.services || "Standard"),
+        estimatedPrice: payload.estimatedPrice || 499,
+        isPromoOffer: isPromo ? "YES" : "NO",
+        expressCallback: isExpress ? "URGENT 15-MIN" : "Standard",
+        message: payload.message || "",
         lead: {
           id: payload.id,
           name: payload.name,
@@ -302,6 +344,7 @@ async function dispatchWebhook(payload: any, webhookUrlOverride?: string) {
       method: "POST",
       headers,
       body: JSON.stringify(bodyPayload),
+      redirect: "follow",
       signal: AbortSignal.timeout(8000),
     });
 
@@ -387,11 +430,13 @@ async function startServer() {
       status: "success",
       recipientEmail: config.recipientEmail,
       webhookUrl: config.webhookUrl || "",
+      googleSheetsUrl: config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL || "",
+      googleSheetsActive: Boolean((config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL)?.trim()),
       webhookActive: Boolean(config.webhookUrl && config.webhookUrl.trim()),
-      emailDeliveryActive: true,
-      emailMethod: config.smtpUser && config.smtpPass ? "Dual (Cloud Relay + SMTP)" : "Cloud Mail Relay (FormSubmit Direct)",
+      emailDeliveryActive: Boolean(config.smtpHost && config.smtpUser && config.smtpPass),
+      emailMethod: "Hostinger SMTP Direct Delivery",
       smtpConfigured: Boolean(config.smtpHost && config.smtpUser && config.smtpPass),
-      smtpHost: config.smtpHost || "smtp.gmail.com",
+      smtpHost: config.smtpHost || "smtp.hostinger.com",
       smtpUser: config.smtpUser || "",
       totalLeadsStored: stored.length,
     });
@@ -399,10 +444,11 @@ async function startServer() {
 
   // API route: Save integration settings
   app.post("/api/integrations", (req, res) => {
-    const { recipientEmail, webhookUrl, smtpHost, smtpPort, smtpUser, smtpPass } = req.body;
+    const { recipientEmail, webhookUrl, googleSheetsUrl, smtpHost, smtpPort, smtpUser, smtpPass } = req.body;
     const updated = saveIntegrationsConfig({
       recipientEmail: recipientEmail ? recipientEmail.trim() : undefined,
       webhookUrl: webhookUrl !== undefined ? webhookUrl.trim() : undefined,
+      googleSheetsUrl: googleSheetsUrl !== undefined ? googleSheetsUrl.trim() : undefined,
       smtpHost: smtpHost ? smtpHost.trim() : undefined,
       smtpPort: smtpPort ? Number(smtpPort) : undefined,
       smtpUser: smtpUser !== undefined ? smtpUser.trim() : undefined,
@@ -415,8 +461,47 @@ async function startServer() {
       config: {
         recipientEmail: updated.recipientEmail,
         webhookUrl: updated.webhookUrl || "",
+        googleSheetsUrl: updated.googleSheetsUrl || "",
         smtpConfigured: Boolean(updated.smtpUser && updated.smtpPass),
       },
+    });
+  });
+
+  // API route: Test Google Sheets sync directly
+  app.post("/api/integrations/test-sheets", async (req, res) => {
+    const config = getIntegrationsConfig();
+    const targetUrl = req.body.googleSheetsUrl || config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+
+    if (!targetUrl || !targetUrl.trim()) {
+      return res.status(400).json({
+        status: "error",
+        message: "No Google Sheets webhook URL provided. Please configure GOOGLE_SHEETS_WEBHOOK_URL in environment or pass googleSheetsUrl.",
+      });
+    }
+
+    const testLead = {
+      id: `test-sheet-${Date.now()}`,
+      name: "Perkins Test Author",
+      email: "author.test@example.com",
+      phone: "+1 (555) 019-9821",
+      genre: "Historical Fiction",
+      wordCount: 68000,
+      estimatedPrice: 499,
+      services: ["promo-publishing-499"],
+      expressCallback: true,
+      message: "Test lead sync from Perkins Publisher directly to Google Sheets.",
+      receivedAt: new Date().toISOString(),
+    };
+
+    console.log("🧪 [Perkins Integrations] Executing live test Google Sheets sync to:", targetUrl);
+    const sheetsResult = await dispatchGoogleSheets(testLead, targetUrl);
+
+    res.json({
+      status: sheetsResult.sent ? "success" : "failed",
+      message: sheetsResult.sent 
+        ? `Google Sheets synced successfully! Endpoint returned HTTP ${sheetsResult.statusCode}` 
+        : `Google Sheets sync failed: ${sheetsResult.error || "Check your Web App URL"}`,
+      details: sheetsResult,
     });
   });
 
@@ -535,28 +620,36 @@ async function startServer() {
     // 2. Fetch current active configuration
     const config = getIntegrationsConfig();
 
-    // 3. Dispatch automated email (Direct Cloud Delivery to msalmanmunawar@gmail.com + SMTP)
+    // 3. Dispatch direct email via Hostinger SMTP (No FormSubmit middleman)
     const emailPromise = dispatchLeadEmail(enrichedLead, config).catch((err) => {
       console.warn("⚠️ Email dispatch warning:", err);
-      return { formSubmitSuccess: false, formSubmitMessage: err.message, smtpSuccess: false, smtpMessage: "" };
+      return { smtpSuccess: false, smtpMessage: err.message };
     });
 
-    // 4. Dispatch automated webhook (Discord / Slack / Zapier / Make / Sheets)
-    const webhookPromise = dispatchWebhook(enrichedLead, config.webhookUrl).catch((err) => {
-      console.warn("⚠️ Webhook dispatch warning:", err);
-      return { sent: false, error: err.message };
-    });
-        const sheetsWebhookPromise = dispatchWebhook(enrichedLead, process.env.GOOGLE_SHEETS_WEBHOOK_URL || "").catch((err) => {
-      console.warn("⚠️ Sheets webhook dispatch warning:", err);
+    // 4. Dispatch automated Google Sheets sync (Google Apps Script Web App, Zapier, or Make)
+    const sheetsPromise = dispatchGoogleSheets(enrichedLead, config.googleSheetsUrl).catch((err) => {
+      console.warn("⚠️ Google Sheets sync warning:", err);
       return { sent: false, error: err.message };
     });
 
-    // Await both delivery pipelines concurrently with resilient timeout
-    const [emailDelivery, webhookDelivery] = await Promise.all([emailPromise, webhookPromise, sheetsWebhookPromise]);
+    // 5. Dispatch optional webhook (Discord / Slack / Zapier / Make)
+    const webhookPromise = (config.webhookUrl && config.webhookUrl.trim()) 
+      ? dispatchWebhook(enrichedLead, config.webhookUrl).catch((err) => {
+          console.warn("⚠️ Webhook dispatch warning:", err);
+          return { sent: false, error: err.message };
+        }) 
+      : Promise.resolve({ sent: false, reason: "None configured" });
+
+    // Await delivery pipelines concurrently with resilient timeout
+    const [emailDelivery, sheetsDelivery, webhookDelivery] = await Promise.all([
+      emailPromise, 
+      sheetsPromise, 
+      webhookPromise
+    ]);
 
     const isPromo = enrichedLead.estimatedPrice === 499 || (enrichedLead.services && enrichedLead.services.includes('promo-publishing-499'));
 
-    console.log(`✅ [Perkins Pipeline Complete]: Lead ${enrichedLead.id} saved to disk. Email delivery: ${emailDelivery.formSubmitSuccess || emailDelivery.smtpSuccess}. Webhook sent: ${webhookDelivery.sent}`);
+    console.log(`✅ [Perkins Pipeline Complete]: Lead ${enrichedLead.id} saved to disk. SMTP email: ${emailDelivery.smtpSuccess}. Google Sheets: ${sheetsDelivery.sent}. Webhook: ${webhookDelivery.sent}`);
 
     return res.json({
       status: "success",
@@ -566,11 +659,14 @@ async function startServer() {
       leadId: enrichedLead.id,
       storedOnServer: true,
       emailDelivery: {
-        recipient: config.recipientEmail,
-        cloudRelaySent: emailDelivery.formSubmitSuccess,
-        cloudRelayStatus: emailDelivery.formSubmitMessage,
+        recipients: config.recipientEmail,
         smtpSent: emailDelivery.smtpSuccess,
         smtpStatus: emailDelivery.smtpMessage,
+      },
+      googleSheetsDelivery: {
+        active: Boolean((config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL)?.trim()),
+        synced: sheetsDelivery.sent,
+        status: (sheetsDelivery as any).statusCode || (sheetsDelivery as any).error || ((config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL) ? "Synced" : "None configured"),
       },
       webhookDelivery: {
         active: Boolean(config.webhookUrl && config.webhookUrl.trim()),
