@@ -17,17 +17,82 @@ export default function SEO({ activePage, subId }: SEOProps) {
       description = 'Turn your professional expertise into a published authority book with Europe’s top-rated hybrid self-publishing company in Għajnsielem, Malta. 100% author rights & royalties, multi-currency EUR/GBP/USD payouts, IngramSpark & Amazon KDP Europe distribution.';
       canonical = 'https://www.perkinspublisher.com/';
     } else if (activePage.startsWith('service-')) {
-      const serviceName = activePage.replace('service-', '').replace('-', ' ');
-      const formattedName = serviceName.charAt(0).toUpperCase() + serviceName.slice(1);
-      title = `Professional ${formattedName} Services in Europe & Malta | Perkins Publisher Għajnsielem`;
-      description = `Develop, design, and publish your book across Europe and globally with leading ${formattedName} services based in Għajnsielem, Malta. NYT-grade editorial standards, 100% royalty retention, and EUR/GBP/USD payouts.`;
-      canonical = `https://www.perkinspublisher.com/services/${activePage.replace('service-', '')}`;
+      const sId = activePage.replace('service-', '');
+      canonical = `https://www.perkinspublisher.com/services/${sId}`;
+      
+      if (sId === 'ghostwriting') {
+        title = 'Professional Book Ghostwriting Services | Perkins Publisher';
+        description = 'Collaborate with veteran ghostwriters to transform your knowledge or story into a commercially competitive book. 100% copyrights and royalties retained under strict blind NDA.';
+      } else if (sId === 'editing') {
+        title = 'Elite Developmental Editing & Proofreading Services | Perkins Publisher';
+        description = 'Comprehensive multi-pass manuscript editing adhering to Chicago Manual of Style (CMOS 17th Edition). Developmental critique, stylistic line editing, and precision proofreading.';
+      } else if (sId === 'cover-design' || sId === 'book-design') {
+        title = 'Custom Book Cover Design & Interior Typesetting | Perkins Publisher';
+        description = 'Award-winning cover design and interior typography for hardcovers, paperbacks, and eBooks. Mathematically calibrated spine caliper and CMYK print-wrap engineering.';
+        canonical = 'https://www.perkinspublisher.com/services/cover-design';
+      } else if (sId === 'publishing') {
+        title = 'Turnkey Hybrid Book Publishing & Global Distribution | Perkins Publisher';
+        description = 'Publish your book worldwide across 40,000+ bookstores and libraries. Keep 100% of your royalties and rights with official ISBN registration and print-on-demand setup.';
+      } else if (sId === 'distribution' || sId === 'book-distribution') {
+        title = 'Global Book Distribution Services & Bookstore Placement | Perkins Publisher';
+        description = 'Worldwide wholesale and digital distribution to Waterstones, Barnes & Noble, Dymocks, and 40,000+ libraries via Ingram Content Group, Baker & Taylor, and Nielsen feeds.';
+        canonical = 'https://www.perkinspublisher.com/services/distribution';
+      } else if (sId === 'audiobook') {
+        title = 'Audiobook Production & Voice Casting (Audible / ACX) | Perkins Publisher';
+        description = 'Professional voice casting, studio recording, and audio mastering meeting Audible, Apple Books, and ACX specifications. Retain 100% of your audiobook rights and royalties.';
+      } else if (sId === 'marketing') {
+        title = 'Strategic Book Marketing & Bestseller Launch Campaigns | Perkins Publisher';
+        description = 'Drive discoverability and reader acquisition through targeted Amazon PPC ads, category metadata optimization, press kit distribution, and digital promotional campaigns.';
+      } else if (sId === 'kdp') {
+        title = 'Amazon KDP Self-Publishing Setup & Distribution | Perkins Publisher';
+        description = 'End-to-end Kindle Direct Publishing setup: trim size calculations, gutter margin formatting, 7-keyword search optimization, and print-on-demand activation.';
+      } else if (sId === 'business') {
+        title = 'Business Book Publishing for Executives & Thought Leaders | Perkins Publisher';
+        description = 'Establish definitive corporate authority and command high-ticket client retainers with a custom-bound business book. White-glove ghostwriting and launch strategy.';
+      } else if (sId === 'memoirs') {
+        title = 'Memoir & Biography Ghostwriting and Publishing | Perkins Publisher';
+        description = 'Preserve your family legacy or personal life journey in an enduring, foil-stamped hardcover. Empathetic interview-driven ghostwriting and archival legal deposit.';
+      } else if (sId === 'children') {
+        title = 'Children’s Book Publishing & Custom Illustration | Perkins Publisher';
+        description = 'Bring your children’s story to life with custom character drafts, vibrant full-bleed color illustrations, rhythmic editorial pacing, and print-on-demand production.';
+      } else if (sId === 'pr-branding') {
+        title = 'Author Personal Branding & Executive PR Services | Perkins Publisher';
+        description = 'Craft an authoritative author platform, media one-sheet, digital press room, and cross-channel visibility ecosystem to maximize your book launch impact.';
+      } else if (sId === 'linkedin') {
+        title = 'LinkedIn Thought Leadership & Author Content Strategy | Perkins Publisher';
+        description = 'Convert your manuscript into high-engagement LinkedIn posts, executive newsletters, and inbound consulting inquiries with structured B2B content repurposing.';
+      } else if (sId === 'podcast-speaking') {
+        title = 'Author Podcast Tour Booking & Speaking Engagement Agency | Perkins Publisher';
+        description = 'Get booked as a featured guest on top-rated business, culture, and industry podcasts, securing keynote speaking opportunities and expanding your reader base.';
+      } else {
+        const formattedName = sId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        title = `${formattedName} Services | Perkins Publisher`;
+        description = `Professional ${formattedName.toLowerCase()} solutions by Perkins Publisher in Għajnsielem, Malta. 100% author rights and royalty retention with global distribution reach.`;
+      }
     } else if (activePage.startsWith('industry-')) {
-      const industryName = activePage.replace('industry-', '').replace('-', ' ');
-      const formattedName = industryName.charAt(0).toUpperCase() + industryName.slice(1);
-      title = `Book Publishing for European ${formattedName} | Perkins Publisher Malta & EU`;
-      description = `Launch your executive authority across European markets with top-tier book publishing custom engineered for European ${formattedName}. 100% copyright ownership and global retail reach.`;
-      canonical = `https://www.perkinspublisher.com/industries/${activePage.replace('industry-', '')}`;
+      const indId = activePage.replace('industry-', '');
+      canonical = `https://www.perkinspublisher.com/industries/${indId}`;
+
+      if (indId === 'coaches') {
+        title = 'Book Publishing Solutions for Elite Coaches & Mentors | Perkins Publisher';
+        description = 'Turn your signature coaching methodology into a high-ticket client magnet. Leverage a published book to pre-qualify prospective clients and eliminate sales friction.';
+      } else if (indId === 'consultants') {
+        title = 'Executive Publishing Programs for Management Consultants | Perkins Publisher';
+        description = 'Command five-figure corporate retainers and bypass corporate gatekeepers by mailing custom-bound hardcover books directly to enterprise decision-makers.';
+      } else if (indId === 'doctors') {
+        title = 'Medical & Healthcare Thought Leadership Book Publishing | Perkins Publisher';
+        description = 'Publish authoritative, patient-friendly medical literature and health memoirs. Rigorous editorial accuracy, clinical citation review, and global distribution.';
+      } else if (indId === 'lawyers') {
+        title = 'Book Publishing for Attorneys & Legal Professionals | Perkins Publisher';
+        description = 'Cement practice-area supremacy and attract high-value corporate clients with an authoritative legal handbook or industry analysis published under your sole name.';
+      } else if (indId === 'ceos') {
+        title = 'Book Publishing for Tech Founders & Enterprise CEOs | Perkins Publisher';
+        description = 'Document your company’s founding philosophy, market disruption thesis, and leadership insights in a world-class book with white-glove ghostwriting.';
+      } else {
+        const formattedName = indId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        title = `Book Publishing for ${formattedName} | Perkins Publisher`;
+        description = `Tailored book publishing and ghostwriting for ${formattedName.toLowerCase()}. 100% author rights and royalty retention with worldwide reach.`;
+      }
     } else if (activePage.startsWith('location-')) {
       const locId = activePage.replace('location-', '');
       if (locId === 'uk-london') {
@@ -85,8 +150,20 @@ export default function SEO({ activePage, subId }: SEOProps) {
       canonical = 'https://www.perkinspublisher.com/terms';
     }
 
+    // Handle internal/utility pages that should not be indexed or crawled
+    const isInternalAuditPage = activePage === 'citations' || activePage === 'indexing-status' || activePage.startsWith('internal-');
+
+    const metaRobots = document.querySelector('meta[name="robots"]');
+    if (metaRobots) {
+      if (isInternalAuditPage) {
+        metaRobots.setAttribute('content', 'noindex, nofollow, noarchive');
+      } else {
+        metaRobots.setAttribute('content', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+      }
+    }
+
     // Update document head
-    document.title = title;
+    document.title = isInternalAuditPage ? `Internal Tool | Perkins Publisher` : title;
     
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute('content', description);
@@ -133,8 +210,11 @@ export default function SEO({ activePage, subId }: SEOProps) {
       'service-ghostwriting': 'Book Ghostwriting',
       'service-editing': 'Developmental Editing',
       'service-publishing': 'Hybrid Publishing',
+      'service-distribution': 'Book Distribution',
+      'service-book-distribution': 'Book Distribution',
       'service-kdp': 'Amazon KDP Publishing',
       'service-cover-design': 'Cover & Interior Design',
+      'service-book-design': 'Cover & Interior Design',
       'service-business': 'Business Thought Leadership',
       'service-memoirs': 'Memoirs & Family Histories',
       'service-children': 'Children’s Book Production',

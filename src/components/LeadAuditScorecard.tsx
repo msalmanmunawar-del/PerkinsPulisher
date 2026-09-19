@@ -342,10 +342,10 @@ export default function LeadAuditScorecard({ onOpenInquiry }: LeadAuditScorecard
               <div className="space-y-2 border-b border-gray-800 pb-4">
                 <div className="flex items-center gap-2">
                   <Key className="text-amber-400 w-5 h-5 shrink-0" />
-                  <h4 className="font-extrabold text-white text-base">Step 2: Amazon SEO Keyword Matcher</h4>
+                  <h4 className="font-extrabold text-white text-base">Step 2: Amazon Keyword & Title Ideation</h4>
                 </div>
                 <p className="text-xs text-gray-400 leading-relaxed">
-                  Search engines indexes book listings via title algorithms. Pick your category and key phrases below to optimize metadata instantly.
+                  Explore genre-aligned title themes and keyword concepts to enhance book discoverability across online bookstores.
                 </p>
               </div>
 
@@ -368,7 +368,7 @@ export default function LeadAuditScorecard({ onOpenInquiry }: LeadAuditScorecard
 
               {/* Keyword entry validation input */}
               <div className="space-y-2 text-xs">
-                <label className="font-extrabold text-gray-300">Enter Your Potential Title / focus-phrase:</label>
+                <label className="font-extrabold text-gray-300">Enter Your Potential Title / Focus Phrase:</label>
                 <div className="flex gap-2">
                   <input
                     type="text"
@@ -393,17 +393,17 @@ export default function LeadAuditScorecard({ onOpenInquiry }: LeadAuditScorecard
               {/* Live analyzed metadata display */}
               {customKeywordRating && (
                 <div className="bg-[#121827] border border-amber-500/20 p-3.5 rounded-xl text-xs space-y-1.5 animate-fadeIn">
-                  <span className="font-black text-amber-400 block uppercase text-[10px]">Title Algorithm Rating:</span>
+                  <span className="font-black text-amber-400 block uppercase text-[10px]">Title Suggestion Rating:</span>
                   <p className="text-gray-300 leading-relaxed font-semibold">
                     {customKeywordRating}
                   </p>
                 </div>
               )}
 
-              {/* Genre specific curated search volume terms */}
+              {/* Genre specific curated suggestion terms */}
               <div className="space-y-3.5 pt-4 border-t border-gray-800 text-xs">
                 <div className="space-y-1">
-                  <span className="font-mono text-[10px] text-gray-500 font-bold uppercase tracking-wider">High Volume Amazon Search Queries:</span>
+                  <span className="font-mono text-[10px] text-gray-400 font-bold uppercase tracking-wider">Suggested Keyword Themes:</span>
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     {GENRE_SEO_PRESETS[selectedGenre].keywords.map((kw, i) => (
                       <span key={i} className="bg-[#0b0f19] text-amber-500/95 font-bold font-mono px-2.5 py-1 text-[10px] rounded-lg border border-gray-800">
@@ -414,7 +414,7 @@ export default function LeadAuditScorecard({ onOpenInquiry }: LeadAuditScorecard
                 </div>
 
                 <div className="space-y-1">
-                  <span className="font-mono text-[10px] text-gray-500 font-bold uppercase tracking-wider">Synergistic Title Synonyms (Google CTR):</span>
+                  <span className="font-mono text-[10px] text-gray-400 font-bold uppercase tracking-wider">Related Title & Keyword Ideas:</span>
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     {GENRE_SEO_PRESETS[selectedGenre].synonyms.map((syn, i) => (
                       <span key={i} className="bg-[#0c0f1b] text-blue-400 font-semibold font-mono px-2.5 py-1 text-[10px] rounded-lg border border-gray-800/80">
@@ -424,35 +424,39 @@ export default function LeadAuditScorecard({ onOpenInquiry }: LeadAuditScorecard
                   </div>
                 </div>
 
-                <p className="text-[11px] text-gray-400 italic bg-[#0c0f1b]/60 p-3 rounded-lg leading-relaxed border border-gray-850/30">
-                  <b>SEO Strategy Guide:</b> {GENRE_SEO_PRESETS[selectedGenre].description}
+                <p className="text-[11px] text-gray-400 bg-[#0c0f1b]/60 p-3 rounded-lg leading-relaxed border border-gray-850/30">
+                  <b className="text-gray-200">Recommendation:</b> {GENRE_SEO_PRESETS[selectedGenre].description}
+                </p>
+
+                <p className="text-[10px] text-gray-500 leading-normal italic">
+                  * Note: These keyword concepts and title pairings are editorial suggestions for creative brainstorming, not third-party measured search-volume or CTR metrics.
                 </p>
               </div>
             </div>
 
-            {/* Static index sitemap guides to avoid orphan pages and increase crawling */}
+            {/* Author Publishing Readiness Verification Checklist */}
             <div className="bg-[#111622] border border-gray-800 rounded-2xl p-5 space-y-4">
               <h5 className="text-xs font-black text-white uppercase tracking-wider font-mono flex items-center gap-1.5 pb-2.5 border-b border-gray-800">
                 <FileText className="w-4 h-4 text-amber-500" />
-                <span>Search engine Index parameters</span>
+                <span>Publishing Readiness Verification</span>
               </h5>
 
-              <div className="grid grid-cols-2 gap-3 text-[11px] font-semibold text-gray-400 font-mono">
-                <div className="p-2 bg-slate-950/40 rounded border border-gray-850 text-center">
-                  <span className="text-amber-500 block">SITEMAP.XML</span>
-                  <span>Registered Active</span>
+              <div className="grid grid-cols-2 gap-3 text-[11px] font-semibold text-gray-300 font-mono">
+                <div className="p-2.5 bg-slate-950/40 rounded-xl border border-gray-800/80 text-center">
+                  <span className="text-emerald-400 block font-bold">MANUSCRIPT</span>
+                  <span className="text-[10px] text-gray-400">Word Count Verified</span>
                 </div>
-                <div className="p-2 bg-slate-950/40 rounded border border-gray-850 text-center">
-                  <span className="text-amber-500 block">ROBOTS.TXT</span>
-                  <span>Allow indexing</span>
+                <div className="p-2.5 bg-slate-950/40 rounded-xl border border-gray-800/80 text-center">
+                  <span className="text-emerald-400 block font-bold">EDITORIAL</span>
+                  <span className="text-[10px] text-gray-400">CMOS Review Standard</span>
                 </div>
-                <div className="p-2 bg-slate-950/40 rounded border border-gray-850 text-center">
-                  <span className="text-amber-500 block">SCHEMA.ORG</span>
-                  <span>JSON-LD verified</span>
+                <div className="p-2.5 bg-slate-950/40 rounded-xl border border-gray-800/80 text-center">
+                  <span className="text-emerald-400 block font-bold">COVER WRAP</span>
+                  <span className="text-[10px] text-gray-400">Spine Caliper Matched</span>
                 </div>
-                <div className="p-2 bg-slate-950/40 rounded border border-gray-850 text-center">
-                  <span className="text-amber-500 block">HTTP CROUNDS</span>
-                  <span>CDN configured</span>
+                <div className="p-2.5 bg-slate-950/40 rounded-xl border border-gray-800/80 text-center">
+                  <span className="text-emerald-400 block font-bold">DISTRIBUTION</span>
+                  <span className="text-[10px] text-gray-400">100% Retained Royalties</span>
                 </div>
               </div>
             </div>

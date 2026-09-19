@@ -458,6 +458,35 @@ Statutory deposit under the Irish Copyright and Related Rights Act 2000 is compl
                         return <p key={idx}>{paragraph}</p>;
                       })}
                     </div>
+
+                    {/* Contextual Service Bridge */}
+                    <div className="mt-6 p-4 rounded-2xl bg-slate-900 text-white border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="space-y-0.5">
+                        <span className="text-[10px] font-mono uppercase text-amber-400 font-bold tracking-wider">Turn Knowledge into a Published Book</span>
+                        <h5 className="text-xs font-black text-white uppercase">
+                          {art.silo === 'publishing' && 'Turnkey Global Publishing & Distribution Program'}
+                          {art.silo === 'ghostwriting' && 'Collaborative Bestseller Ghostwriting & Editing'}
+                          {art.silo === 'marketing' && 'Strategic Bestseller Marketing & Amazon PPC Ads'}
+                          {art.silo === 'costs' && 'Calculate Exact Publishing Costs & Margins'}
+                        </h5>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => {
+                            if (art.silo === 'publishing') onNavigate('service-publishing');
+                            else if (art.silo === 'ghostwriting') onNavigate('service-ghostwriting');
+                            else if (art.silo === 'marketing') onNavigate('service-marketing');
+                            else onNavigate('calculator');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className="py-2 px-3.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-[10px] uppercase tracking-wider transition-colors cursor-pointer inline-flex items-center gap-1.5 shrink-0"
+                        >
+                          <span>Explore Service Program</span>
+                          <ArrowRight size={11} />
+                        </button>
+                      </div>
+                    </div>
+
                     <button
                       onClick={() => setExpandedArticle(null)}
                       className="mt-4 text-xs text-amber-600 font-black uppercase tracking-wider hover:underline inline-flex items-center gap-1 cursor-pointer"
@@ -486,31 +515,59 @@ Statutory deposit under the Irish Copyright and Related Rights Act 2000 is compl
             </p>
             <div className="grid grid-cols-2 gap-3 pt-2">
               <button 
-                onClick={() => onNavigate('service-ghostwriting')}
+                onClick={() => { onNavigate('service-ghostwriting'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 className="p-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-left text-[11px] font-black uppercase transition-all flex items-center justify-between group cursor-pointer"
               >
                 <span>Ghostwriting</span>
                 <ChevronRight className="text-slate-400 group-hover:text-amber-400 transition-colors" size={14} />
               </button>
               <button 
-                onClick={() => onNavigate('service-editing')}
+                onClick={() => { onNavigate('service-editing'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 className="p-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-left text-[11px] font-black uppercase transition-all flex items-center justify-between group cursor-pointer"
               >
                 <span>Book Editing</span>
                 <ChevronRight className="text-slate-400 group-hover:text-amber-400 transition-colors" size={14} />
               </button>
               <button 
-                onClick={() => onNavigate('service-kdp')}
+                onClick={() => { onNavigate('service-cover-design'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="p-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-left text-[11px] font-black uppercase transition-all flex items-center justify-between group cursor-pointer"
+              >
+                <span>Book Cover Design</span>
+                <ChevronRight className="text-slate-400 group-hover:text-amber-400 transition-colors" size={14} />
+              </button>
+              <button 
+                onClick={() => { onNavigate('service-publishing'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="p-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-left text-[11px] font-black uppercase transition-all flex items-center justify-between group cursor-pointer"
+              >
+                <span>Hybrid Publishing</span>
+                <ChevronRight className="text-slate-400 group-hover:text-amber-400 transition-colors" size={14} />
+              </button>
+              <button 
+                onClick={() => { onNavigate('service-distribution'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="p-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-left text-[11px] font-black uppercase transition-all flex items-center justify-between group cursor-pointer"
+              >
+                <span>Book Distribution</span>
+                <ChevronRight className="text-slate-400 group-hover:text-amber-400 transition-colors" size={14} />
+              </button>
+              <button 
+                onClick={() => { onNavigate('service-audiobook'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="p-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-left text-[11px] font-black uppercase transition-all flex items-center justify-between group cursor-pointer"
+              >
+                <span>Audiobook Production</span>
+                <ChevronRight className="text-slate-400 group-hover:text-amber-400 transition-colors" size={14} />
+              </button>
+              <button 
+                onClick={() => { onNavigate('service-kdp'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 className="p-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-left text-[11px] font-black uppercase transition-all flex items-center justify-between group cursor-pointer"
               >
                 <span>Amazon KDP Setup</span>
                 <ChevronRight className="text-slate-400 group-hover:text-amber-400 transition-colors" size={14} />
               </button>
               <button 
-                onClick={() => onNavigate('service-business')}
+                onClick={() => { onNavigate('service-marketing'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 className="p-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-left text-[11px] font-black uppercase transition-all flex items-center justify-between group cursor-pointer"
               >
-                <span>Business Authority Books</span>
+                <span>Book Marketing & PR</span>
                 <ChevronRight className="text-slate-400 group-hover:text-amber-400 transition-colors" size={14} />
               </button>
             </div>

@@ -130,9 +130,10 @@ const INSIGHTS_ARTICLES: Article[] = [
 
 interface AuthorInsightsProps {
   onOpenConsultation: () => void;
+  onNavigate?: (page: string) => void;
 }
 
-export default function AuthorInsights({ onOpenConsultation }: AuthorInsightsProps) {
+export default function AuthorInsights({ onOpenConsultation, onNavigate }: AuthorInsightsProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [expandedArticle, setExpandedArticle] = useState<string | null>(null);
@@ -356,8 +357,47 @@ export default function AuthorInsights({ onOpenConsultation }: AuthorInsightsPro
                                 ))}
                               </div>
                               
+                              {/* Contextual Service Bridge & Internal Links */}
+                              {onNavigate && (
+                                <div className="mt-4 p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                  <div className="space-y-0.5">
+                                    <span className="text-[10px] font-mono uppercase text-amber-400 font-bold tracking-wider">Related Perkins Publisher Service</span>
+                                    <h5 className="text-xs font-black text-white uppercase">
+                                      {article.category === 'Editing' && 'Elite Developmental Editing & Proofreading'}
+                                      {article.category === 'Formatting' && 'Custom Book Cover Design & Typesetting'}
+                                      {article.category === 'Book Marketing' && 'Strategic Bestseller Marketing & PR'}
+                                      {(article.category === 'Royalties' || article.category === 'Publishing') && 'Turnkey Book Publishing & Global Distribution'}
+                                    </h5>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <button
+                                      onClick={() => {
+                                        if (article.category === 'Editing') onNavigate('service-editing');
+                                        else if (article.category === 'Formatting') onNavigate('service-cover-design');
+                                        else if (article.category === 'Book Marketing') onNavigate('service-marketing');
+                                        else onNavigate('service-publishing');
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                      }}
+                                      className="py-1.5 px-3 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-[10px] uppercase tracking-wider transition-colors cursor-pointer inline-flex items-center gap-1"
+                                    >
+                                      <span>Explore Service</span>
+                                      <ArrowRight size={11} />
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        onNavigate('knowledge-hub');
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                      }}
+                                      className="py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-[10px] uppercase tracking-wider transition-colors cursor-pointer border border-slate-700"
+                                    >
+                                      <span>All Guides</span>
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+
                               {/* Expanded Call to Action inside article */}
-                              <div className="mt-6 bg-[#161c2d] border border-amber-500/20 p-4 rounded-xl flex items-center justify-between gap-4 flex-wrap">
+                              <div className="mt-4 bg-[#161c2d] border border-amber-500/20 p-4 rounded-xl flex items-center justify-between gap-4 flex-wrap">
                                 <div className="space-y-1">
                                   <h4 className="text-xs font-black uppercase text-amber-400 tracking-wider">Interested in this topic?</h4>
                                   <p className="text-[11px] text-gray-300">Request a complete complimentary feasibility review of your manuscript.</p>

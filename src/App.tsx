@@ -495,6 +495,7 @@ export default function App() {
                 setSelectedServiceId(undefined);
                 setConsultationModalOpen(true);
               }}
+              onNavigate={setActivePage}
             />
 
             {/* Google Business Profile (GMB) Verified Local Authority, Exact NAP & AEO Knowledge Section */}
