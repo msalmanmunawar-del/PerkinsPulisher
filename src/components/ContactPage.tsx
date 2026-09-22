@@ -10,7 +10,9 @@ import {
   Send, 
   CheckCircle2, 
   ShieldCheck, 
-  Sparkles 
+  Sparkles,
+  MessageCircle,
+  MessageSquare
 } from 'lucide-react';
 
 interface ContactPageProps {
@@ -101,7 +103,7 @@ export default function ContactPage({
           </h1>
           
           <p className="mt-4 text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
-            Have a book project in mind? Tell us about your goals and our team will be happy to discuss how we can help. For immediate consultation, authors worldwide can also call our direct line at{' '}
+            Have a book project in mind? Tell us about your goals and our team will be happy to discuss how we can help. For immediate intake, authors worldwide can connect directly on WhatsApp or call our international desk at{' '}
             <a href="tel:18033463495" className="font-bold text-blue-950 hover:text-amber-600 underline font-mono">
               +1 (803) 346-3495
             </a>.
@@ -152,6 +154,42 @@ export default function ContactPage({
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                {/* Instant Live Chat & WhatsApp banner inside form */}
+                <div className="p-3.5 bg-gradient-to-r from-emerald-50 via-slate-50 to-amber-50/50 border border-slate-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-8 h-8 rounded-xl bg-blue-950 text-white flex items-center justify-center shrink-0 shadow-xs">
+                      <MessageSquare size={16} className="text-amber-400" />
+                    </div>
+                    <div className="min-w-0">
+                      <span className="text-xs font-black text-blue-950 flex items-center gap-1.5">
+                        <span>Need immediate answers?</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      </span>
+                      <p className="text-[11px] text-slate-600 font-medium truncate">
+                        Senior editorial team is online now
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => window.dispatchEvent(new CustomEvent('open-live-chat'))}
+                      className="bg-blue-950 hover:bg-blue-900 active:scale-95 text-white font-black text-[11px] px-3 py-1.5 rounded-xl transition-all shadow-xs flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                    >
+                      <MessageSquare size={12} className="text-amber-400" />
+                      <span>Live Web Chat</span>
+                    </button>
+                    <a
+                      href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-white font-black text-[11px] px-3 py-1.5 rounded-xl transition-all shadow-xs flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                    >
+                      <MessageCircle size={12} className="fill-white" />
+                      <span>WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
                 {errorMsg && (
                   <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-bold" role="alert">
                     {errorMsg}
@@ -259,6 +297,66 @@ export default function ContactPage({
           {/* Right Column: Business Information, Offices & Hours */}
           <div className="lg:col-span-5 space-y-6">
             
+            {/* Top Priority: Instant WhatsApp Author Intake */}
+            <div className="bg-gradient-to-br from-[#075E54] via-[#0d7367] to-[#128C7E] text-white rounded-3xl p-6 sm:p-7 border border-emerald-600/40 shadow-xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 translate-x-4 -translate-y-4 w-32 h-32 bg-white/5 rounded-full blur-2xl pointer-events-none" />
+              
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-100 flex items-center gap-1.5 bg-black/25 px-2.5 py-1 rounded-full border border-white/10">
+                  <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
+                  <span>Fastest Direct Intake</span>
+                </span>
+                <span className="text-[10px] font-black bg-[#25D366] text-slate-950 px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
+                  Prioritized
+                </span>
+              </div>
+
+              <h2 className="text-xl sm:text-2xl font-black text-white font-serif tracking-tight flex items-center gap-2.5">
+                <MessageCircle size={26} className="fill-[#25D366] text-[#25D366] shrink-0" />
+                <span>Chat on WhatsApp</span>
+              </h2>
+
+              <p className="text-xs text-emerald-100 font-medium mt-2 leading-relaxed">
+                Connect directly with our editorial coordinators for instant manuscript intake, questions, or to claim our subsidized <strong className="text-white font-bold">€499 package</strong>.
+              </p>
+
+              <div className="mt-4 pt-4 border-t border-white/15 space-y-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => window.dispatchEvent(new CustomEvent('open-live-chat'))}
+                    className="w-full py-3 px-3 bg-white text-blue-950 hover:bg-slate-100 active:scale-95 font-black text-xs uppercase tracking-wider rounded-2xl shadow-md flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  >
+                    <MessageSquare size={16} className="text-amber-500" />
+                    <span>Live Web Chat</span>
+                  </button>
+
+                  <a
+                    href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3 px-3 bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-slate-950 font-black text-xs uppercase tracking-wider rounded-2xl shadow-md flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                    title="Direct WhatsApp with Perkins Publisher (+1 803 346-3495)"
+                  >
+                    <MessageCircle size={16} className="fill-slate-950" />
+                    <span>WhatsApp</span>
+                  </a>
+                </div>
+
+                <div className="flex items-center justify-between text-[11px] text-emerald-200 font-medium px-1">
+                  <span>Global Line • Replies in &lt; 5 mins</span>
+                  <a
+                    href="https://wa.me/35699444044?text=Hello%20Perkins%20Publisher%20Malta%2C%20I%20would%20like%20to%20inquire%20about%20European%20publishing."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:underline text-[10.5px] font-semibold"
+                  >
+                    Malta Desk WhatsApp &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+
             {/* Direct Office & Telephone Card */}
             <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm space-y-6">
               <h2 className="text-lg font-black text-blue-950 font-serif flex items-center gap-2 pb-3 border-b border-slate-100">

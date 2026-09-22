@@ -18,8 +18,9 @@ import DynamicLocationPage from './components/DynamicLocationPage';
 import KnowledgeHub from './components/KnowledgeHub';
 import GmbLocalAuthority from './components/GmbLocalAuthority';
 import ContactPage from './components/ContactPage';
+import LiveChatWidget from './components/LiveChatWidget';
 
-import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2, Flame } from 'lucide-react';
+import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2, Flame, MessageCircle, ArrowRight } from 'lucide-react';
 
 const MODAL_TRANSLATIONS = {
   en: {
@@ -789,6 +790,33 @@ export default function App() {
                     </div>
                   </div>
 
+                  {/* Instant WhatsApp Priority Connect */}
+                  <a
+                    href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-xl bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-300/80 transition-all flex items-center justify-between gap-3 group cursor-pointer shadow-2xs"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-8 h-8 rounded-lg bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-xs">
+                        <MessageCircle size={17} className="fill-white" />
+                      </div>
+                      <div className="min-w-0 text-left">
+                        <div className="flex items-center gap-1.5 leading-tight">
+                          <span className="text-xs font-black text-emerald-950 uppercase">Prefer WhatsApp?</span>
+                          <span className="text-[9px] bg-[#25D366] text-slate-950 font-black px-1.5 py-0.2 rounded-full uppercase">Instant</span>
+                        </div>
+                        <p className="text-[10.5px] text-emerald-800 font-medium truncate mt-0.5">
+                          Chat directly with our editorial coordinators: <strong>+1 (803) 346-3495</strong>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1 text-[11px] font-black text-emerald-900 shrink-0 group-hover:translate-x-0.5 transition-transform">
+                      <span>Chat</span>
+                      <ArrowRight size={12} />
+                    </div>
+                  </a>
+
                   {selectedServiceId && !modalClaimPromo && (
                     <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg flex items-center justify-between text-xs font-bold text-amber-800">
                       <span>🎯 {t.targetedInquiry.replace('{id}', selectedServiceId.toUpperCase())}</span>
@@ -959,6 +987,9 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Persistent Live Chat & WhatsApp Communication Dock */}
+      <LiveChatWidget onOpenConsultation={() => setConsultationModalOpen(true)} />
 
     </div>
   );

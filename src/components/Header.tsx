@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { 
   BookOpen, Phone, Menu, X, Shield, Award, Sparkles, ChevronDown, 
   PenTool, CheckSquare, Settings, Flame, Star, BookMarked, Mic, 
-  Palette, Library, Send, HelpCircle, FileText, Share2, Award as AwardIcon, Users, MapPin, ExternalLink, Globe, Calculator, Search
+  Palette, Library, Send, HelpCircle, FileText, Share2, Award as AwardIcon, Users, MapPin, ExternalLink, Globe, Calculator, Search, MessageCircle, MessageSquare
 } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { LogoConfig } from '../types';
@@ -182,7 +182,28 @@ export default function Header({
             </a>
           </div>
           <span className="text-slate-600 hidden md:inline">•</span>
-          <div className="flex items-center gap-2 text-slate-200">
+          <div className="flex items-center gap-2.5 text-slate-200">
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-live-chat'))}
+              className="bg-blue-900/80 hover:bg-blue-800 text-amber-300 hover:text-white font-bold px-2 py-0.5 rounded-full text-[10.5px] flex items-center gap-1 transition-all border border-blue-700/60 cursor-pointer"
+              title="Open Live Editorial Chat"
+            >
+              <MessageSquare size={10} className="text-amber-400" />
+              <span>Live Chat</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            </button>
+            <span className="text-slate-600">|</span>
+            <a 
+              href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book." 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black px-2 py-0.5 rounded-full text-[10.5px] flex items-center gap-1 transition-all shadow-xs" 
+              title="Chat on WhatsApp (+1 803 346-3495)"
+            >
+              <MessageCircle size={11} className="fill-slate-950 text-slate-950" />
+              <span>WhatsApp</span>
+            </a>
+            <span className="text-slate-600">|</span>
             <a 
               href="tel:18033463495" 
               className="hover:text-amber-300 transition-colors font-bold flex items-center gap-1 text-white" 
@@ -461,6 +482,20 @@ export default function Header({
                     </div>
                   </a>
 
+                  {/* Quick WhatsApp option in dropdown */}
+                  <a
+                    href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-200 text-emerald-950 transition-colors"
+                  >
+                    <div className="flex items-center gap-2">
+                      <MessageCircle size={14} className="text-[#25D366] fill-[#25D366]" />
+                      <span className="text-[11px] font-black text-emerald-950">WhatsApp Direct Chat</span>
+                    </div>
+                    <span className="text-[9px] bg-[#25D366] text-white font-bold px-1.5 py-0.5 rounded-full">Instant</span>
+                  </a>
+
                   {/* Quick Maps link */}
                   <div className="pt-1.5 border-t border-slate-100">
                     <a
@@ -480,6 +515,30 @@ export default function Header({
               </div>
             </div>
 
+            {/* Live Chat Button */}
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-live-chat'))}
+              className="bg-blue-950/80 hover:bg-blue-900 border border-blue-800 text-white text-xs font-black px-3.5 py-2.5 rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 flex items-center gap-1.5 shrink-0 cursor-pointer"
+              title="Open Live Editorial Chat"
+            >
+              <MessageSquare size={14} className="text-amber-400" />
+              <span>Live Chat</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            </button>
+
+            {/* WhatsApp Priority Button */}
+            <a
+              href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-white text-xs font-black px-3.5 py-2.5 rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 flex items-center gap-1.5 shrink-0 group cursor-pointer"
+              title="Chat with us on WhatsApp (+1 803 346-3495)"
+            >
+              <MessageCircle size={15} className="fill-white shrink-0 group-hover:scale-110 transition-transform" />
+              <span>WhatsApp</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+            </a>
+
             {/* Free Consultation Button */}
             <button
               onClick={onOpenConsultation}
@@ -490,8 +549,17 @@ export default function Header({
             </button>
           </div>
 
-          {/* Mobile Hamburger Toggle */}
-          <div className="flex md:hidden items-center gap-3">
+          {/* Mobile Actions: Direct WhatsApp Icon + Hamburger Toggle */}
+          <div className="flex md:hidden items-center gap-2">
+            <a
+              href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#25D366] hover:bg-[#20ba59] text-white p-2 rounded-xl flex items-center justify-center shadow-xs cursor-pointer active:scale-95"
+              title="Chat on WhatsApp"
+            >
+              <MessageCircle size={18} className="fill-white" />
+            </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="text-gray-700 hover:text-amber-600 p-1 cursor-pointer"
@@ -640,6 +708,42 @@ export default function Header({
             </button>
 
             <div className="pt-3 border-t border-gray-100 flex flex-col gap-2.5">
+              {/* Live Chat Mobile Button */}
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  window.dispatchEvent(new CustomEvent('open-live-chat'));
+                }}
+                className="flex items-center justify-between px-4 py-3 rounded-xl text-xs font-black text-white bg-blue-950 hover:bg-blue-900 border border-blue-800 transition-all shadow-md active:scale-95 cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="relative">
+                    <MessageSquare size={17} className="text-amber-400" />
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 absolute -top-0.5 -right-0.5 animate-pulse" />
+                  </div>
+                  <span className="uppercase tracking-wider">Open Live Chat</span>
+                </div>
+                <span className="text-[10px] bg-emerald-500 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase">
+                  Online
+                </span>
+              </button>
+
+              {/* Prioritized WhatsApp Mobile CTA */}
+              <a
+                href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between px-4 py-3.5 rounded-xl text-xs font-black text-white bg-[#25D366] hover:bg-[#20ba59] transition-all shadow-md active:scale-95 cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <MessageCircle size={18} className="fill-white shrink-0" />
+                  <span className="uppercase tracking-wider">Chat on WhatsApp</span>
+                </div>
+                <span className="text-[10px] bg-white/20 text-white font-mono px-2 py-0.5 rounded-full font-bold">
+                  +1 (803) 346-3495
+                </span>
+              </a>
+
               <a
                 href="https://maps.google.com/?q=Perkins+Publisher+G%C4%A7ajnsielem+Malta"
                 target="_blank"

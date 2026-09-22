@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { CheckCircle2, Sparkles, Gift, BookOpen, ExternalLink, ShieldCheck, MapPin, Send, Flame, ArrowRight, Clock, Star, Zap } from 'lucide-react';
+import { CheckCircle2, Sparkles, Gift, BookOpen, ExternalLink, ShieldCheck, MapPin, Send, Flame, ArrowRight, Clock, Star, Zap, MessageCircle, MessageSquare } from 'lucide-react';
 
 interface HeroProps {
   onSubmitInquiry: (data: {
@@ -138,22 +138,35 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
                   </p>
                 </div>
 
-                {/* Direct Action Button that points straight to the Hero Form */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setApplyPromoOffer(true);
-                    const nameInput = document.getElementById('hero-author-name');
-                    if (nameInput) {
-                      nameInput.focus();
-                      nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                  }}
-                  className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-950 via-slate-900 to-blue-950 hover:from-amber-500 hover:to-amber-600 text-white hover:text-blue-950 px-5 py-3 rounded-xl font-black text-xs uppercase tracking-wider shadow-xl transition-all transform hover:-translate-y-0.5 cursor-pointer whitespace-nowrap active:scale-95 border border-amber-400/40"
-                >
-                  <span>Claim €499 Deal Now</span>
-                  <ArrowRight size={14} />
-                </button>
+                {/* Direct Action Buttons */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setApplyPromoOffer(true);
+                      const nameInput = document.getElementById('hero-author-name');
+                      if (nameInput) {
+                        nameInput.focus();
+                        nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      }
+                    }}
+                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-950 via-slate-900 to-blue-950 hover:from-amber-500 hover:to-amber-600 text-white hover:text-blue-950 px-5 py-3 rounded-xl font-black text-xs uppercase tracking-wider shadow-xl transition-all transform hover:-translate-y-0.5 cursor-pointer whitespace-nowrap active:scale-95 border border-amber-400/40"
+                  >
+                    <span>Claim €499 Deal Now</span>
+                    <ArrowRight size={14} />
+                  </button>
+
+                  <a
+                    href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20the%20%E2%82%AC499%20Publishing%20Package."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#20ba59] text-white px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer whitespace-nowrap active:scale-95"
+                    title="Chat directly on WhatsApp (+1 803 346-3495)"
+                  >
+                    <MessageCircle size={14} className="fill-white" />
+                    <span>WhatsApp</span>
+                  </a>
+                </div>
               </div>
 
               {/* Comprehensive Deliverables Grid */}
@@ -399,6 +412,31 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
                       <span>{applyPromoOffer ? 'Claim €499 Package & Get Proposal' : 'Get My Editorial Proposal'}</span>
                       <ArrowRight size={14} />
                     </button>
+
+                    {/* Instant Live Chat & WhatsApp Dual Connect */}
+                    <div className="pt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => window.dispatchEvent(new CustomEvent('open-live-chat'))}
+                        className="w-full bg-blue-950 hover:bg-blue-900 active:scale-[0.98] text-white font-black text-[11px] uppercase tracking-wider py-2.5 px-3 rounded-xl shadow-sm border border-blue-800 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                        title="Open Live Editorial Chat"
+                      >
+                        <MessageSquare size={13} className="text-amber-400" />
+                        <span>Live Chat</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      </button>
+
+                      <a
+                        href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-[#25D366] hover:bg-[#20ba59] active:scale-[0.98] text-white font-black text-[11px] uppercase tracking-wider py-2.5 px-3 rounded-xl shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                        title="Chat directly on WhatsApp (+1 803 346-3495)"
+                      >
+                        <MessageCircle size={14} className="fill-white" />
+                        <span>WhatsApp.me</span>
+                      </a>
+                    </div>
 
                     <div className="text-center pt-1">
                       <button

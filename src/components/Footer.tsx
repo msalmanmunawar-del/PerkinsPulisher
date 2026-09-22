@@ -1,4 +1,4 @@
-import { BookOpen, Mail, Phone, MapPin, ShieldCheck, Heart, Database, Star, ExternalLink, Clock, Navigation, Building2 } from 'lucide-react';
+import { BookOpen, Mail, Phone, MapPin, ShieldCheck, Heart, Database, Star, ExternalLink, Clock, Navigation, Building2, MessageCircle } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { LogoConfig } from '../types';
 import PerkinsLogo from './PerkinsLogo';
@@ -272,6 +272,24 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
               </div>
 
               <div className="space-y-2 pt-1">
+                {/* Priority WhatsApp Direct Link */}
+                <a 
+                  href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book." 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-2 p-2 rounded-xl bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/30 text-emerald-300 hover:text-white transition-all group"
+                  title="WhatsApp Direct Author Support (+1 803 346-3495)"
+                >
+                  <MessageCircle className="text-[#25D366] shrink-0 fill-[#25D366] group-hover:scale-110 transition-transform" size={16} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <span className="text-white font-black text-xs">WhatsApp Direct Chat</span>
+                      <span className="text-[8px] bg-[#25D366] text-slate-950 font-black px-1.5 py-0.2 rounded uppercase">Fastest</span>
+                    </div>
+                    <span className="text-[10px] text-emerald-300 font-mono font-bold">+1 (803) 346-3495</span>
+                  </div>
+                </a>
+
                 <a href="tel:18033463495" className="flex items-center gap-2 text-white hover:text-amber-400 transition-colors" title="Primary International Calling Line (All Inquiries)">
                   <Phone className="text-amber-400 shrink-0 animate-pulse" size={14} />
                   <span className="text-white font-black text-sm tracking-tight">+1 (803) 346-3495</span>
