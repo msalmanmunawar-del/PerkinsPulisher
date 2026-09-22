@@ -873,7 +873,7 @@ export default function DynamicServicePage({
             { q: 'Who retains the royalties?', a: 'You keep 100% of all royalties and rights. We take zero commission on book sales.' },
             { q: 'Where are you located?', a: 'Our European headquarters is registered in Għajnsielem, Gozo, Malta, serving authors worldwide with international calling desks in the US and UK.' }
           ],
-          authorSpotlight: 'Our executive publishing team adheres to the highest standards of independent and hybrid publishing excellence.',
+          authorSpotlight: 'Our executive publishing team adheres to the highest standards of professional publishing excellence.',
           editorialDeepDive: {
             headline: 'The Perkins Publishing Standard of Excellence',
             badge: 'Global Publishing Architecture',

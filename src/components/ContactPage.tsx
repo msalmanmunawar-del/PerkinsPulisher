@@ -101,7 +101,10 @@ export default function ContactPage({
           </h1>
           
           <p className="mt-4 text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
-            Have a book project in mind? Tell us about your goals and our team will be happy to discuss how we can help.
+            Have a book project in mind? Tell us about your goals and our team will be happy to discuss how we can help. For immediate consultation, authors worldwide can also call our direct line at{' '}
+            <a href="tel:18033463495" className="font-bold text-blue-950 hover:text-amber-600 underline font-mono">
+              +1 (803) 346-3495
+            </a>.
           </p>
         </div>
 
@@ -265,32 +268,37 @@ export default function ContactPage({
 
               <div className="space-y-4">
                 
-                {/* US Office */}
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-amber-400/50 transition-colors">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">
-                      US Office
+                {/* Primary International Calling Line (Featured) */}
+                <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-950 via-[#0d223a] to-slate-900 text-white border border-blue-900 shadow-md relative overflow-hidden group">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                      <Globe size={13} className="text-amber-400" />
+                      <span>International Direct Line</span>
                     </span>
-                    <span className="text-[9px] font-black bg-blue-100 text-blue-900 px-2 py-0.5 rounded-full">
-                      Americas Desk
+                    <span className="text-[9px] font-black bg-amber-400 text-blue-950 px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
+                      Primary • All Inquiries
                     </span>
                   </div>
                   <a 
                     href="tel:18033463495" 
-                    className="text-base sm:text-lg font-black text-blue-950 hover:text-amber-600 transition-colors font-mono flex items-center gap-2 mt-1"
+                    className="text-xl sm:text-2xl font-black text-white hover:text-amber-300 transition-colors font-mono flex items-center gap-2 mt-1"
+                    title="Call Perkins Publisher International Direct Line"
                   >
-                    <Phone size={15} className="text-amber-500 shrink-0" />
+                    <Phone size={18} className="text-amber-400 shrink-0 animate-pulse" />
                     <span>+1 (803) 346-3495</span>
                   </a>
+                  <p className="text-[11px] text-slate-300 mt-2 leading-relaxed font-medium">
+                    Recommended calling line for all international authors, US & Americas, UK, and European clients. Direct consultation & publishing intake.
+                  </p>
                 </div>
 
-                {/* Malta / EU Office */}
+                {/* Malta / EU Local Desk */}
                 <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-amber-400/50 transition-colors">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">
-                      Malta / EU Office
+                      Malta / EU Local Desk
                     </span>
-                    <span className="text-[9px] font-black bg-emerald-100 text-emerald-900 px-2 py-0.5 rounded-full">
+                    <span className="text-[9px] font-black bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full">
                       Malta Desk
                     </span>
                   </div>
@@ -301,6 +309,9 @@ export default function ContactPage({
                     <Phone size={15} className="text-emerald-600 shrink-0" />
                     <span>+356 9944 4044</span>
                   </a>
+                  <p className="text-[10.5px] text-slate-500 mt-1">
+                    Għajnsielem, Gozo registered office line (Malta Local Time / CET).
+                  </p>
                 </div>
 
                 {/* Business Email */}
@@ -372,7 +383,7 @@ export default function ContactPage({
                   Għajnsielem, Gozo, Malta
                 </p>
                 <p className="text-[11px] text-slate-400 leading-relaxed">
-                  Registered European publishing company operating under EU intellectual property laws, providing turnkey hybrid publishing, translation, and worldwide distribution.
+                  Registered European publishing company operating under EU intellectual property laws, providing turnkey professional publishing, translation, and worldwide distribution.
                 </p>
               </div>
 

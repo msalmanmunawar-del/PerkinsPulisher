@@ -63,7 +63,7 @@ export default function CompareSection({ onOpenConsultation }: CompareSectionPro
             Why Visionary Authors Choose Perkins Publisher
           </h2>
           <p className="text-sm text-gray-500 font-bold">
-            Understand how our hybrid premium publishing network breaks traditional barrier gates while delivering pristine, high-end editorial and marketing assets.
+            Understand how our professional publishing model breaks traditional barrier gates while delivering pristine, high-end editorial and marketing assets.
           </p>
         </div>
 

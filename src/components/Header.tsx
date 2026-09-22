@@ -428,18 +428,18 @@ export default function Header({
                   {/* Primary International Calling Line */}
                   <a
                     href="tel:18033463495"
-                    className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-blue-50/70 border border-transparent hover:border-blue-100 transition-all group/opt"
+                    className="flex items-start gap-2.5 p-2.5 rounded-xl bg-blue-50/80 hover:bg-blue-100/70 border border-blue-200/80 transition-all group/opt"
                   >
-                    <div className="w-7 h-7 rounded-lg bg-blue-900 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-7 h-7 rounded-lg bg-blue-950 text-amber-400 flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
                       <Globe size={13} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-bold text-slate-900 group-hover/opt:text-blue-950">Int'l Calling Line</span>
-                        <span className="text-[8px] bg-blue-100 text-blue-900 font-extrabold px-1 rounded uppercase">Primary</span>
+                        <span className="text-[11px] font-black text-blue-950 group-hover/opt:text-blue-900">Direct International Line</span>
+                        <span className="text-[8px] bg-amber-400 text-blue-950 font-black px-1.5 py-0.5 rounded uppercase shadow-2xs">Primary</span>
                       </div>
                       <p className="text-xs font-black font-mono text-blue-950 mt-0.5">+1 (803) 346-3495</p>
-                      <p className="text-[9px] text-slate-500 mt-0.5">Worldwide Authors & 24/7 Intake</p>
+                      <p className="text-[9px] text-blue-900/80 font-medium mt-0.5">Recommended for all international & US callers</p>
                     </div>
                   </a>
 
@@ -654,13 +654,13 @@ export default function Header({
               <div className="grid grid-cols-1 gap-2">
                 <a
                   href="tel:18033463495"
-                  className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-900 border border-blue-200 bg-blue-50/60 hover:bg-blue-50 transition-colors"
+                  className="flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-bold text-white bg-blue-950 hover:bg-blue-900 transition-colors shadow-xs"
                 >
                   <div className="flex items-center gap-2">
-                    <Globe size={14} className="text-blue-700 shrink-0" />
-                    <span className="font-extrabold text-blue-950">Int'l Calling Line:</span>
+                    <Globe size={14} className="text-amber-400 shrink-0 animate-pulse" />
+                    <span className="font-extrabold text-amber-300">Int'l Line (Primary):</span>
                   </div>
-                  <span className="font-mono text-blue-950 font-black">+1 (803) 346-3495</span>
+                  <span className="font-mono text-white font-black text-sm">+1 (803) 346-3495</span>
                 </a>
                 <a
                   href="tel:+35699444044"
@@ -668,7 +668,7 @@ export default function Header({
                 >
                   <div className="flex items-center gap-2">
                     <Phone size={13} className="text-slate-500 shrink-0" />
-                    <span className="font-bold text-slate-700">Malta Desk:</span>
+                    <span className="font-bold text-slate-700">Malta / EU Desk:</span>
                   </div>
                   <span className="font-mono text-slate-800 font-bold">+356 9944 4044</span>
                 </a>

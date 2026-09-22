@@ -7,14 +7,14 @@ interface SEOProps {
 
 export default function SEO({ activePage, subId }: SEOProps) {
   useEffect(() => {
-    let title = 'Perkins Publisher | Premier Hybrid Book Publishing & Ghostwriting in Għajnsielem, Malta';
-    let description = 'Transform your manuscript into a global bestseller with Perkins Publisher, Europe’s premier hybrid book publishing agency in Għajnsielem, Malta. 100% royalty retention, EU/UK ISBN registration, professional ghostwriting, cover design, and distribution across 40,000+ bookstores.';
+    let title = 'Perkins Publisher | Professional Book Publishing & Ghostwriting in Għajnsielem, Malta';
+    let description = 'Transform your manuscript into a global bestseller with Perkins Publisher, Europe’s premier professional book publishing company in Għajnsielem, Malta. 100% royalty retention, EU/UK ISBN registration, professional ghostwriting, cover design, and distribution across 40,000+ bookstores.';
     let canonical = 'https://www.perkinspublisher.com/';
 
     // Dynamic metadata depending on page
     if (activePage === 'home') {
-      title = 'Perkins Publisher | Premier Hybrid Book Publishing & Ghostwriting in Għajnsielem, Malta';
-      description = 'Turn your professional expertise into a published authority book with Europe’s top-rated hybrid self-publishing company in Għajnsielem, Malta. 100% author rights & royalties, multi-currency EUR/GBP/USD payouts, IngramSpark & Amazon KDP Europe distribution.';
+      title = 'Perkins Publisher | Professional Book Publishing & Ghostwriting in Għajnsielem, Malta';
+      description = 'Turn your professional expertise into a published authority book with Europe’s top-rated professional publishing company in Għajnsielem, Malta. 100% author rights & royalties, multi-currency EUR/GBP/USD payouts, IngramSpark & Amazon KDP Europe distribution.';
       canonical = 'https://www.perkinspublisher.com/';
     } else if (activePage.startsWith('service-')) {
       const sId = activePage.replace('service-', '');
@@ -31,7 +31,7 @@ export default function SEO({ activePage, subId }: SEOProps) {
         description = 'Award-winning cover design and interior typography for hardcovers, paperbacks, and eBooks. Mathematically calibrated spine caliper and CMYK print-wrap engineering.';
         canonical = 'https://www.perkinspublisher.com/services/cover-design';
       } else if (sId === 'publishing') {
-        title = 'Turnkey Hybrid Book Publishing & Global Distribution | Perkins Publisher';
+        title = 'Turnkey Professional Book Publishing & Global Distribution | Perkins Publisher';
         description = 'Publish your book worldwide across 40,000+ bookstores and libraries. Keep 100% of your royalties and rights with official ISBN registration and print-on-demand setup.';
       } else if (sId === 'distribution' || sId === 'book-distribution') {
         title = 'Global Book Distribution Services & Bookstore Placement | Perkins Publisher';
@@ -97,11 +97,11 @@ export default function SEO({ activePage, subId }: SEOProps) {
       const locId = activePage.replace('location-', '');
       if (locId === 'uk-london') {
         title = 'Book Publishing & Ghostwriting Services London & UK | Perkins Publisher';
-        description = 'Top-rated hybrid book publishing for British entrepreneurs, keynote speakers, and authors in London and across the UK. 100% royalties in GBP (£), British Library legal deposit, and Waterstones distribution.';
+        description = 'Top-rated professional book publishing for British entrepreneurs, keynote speakers, and authors in London and across the UK. 100% royalties in GBP (£), British Library legal deposit, and Waterstones distribution.';
         canonical = 'https://www.perkinspublisher.com/locations/uk-london';
       } else if (locId === 'germany-berlin') {
         title = 'Buchveröffentlichung & Ghostwriting Deutschland & DACH | Perkins Publisher';
-        description = 'Führender Hybrid-Verlag für Autoren, Geschäftsführer und Berater in Deutschland, Österreich und der Schweiz. 100% Tantiemen in EUR, VLB-Listung und Thalia Buchhandelsvertrieb.';
+        description = 'Führendes professionelles Verlagshaus für Autoren, Geschäftsführer und Berater in Deutschland, Österreich und der Schweiz. 100% Tantiemen in EUR, VLB-Listung und Thalia Buchhandelsvertrieb.';
         canonical = 'https://www.perkinspublisher.com/locations/germany-berlin';
       } else if (locId === 'switzerland-zurich') {
         title = 'Executive Book Publishing Zurich & Geneva | Switzerland | Perkins Publisher';
@@ -109,7 +109,7 @@ export default function SEO({ activePage, subId }: SEOProps) {
         canonical = 'https://www.perkinspublisher.com/locations/switzerland-zurich';
       } else if (locId === 'australia') {
         title = 'Book Publishing & Ghostwriting Services Australia | Perkins Publisher Sydney & Melbourne';
-        description = 'Premier hybrid book publishing for Australian founders, consultants, and authors. 100% AUD royalties, Dymocks & Booktopia distribution, Thorpe-Bowker ISBNs, and National Library of Australia (NED) legal deposit.';
+        description = 'Premier professional book publishing for Australian founders, consultants, and authors. 100% AUD royalties, Dymocks & Booktopia distribution, Thorpe-Bowker ISBNs, and National Library of Australia (NED) legal deposit.';
         canonical = 'https://www.perkinspublisher.com/locations/australia';
       } else if (locId === 'new-zealand') {
         title = 'Book Publishing & Ghostwriting New Zealand | Perkins Publisher Auckland & Wellington';
@@ -117,11 +117,11 @@ export default function SEO({ activePage, subId }: SEOProps) {
         canonical = 'https://www.perkinspublisher.com/locations/new-zealand';
       } else if (locId === 'ireland') {
         title = 'Book Publishing & Ghostwriting Services Ireland & Dublin | Perkins Publisher';
-        description = 'Elite hybrid book publishing for Irish tech executives, academics, and novelists in Dublin, Cork, and Galway. Easons & Dubray distribution, Trinity College deposit, and 100% EUR royalties.';
+        description = 'Elite professional book publishing for Irish tech executives, academics, and novelists in Dublin, Cork, and Galway. Easons & Dubray distribution, Trinity College deposit, and 100% EUR royalties.';
         canonical = 'https://www.perkinspublisher.com/locations/ireland';
       } else {
         title = 'Perkins Publisher Headquarters | Għajnsielem, Malta & Mediterranean Hub';
-        description = 'Official European headquarters of Perkins Publisher in Għajnsielem, Gozo, Malta. Hybrid book publishing, ghostwriting, and worldwide distribution under EU copyright laws.';
+        description = 'Official European headquarters of Perkins Publisher in Għajnsielem, Gozo, Malta. Professional book publishing, ghostwriting, and worldwide distribution under EU copyright laws.';
         canonical = 'https://www.perkinspublisher.com/locations/malta';
       }
     } else if (activePage === 'knowledge-hub' || activePage.startsWith('hub-')) {
@@ -213,7 +213,7 @@ export default function SEO({ activePage, subId }: SEOProps) {
     const pageNames: Record<string, string> = {
       'service-ghostwriting': 'Book Ghostwriting',
       'service-editing': 'Developmental Editing',
-      'service-publishing': 'Hybrid Publishing',
+      'service-publishing': 'Professional Book Publishing',
       'service-distribution': 'Book Distribution',
       'service-book-distribution': 'Book Distribution',
       'service-kdp': 'Amazon KDP Publishing',

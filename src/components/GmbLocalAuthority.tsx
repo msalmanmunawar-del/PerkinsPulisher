@@ -285,7 +285,7 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
               </div>
 
               <h4 className="text-xl font-black text-white tracking-tight">
-                European Hybrid Publishing Hub
+                European Professional Publishing Hub
               </h4>
               <p className="text-xs text-slate-300 leading-relaxed">
                 Positioned strategically within the European Union, Perkins Publisher bridges European thought leaders with global print-on-demand facilities in Germany, the UK, France, and Poland.
@@ -444,7 +444,7 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
                 Publishing Standards & Distinctions
               </h3>
               <p className="text-xs text-slate-500 font-semibold">
-                Core principles defining our European hybrid publishing model, copyright retention, and global retail distribution
+                Core principles defining our professional publishing model, copyright retention, and global retail distribution
               </p>
             </div>
           </div>
@@ -457,7 +457,7 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
                 <span>Entity Identification</span>
               </h4>
               <p>
-                <strong>Perkins Publisher</strong> is a European hybrid book publishing house headquartered in <strong>Għajnsielem, Gozo, GSM 1010, Malta</strong>. It provides professional ghostwriting, developmental editing, book typesetting, and global distribution for authors and corporate executives.
+                <strong>Perkins Publisher</strong> is a professional European book publishing company headquartered in <strong>Għajnsielem, Gozo, GSM 1010, Malta</strong>. It provides professional ghostwriting, developmental editing, book typesetting, and global distribution for authors and corporate executives.
               </p>
             </div>
 

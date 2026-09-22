@@ -40,8 +40,8 @@ export default function DynamicLocationPage({
           regionName: 'United Kingdom & London',
           flagEmoji: '🇬🇧',
           cityTitle: 'Book Publishing & Ghostwriting Services London & UK',
-          heroSubtitle: 'Bespoke Hybrid Publishing for British Entrepreneurs, Executives & Authors',
-          summary: 'Connect with Europe’s premier hybrid publishing house. We empower UK business leaders, keynote speakers, and novelists to publish world-class hardcover, paperback, and audiobook editions while keeping 100% of their royalties and British Library legal deposit protections.',
+          heroSubtitle: 'Bespoke Professional Publishing for British Entrepreneurs, Executives & Authors',
+          summary: 'Connect with Europe’s premier professional publishing company. We empower UK business leaders, keynote speakers, and novelists to publish world-class hardcover, paperback, and audiobook editions while keeping 100% of their royalties and British Library legal deposit protections.',
           currency: 'GBP (£)',
           distributionFocus: 'Waterstones, Amazon UK (KDP), Foyles, Blackwell’s, and IngramSpark UK',
           keyStat1: '100% Royalty Retention in GBP (£)',
@@ -70,7 +70,7 @@ export default function DynamicLocationPage({
           flagEmoji: '🇩🇪 🇦🇹 🇨🇭',
           cityTitle: 'Buchveröffentlichung & Ghostwriting Deutschland & DACH',
           heroSubtitle: 'English & German Executive Publishing with 100% Author Royalties',
-          summary: 'Specialized hybrid publishing for CEOs, management consultants, and thought leaders across Frankfurt, Berlin, Munich, Vienna, and Zurich. Publish German or English hardcover editions printed locally in German POD facilities.',
+          summary: 'Specialized professional publishing for CEOs, management consultants, and thought leaders across Frankfurt, Berlin, Munich, Vienna, and Zurich. Publish German or English hardcover editions printed locally in German POD facilities.',
           currency: 'EUR (€) / CHF',
           distributionFocus: 'Thalia, Hugendubel, Amazon.de, Orell Füssli, and European Book Distribution',
           keyStat1: '100% Tantiemen (Royalties) in EUR',
@@ -128,7 +128,7 @@ export default function DynamicLocationPage({
           flagEmoji: '🇦🇺',
           cityTitle: 'Book Publishing & Ghostwriting Services Australia',
           heroSubtitle: 'Publish for Dymocks, Angus & Robertson & Global POD with 100% Retained Royalties',
-          summary: 'Tailored hybrid publishing for Australian founders, mining executives, coaches, and biographers. We connect you with local Australian print-on-demand facilities in Melbourne and Sydney, register Thorpe-Bowker ISBNs, and ensure compliance with the National Library of Australia (NED) legal deposit.',
+          summary: 'Tailored professional publishing for Australian founders, mining executives, coaches, and biographers. We connect you with local Australian print-on-demand facilities in Melbourne and Sydney, register Thorpe-Bowker ISBNs, and ensure compliance with the National Library of Australia (NED) legal deposit.',
           currency: 'AUD ($) / USD ($)',
           distributionFocus: 'Dymocks, Angus & Robertson, Booktopia, Amazon Australia (Amazon.com.au), and IngramSpark Australia',
           keyStat1: '100% Royalty Retention in AUD ($)',
@@ -215,7 +215,7 @@ export default function DynamicLocationPage({
           regionName: 'Malta (Headquarters & Mediterranean Hub)',
           flagEmoji: '🇲🇹',
           cityTitle: 'Perkins Publisher Headquarters | Għajnsielem, Malta',
-          heroSubtitle: 'Europe’s Premier Hybrid Publishing Agency in Gozo & Malta',
+          heroSubtitle: 'Europe’s Premier Professional Publishing Company in Gozo & Malta',
           summary: 'From our verified European headquarters in Għajnsielem, Malta, Perkins Publisher coordinates manuscript development, executive ghostwriting, and retail distribution across 40,000+ bookstores worldwide for European and international creators.',
           currency: 'EUR (€) / GBP (£) / USD ($)',
           distributionFocus: 'National Library of Malta Legal Deposit, European Print Hubs, Amazon Global, and IngramSpark',
@@ -323,7 +323,7 @@ export default function DynamicLocationPage({
             <Building2 className="text-amber-600" size={24} />
             <div>
               <h2 className="text-xl sm:text-2xl font-black text-slate-950 uppercase tracking-tight">
-                European Hybrid Publishing Tailored for {data.regionName}
+                European Professional Publishing Tailored for {data.regionName}
               </h2>
               <p className="text-xs text-slate-500 font-semibold">
                 Serving {data.localFocusPoint} with 100% intellectual property rights protection

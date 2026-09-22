@@ -100,7 +100,7 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
             </p>
             <div className="flex items-center gap-2 text-[10px] text-amber-500 font-extrabold bg-amber-500/5 px-2.5 py-1.5 rounded-lg border border-amber-500/15 w-fit">
               <ShieldCheck size={14} className="shrink-0" />
-              <span>Accredited Hybrid Publisher</span>
+              <span>Professional Publishing Company</span>
             </div>
           </div>
 
@@ -271,11 +271,11 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
                 <span>Mon – Fri: 08:00 – 19:00 CET</span>
               </div>
 
-              <div className="space-y-1.5 pt-1">
-                <a href="tel:18033463495" className="flex items-center gap-2 hover:text-white transition-colors" title="International Calling Line (Global Desk)">
-                  <Phone className="text-amber-500 shrink-0" size={14} />
-                  <span className="text-white font-bold">+1 (803) 346-3495</span>
-                  <span className="text-[9px] bg-slate-800 text-amber-400 font-bold px-1.5 py-0.5 rounded border border-slate-700">Int'l Line</span>
+              <div className="space-y-2 pt-1">
+                <a href="tel:18033463495" className="flex items-center gap-2 text-white hover:text-amber-400 transition-colors" title="Primary International Calling Line (All Inquiries)">
+                  <Phone className="text-amber-400 shrink-0 animate-pulse" size={14} />
+                  <span className="text-white font-black text-sm tracking-tight">+1 (803) 346-3495</span>
+                  <span className="text-[9px] bg-amber-400 text-blue-950 font-black px-1.5 py-0.5 rounded uppercase">Primary Int'l</span>
                 </a>
                 <a href="tel:+35699444044" className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors pl-5 text-xs" title="Malta & EU Local Direct Desk">
                   <span>+356 9944 4044</span>
@@ -295,7 +295,7 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
                 onClick={() => handleNav('contact')}
                 className="inline-flex items-center gap-1 text-[11px] text-amber-400 hover:text-amber-300 font-bold cursor-pointer"
               >
-                <span>Contact Malta / EU & US Offices →</span>
+                <span>Contact Publishing Desks & Inquiries →</span>
               </button>
               <button
                 onClick={() => handleNav('gmb-verified-profile')}
