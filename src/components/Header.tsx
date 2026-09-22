@@ -114,7 +114,7 @@ export default function Header({
         <div className="flex items-center gap-2 flex-shrink-0">
           <img 
             src={logoConfig.customImageUrl} 
-            alt="Perkins Publishers" 
+            alt="Perkins Publisher" 
             className="h-9 w-auto max-h-10 object-contain"
             onError={(e) => {
               (e.target as HTMLElement).style.display = 'none';
@@ -171,11 +171,11 @@ export default function Header({
             <MapPin size={11} className="text-red-400" />
             <span>Għajnsielem, Gozo, Malta</span>
             <a 
-              href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
+              href="https://maps.google.com/?q=Perkins+Publisher+G%C4%A7ajnsielem+Malta"
               target="_blank"
               rel="noopener noreferrer"
               className="text-amber-300 hover:text-white transition-colors ml-1 font-bold inline-flex items-center gap-0.5 cursor-pointer"
-              title="View official business profile on Google Maps"
+              title="View Perkins Publisher on Google Maps"
             >
               <span>Maps</span>
               <ExternalLink size={9} />
@@ -347,6 +347,18 @@ export default function Header({
               Knowledge Hub
             </button>
 
+            {/* Contact */}
+            <button
+              onClick={() => handleNavClick('contact')}
+              className={`px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                activePage === 'contact' 
+                  ? 'text-blue-950 bg-blue-50/80 font-black shadow-2xs' 
+                  : 'text-slate-600 hover:text-amber-600 hover:bg-slate-50'
+              }`}
+            >
+              Contact
+            </button>
+
             {/* Royalty Calculator */}
             <button
               onClick={() => {
@@ -441,25 +453,25 @@ export default function Header({
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-bold text-slate-900 group-hover/opt2:text-slate-950">Malta & EU Desk</span>
-                        <span className="text-[8px] bg-slate-100 text-slate-600 font-bold px-1 rounded uppercase">Local HQ</span>
+                        <span className="text-[11px] font-bold text-slate-900 group-hover/opt2:text-slate-950">Malta / EU Desk</span>
+                        <span className="text-[8px] bg-slate-100 text-slate-600 font-bold px-1 rounded uppercase">Malta Office</span>
                       </div>
                       <p className="text-xs font-black font-mono text-slate-800 mt-0.5">+356 9944 4044</p>
-                      <p className="text-[9px] text-slate-500 mt-0.5">Għajnsielem, Gozo Registered Office</p>
+                      <p className="text-[9px] text-slate-500 mt-0.5">Għajnsielem, Gozo Malta / EU Office</p>
                     </div>
                   </a>
 
                   {/* Quick Maps link */}
                   <div className="pt-1.5 border-t border-slate-100">
                     <a
-                      href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
+                      href="https://maps.google.com/?q=Perkins+Publisher+G%C4%A7ajnsielem+Malta"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-between px-2 py-1.5 rounded-lg text-[10px] font-bold text-slate-600 hover:text-blue-900 hover:bg-slate-50 transition-colors"
                     >
                       <span className="flex items-center gap-1.5">
                         <MapPin size={11} className="text-red-500" />
-                        <span>Għajnsielem HQ on Google Maps</span>
+                        <span>Għajnsielem Office on Google Maps</span>
                       </span>
                       <ExternalLink size={10} className="text-slate-400" />
                     </a>
@@ -602,6 +614,16 @@ export default function Header({
               Knowledge Hub
             </button>
 
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                handleNavClick('contact');
+              }}
+              className="w-full text-left py-2 px-3 rounded-md text-xs font-black uppercase tracking-wider text-slate-700 hover:bg-gray-50"
+            >
+              Contact
+            </button>
+
             {/* Mobile Royalty Calculator */}
             <button
               onClick={() => {
@@ -619,14 +641,14 @@ export default function Header({
 
             <div className="pt-3 border-t border-gray-100 flex flex-col gap-2.5">
               <a
-                href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
+                href="https://maps.google.com/?q=Perkins+Publisher+G%C4%A7ajnsielem+Malta"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 py-2.5 rounded-md text-xs font-bold text-slate-700 border border-gray-200 bg-white hover:bg-slate-50 transition-colors"
                 title="View Perkins Publisher on Google Maps"
               >
                 <MapPin size={14} className="text-red-500" />
-                <span>Għajnsielem HQ on Google Maps</span>
+                <span>Għajnsielem Office on Google Maps</span>
                 <ExternalLink size={11} className="text-slate-400" />
               </a>
               <div className="grid grid-cols-1 gap-2">

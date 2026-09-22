@@ -85,7 +85,7 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
                 <span>THE GOLD STANDARD IN BOOK PUBLISHING</span>
               </div>
               <a 
-                href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
+                href="https://maps.google.com/?q=Perkins+Publisher+G%C4%A7ajnsielem+Malta"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-950 px-3 py-1 rounded-full text-[11px] font-black leading-none transition-colors cursor-pointer"
@@ -187,7 +187,7 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
 
             <p className="text-base sm:text-lg text-gray-600 max-w-2xl font-medium leading-relaxed">
               We provide professional manuscript polishing, award-winning illustration artwork, custom formats, and global distribution. 
-              <span className="font-extrabold text-blue-950 ml-1">From our editorial headquarters in Għajnsielem, Malta, Perkins Publisher offers full-scale self-publishing solutions where you keep 100% of your royalties and rights.</span> We guide you every step of the way.
+              <span className="font-extrabold text-blue-950 ml-1">From our Malta / EU office in Għajnsielem, Malta, Perkins Publisher offers full-scale self-publishing solutions where you keep 100% of your royalties and rights.</span> We guide you every step of the way.
             </p>
 
             {/* Checklist of Benefits */}
@@ -224,13 +224,13 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
                   <span>Registered in Malta (EU)</span>
                   <span>•</span>
                   <a 
-                    href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
+                    href="https://maps.google.com/?q=Perkins+Publisher+G%C4%A7ajnsielem+Malta"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-700 hover:text-blue-900 font-bold inline-flex items-center gap-1 underline transition-colors cursor-pointer"
                     title="View Perkins Publisher on Google Maps"
                   >
-                    <span>View Verified Reviews & Photos on Google Maps</span>
+                    <span>View Location on Google Maps</span>
                     <ExternalLink size={10} />
                   </a>
                 </div>

@@ -49,7 +49,7 @@ Unlike American publishers who solely rely on Bowker, European publishing requir
 * **Bookstore & University Library Cataloging:** Enables immediate inventory ordering by physical bookstores (Waterstones, Thalia, Fnac, Casa del Libro) and academic research institutions worldwide.
 
 #### 2. Multi-Currency Royalty Flow (EUR €, GBP £, USD $)
-Traditional European publishers keep 85% to 92% of your book earnings and pay royalties months late. At Perkins Publishers:
+Traditional European publishers keep 85% to 92% of your book earnings and pay royalties months late. At Perkins Publisher:
 * You set up direct payout connections via SEPA bank transfer or Stripe.
 * Retailer royalties from Amazon.de, Amazon.co.uk, Amazon.fr, Amazon.es, Amazon.it, and IngramSpark EU flow 100% into your account with zero middleman deductions.
 * Invoice options are 100% VAT-compliant for European business expense deductions.
@@ -753,7 +753,7 @@ Statutory deposit under the Irish Copyright and Related Rights Act 2000 is compl
                   Can European authors publish books in English, German, French, or Spanish?
                 </h4>
                 <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Yes. Perkins Publishers provides professional manuscript editing, ghostwriting, and translation services in English, German, French, Italian, Spanish, and Dutch. This allows European founders, executives, and consultants to establish thought leadership and sign enterprise clients across all major European markets and globally.
+                  Yes. Perkins Publisher provides professional manuscript editing, ghostwriting, and translation services in English, German, French, Italian, Spanish, and Dutch. This allows European founders, executives, and consultants to establish thought leadership and sign enterprise clients across all major European markets and globally.
                 </p>
               </div>
 
@@ -762,7 +762,7 @@ Statutory deposit under the Irish Copyright and Related Rights Act 2000 is compl
                   How does European ISBN registration & VAT compliance work?
                 </h4>
                 <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Perkins Publishers assigns official 13-digit ISBNs registered under your custom imprint with national agencies in Malta, the UK (British Library), and the EU. All invoices are 100% VAT-compliant for European business expense deductions, allowing corporate authors to deduct book production costs.
+                  Perkins Publisher assigns official 13-digit ISBNs registered under your custom imprint with national agencies in Malta, the UK (British Library), and the EU. All invoices are 100% VAT-compliant for European business expense deductions, allowing corporate authors to deduct book production costs.
                 </p>
               </div>
 

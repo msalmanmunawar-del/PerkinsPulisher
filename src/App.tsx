@@ -17,6 +17,7 @@ import DynamicIndustryPage from './components/DynamicIndustryPage';
 import DynamicLocationPage from './components/DynamicLocationPage';
 import KnowledgeHub from './components/KnowledgeHub';
 import GmbLocalAuthority from './components/GmbLocalAuthority';
+import ContactPage from './components/ContactPage';
 
 import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2, Flame } from 'lucide-react';
 
@@ -173,6 +174,7 @@ export default function App() {
       const locationId = pathname.replace('/locations/', '').trim();
       return locationId ? `location-${locationId}` : 'home';
     }
+    if (pathname === '/contact') return 'contact';
     if (pathname === '/knowledge-hub') return 'knowledge-hub';
     if (pathname === '/calculator') return 'calculator';
     if (pathname === '/reviews') return 'reviews';
@@ -189,7 +191,7 @@ export default function App() {
     if (page.startsWith('service-')) return `/services/${page.replace('service-', '')}`;
     if (page.startsWith('industry-')) return `/industries/${page.replace('industry-', '')}`;
     if (page.startsWith('location-')) return `/locations/${page.replace('location-', '')}`;
-    if (['knowledge-hub', 'calculator', 'reviews', 'seo-scorecard', 'privacy', 'terms'].includes(page)) {
+    if (['contact', 'knowledge-hub', 'calculator', 'reviews', 'seo-scorecard', 'privacy', 'terms'].includes(page)) {
       return `/${page}`;
     }
     return `/${page}`;
@@ -556,6 +558,27 @@ export default function App() {
             onOpenConsultation={() => {
               setSelectedServiceId(undefined);
               setConsultationModalOpen(true);
+            }}
+          />
+        )}
+
+        {activePage === 'contact' && (
+          <ContactPage
+            onSubmitInquiry={(data) => {
+              handleAddNewInquiry({
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                genre: data.genre,
+                wordCount: data.wordCount,
+                services: data.services || ['contact-page-inquiry'],
+                message: data.message
+              });
+            }}
+            isSubmitting={isSubmitting}
+            onNavigate={(page) => {
+              setActivePage(page);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           />
         )}

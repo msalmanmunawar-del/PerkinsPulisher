@@ -217,7 +217,7 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
           {/* Contact & Local Authority Column */}
           <div className="space-y-4 text-[11px]">
             <div className="flex items-center justify-between">
-              <h4 className="text-white text-[11px] font-black tracking-widest uppercase">EDITORIAL HEADQUARTERS</h4>
+              <h4 className="text-white text-[11px] font-black tracking-widest uppercase">MALTA / EU OFFICE</h4>
               <span className="bg-emerald-950 text-emerald-300 border border-emerald-800 text-[9px] font-bold px-1.5 py-0.5 rounded">
                 Registered in Malta (EU)
               </span>
@@ -230,21 +230,21 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
                 <span className="text-white font-black text-[11px]">Perkins Publisher</span>
               </div>
               <p className="text-[10px] text-slate-400 font-medium leading-relaxed">
-                Registered European publishing house headquartered in Gozo, Malta. Authors retain 100% royalties and rights.
+                Registered European publishing house located in Gozo, Malta. Authors retain 100% royalties and rights.
               </p>
               <div className="flex flex-col gap-1.5 pt-1">
                 <a 
-                  href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta" 
+                  href="https://maps.google.com/?q=Perkins+Publisher+G%C4%A7ajnsielem+Malta" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-[10px] text-amber-400 hover:text-amber-300 font-bold transition-colors cursor-pointer"
-                  title="View official business profile, photos, and verified reviews on Google Maps"
+                  title="View Perkins Publisher location on Google Maps"
                 >
-                  <span>View Profile & Verified Reviews on Google Maps</span>
+                  <span>View Location on Google Maps</span>
                   <ExternalLink size={10} />
                 </a>
                 <a 
-                  href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta" 
+                  href="https://maps.google.com/?q=Perkins+Publisher+G%C4%A7ajnsielem+Malta" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-[10px] text-blue-400 hover:text-blue-300 font-bold transition-colors cursor-pointer"
@@ -289,13 +289,19 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
               </a>
             </div>
 
-            {/* Quick European Headquarters Card Navigation */}
-            <div className="pt-1">
+            {/* Quick Contact & Malta / EU Office Navigation */}
+            <div className="pt-1 flex flex-col gap-1.5">
+              <button
+                onClick={() => handleNav('contact')}
+                className="inline-flex items-center gap-1 text-[11px] text-amber-400 hover:text-amber-300 font-bold cursor-pointer"
+              >
+                <span>Contact Malta / EU & US Offices →</span>
+              </button>
               <button
                 onClick={() => handleNav('gmb-verified-profile')}
-                className="inline-flex items-center gap-1 text-[10px] text-amber-400 hover:underline font-bold cursor-pointer"
+                className="inline-flex items-center gap-1 text-[10px] text-slate-400 hover:text-white font-medium cursor-pointer"
               >
-                <span>View European Headquarters & Verified Credentials →</span>
+                <span>View Malta / EU Office Credentials →</span>
               </button>
             </div>
           </div>
@@ -313,6 +319,10 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 text-[10px] text-slate-500 font-black uppercase tracking-wider items-center">
+            <button onClick={() => onNavigate('contact')} className="hover:text-amber-500 transition-colors cursor-pointer">
+              Contact
+            </button>
+            <span className="text-slate-700 select-none">•</span>
             <button onClick={() => onNavigate('privacy')} className="hover:text-amber-500 transition-colors cursor-pointer">
               Privacy Policy
             </button>

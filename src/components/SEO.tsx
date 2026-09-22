@@ -148,6 +148,10 @@ export default function SEO({ activePage, subId }: SEOProps) {
       title = 'Terms of Service & 100% Royalty Protection | Perkins Publisher Europe';
       description = 'Review our European publishing terms, author intellectual property rights under EU copyright laws, non-disclosure confidentiality covenants, and flat-rate service guarantees.';
       canonical = 'https://www.perkinspublisher.com/terms';
+    } else if (activePage === 'contact') {
+      title = 'Contact Perkins Publisher | Book Publishing & Author Services';
+      description = 'Contact Perkins Publisher to discuss book publishing, ghostwriting, editing, book design, marketing, and other professional publishing services.';
+      canonical = 'https://www.perkinspublisher.com/contact';
     }
 
     // Handle internal/utility pages that should not be indexed or crawled
@@ -240,7 +244,8 @@ export default function SEO({ activePage, subId }: SEOProps) {
       'reviews': 'Author Reviews',
       'seo-scorecard': 'Audit Scorecard',
       'privacy': 'Privacy Policy',
-      'terms': 'Terms of Service'
+      'terms': 'Terms of Service',
+      'contact': 'Contact Perkins Publisher'
     };
 
     let pageLabel = pageNames[activePage];
@@ -312,6 +317,21 @@ export default function SEO({ activePage, subId }: SEOProps) {
         },
         'description': description,
         'url': canonical
+      });
+    }
+
+    // If contact page, add clean ContactPage schema referencing canonical Organization @id
+    if (activePage === 'contact') {
+      schemas.push({
+        '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        '@id': 'https://www.perkinspublisher.com/contact#webpage',
+        'url': 'https://www.perkinspublisher.com/contact',
+        'name': 'Contact Perkins Publisher | Book Publishing & Author Services',
+        'description': description,
+        'mainEntity': {
+          '@id': 'https://perkinspublisher.com/#organization'
+        }
       });
     }
 

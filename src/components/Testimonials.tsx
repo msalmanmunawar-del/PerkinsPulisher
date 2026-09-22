@@ -9,7 +9,7 @@ interface TestimonialsProps {
 export default function Testimonials({ onOpenConsultation }: TestimonialsProps) {
   const [activeFaq, setActiveFaq] = useState<string | null>('faq1');
 
-  const googleMapsUrl = 'https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta';
+  const googleMapsUrl = 'https://maps.google.com/?q=Perkins+Publisher+G%C4%A7ajnsielem+Malta';
 
   return (
     <section id="faq" className="py-24 bg-white border-b border-gray-100">

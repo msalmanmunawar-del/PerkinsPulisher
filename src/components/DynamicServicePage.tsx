@@ -356,7 +356,7 @@ export default function DynamicServicePage({
             { step: '04', title: 'Platform Launch', desc: 'Direct upload administration, configuring royalty percentages, establishing distribution, and pushing live.' }
           ],
           faqs: [
-            { q: 'Who gets paid the royalties?', a: 'Amazon pays royalties directly to your bank account. Perkins Publishers takes 0% of your royalties. You receive 100% of the platform payouts.' },
+            { q: 'Who gets paid the royalties?', a: 'Amazon pays royalties directly to your bank account. Perkins Publisher takes 0% of your royalties. You receive 100% of the platform payouts.' },
             { q: 'Can I print physical hardcover copies of my book?', a: 'Yes! Amazon KDP and IngramSpark support premium print-on-demand hardcovers with dust jackets or case-laminate binding.' },
             { q: 'What is global distribution?', a: 'It makes your book available to over 40,000 libraries, indie bookstores, and international retailers through Ingram’s global catalog.' },
             { q: 'What is Amazon A+ Content?', a: 'Amazon A+ Content is rich visual marketing added to your book page featuring 3D mockups, editorial quotes, chapter previews, and comparison charts that boost conversion rates by 25% to 40%.' },

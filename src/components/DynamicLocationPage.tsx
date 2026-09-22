@@ -275,14 +275,14 @@ export default function DynamicLocationPage({
             </button>
 
             <a
-              href="https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta"
+              href="https://maps.google.com/?q=Perkins+Publisher+G%C4%A7ajnsielem+Malta"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3.5 rounded-2xl text-xs uppercase tracking-wider transition-all border border-white/20 flex items-center gap-2"
-              title="View Perkins Publisher profile, photos, and verified reviews on Google Maps"
+              title="View Perkins Publisher location on Google Maps"
             >
               <MapPin size={14} className="text-red-400" />
-              <span>HQ: Għajnsielem, Malta • View on Google Maps</span>
+              <span>Malta / EU Office • View on Google Maps</span>
               <ExternalLink size={12} className="opacity-70" />
             </a>
           </div>

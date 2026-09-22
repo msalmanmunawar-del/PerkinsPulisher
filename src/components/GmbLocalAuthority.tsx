@@ -27,7 +27,7 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
   const [copiedAddress, setCopiedAddress] = useState(false);
   const [copiedFullNap, setCopiedFullNap] = useState(false);
 
-  const googleMapsUrl = 'https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta';
+  const googleMapsUrl = 'https://maps.google.com/?q=Perkins+Publisher+G%C4%A7ajnsielem+Malta';
 
   const copyAddressToClipboard = () => {
     navigator.clipboard.writeText('Perkins Publisher, Għajnsielem, Gozo, GSM 1010, Malta');
@@ -36,7 +36,7 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
   };
 
   const copyFullNapToClipboard = () => {
-    const fullNap = `Business Name: Perkins Publisher\nAddress: Għajnsielem, Gozo, GSM 1010, Malta\nInternational Calling Line: +1 (803) 346-3495\nLocal Malta Desk: +356 9944 4044\nEmail: info@perkinspublisher.com\nWebsite: https://www.perkinspublisher.com/\nGoogle Maps: https://maps.google.com/?q=Perkins+Publishers+G%C4%A7ajnsielem+Malta`;
+    const fullNap = `Business Name: Perkins Publisher\nAddress: Għajnsielem, Gozo, GSM 1010, Malta\nInternational Calling Line: +1 (803) 346-3495\nLocal Malta Desk: +356 9944 4044\nEmail: info@perkinspublisher.com\nWebsite: https://www.perkinspublisher.com/\nGoogle Maps: https://maps.google.com/?q=Perkins+Publisher+G%C4%A7ajnsielem+Malta`;
     navigator.clipboard.writeText(fullNap);
     setCopiedFullNap(true);
     setTimeout(() => setCopiedFullNap(false), 2500);
@@ -54,10 +54,10 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 text-amber-300 text-xs font-black tracking-wider uppercase">
             <Building2 size={13} className="text-amber-400" />
-            <span>European Publishing Headquarters & Local Authority Desk</span>
+            <span>Malta / EU Office & Publishing Desk</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
-            European Headquarters & Local Authority
+            Malta / EU Office & Local Presence
           </h2>
           <p className="text-sm text-slate-600 font-semibold leading-relaxed">
             Verified local presence in <strong className="text-slate-900">Għajnsielem, Gozo, GSM 1010, Malta</strong> serving authors, entrepreneurs, and executives across the European Union, the UK, and international markets.
@@ -72,10 +72,10 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
             </div>
             <div className="space-y-0.5">
               <p className="text-xs font-black uppercase text-blue-950 tracking-wide">
-                Google Search & Business Profile Transparency Standard
+                Google Search & Business Transparency
               </p>
               <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                Rather than relying on unverified star widgets, we provide <strong>direct Google Maps links</strong> so visitors can inspect authentic author reviews, office photos, and GPS directions directly on Google's platform, with <strong>verifiable European business credentials</strong>.
+                We provide <strong>direct Google Maps links</strong> so visitors can inspect our location and GPS directions directly on Google's platform, with <strong>verifiable European business credentials</strong>.
               </p>
             </div>
           </div>
@@ -85,7 +85,7 @@ export default function GmbLocalAuthority({ onOpenConsultation }: GmbLocalAuthor
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold shrink-0 transition-colors shadow-sm"
           >
-            <span>Inspect on Google Maps</span>
+            <span>View on Google Maps</span>
             <ExternalLink size={12} />
           </a>
         </div>
