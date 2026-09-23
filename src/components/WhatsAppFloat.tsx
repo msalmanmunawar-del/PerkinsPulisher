@@ -51,12 +51,12 @@ export default function WhatsAppFloat({ onOpenConsultation }: WhatsAppFloatProps
   return (
     <aside 
       aria-label="WhatsApp Support"
-      className="fixed bottom-22 right-5 sm:bottom-24 sm:right-6 z-40 flex flex-col items-end select-none"
+      className="fixed bottom-5 left-5 sm:bottom-6 sm:left-6 z-40 flex flex-col items-start select-none"
     >
       
       {/* Expandable Chat Flyout Card */}
       {isOpen && (
-        <div className="mb-3 w-[calc(100vw-2.5rem)] sm:w-88 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-scaleUp transition-all duration-200">
+        <div className="mb-3 w-[calc(100vw-2.5rem)] sm:w-88 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-scaleUp origin-bottom-left transition-all duration-200">
           
           {/* Header */}
           <div className="bg-gradient-to-r from-[#075E54] to-[#128C7E] p-4 text-white relative">
@@ -157,10 +157,34 @@ export default function WhatsAppFloat({ onOpenConsultation }: WhatsAppFloatProps
         </div>
       )}
 
-      {/* Main Floating Trigger Button */}
-      <div className="flex items-center gap-2.5">
+      {/* Main Floating Trigger Button (Bottom-Left) */}
+      <div className="flex items-center gap-2.5 flex-row">
         
-        {/* Tooltip Pill (Prompts user when closed) */}
+        {/* Big Circular WhatsApp Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-label={isOpen ? "Close WhatsApp chat" : "Open WhatsApp chat"}
+          className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-white shadow-2xl shadow-emerald-600/40 flex items-center justify-center transition-all duration-300 cursor-pointer group"
+          title="Direct WhatsApp with Perkins Publisher (+1 803 346-3495)"
+        >
+          {/* Subtle Outer Pulsing Wave */}
+          <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-40 animate-ping pointer-events-none group-hover:opacity-0" />
+          
+          {isOpen ? (
+            <X size={24} className="text-white" />
+          ) : (
+            <>
+              <MessageCircle size={28} className="fill-white text-[#25D366] group-hover:scale-110 transition-transform" />
+              {/* Notification Badge */}
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-white font-black text-[9px] flex items-center justify-center border-2 border-white shadow-sm">
+                1
+              </span>
+            </>
+          )}
+        </button>
+
+        {/* Tooltip Pill (Prompts user to the right of the button) */}
         {!isOpen && (
           <div 
             onClick={() => handleLaunchWhatsApp()}
@@ -176,29 +200,6 @@ export default function WhatsAppFloat({ onOpenConsultation }: WhatsAppFloatProps
           </div>
         )}
 
-        {/* Big Circular WhatsApp Button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          aria-expanded={isOpen}
-          aria-label={isOpen ? "Close WhatsApp chat" : "Open WhatsApp chat"}
-          className="relative w-14 h-14 sm:w-15 sm:h-15 rounded-full bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-white shadow-2xl shadow-emerald-600/40 flex items-center justify-center transition-all duration-300 cursor-pointer group"
-          title="Direct WhatsApp with Perkins Publisher (+1 803 346-3495)"
-        >
-          {/* Subtle Outer Pulsing Wave */}
-          <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-40 animate-ping pointer-events-none group-hover:opacity-0" />
-          
-          {isOpen ? (
-            <X size={26} className="text-white" />
-          ) : (
-            <>
-              <MessageCircle size={30} className="fill-white text-[#25D366] group-hover:scale-110 transition-transform" />
-              {/* Notification Badge */}
-              <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white font-black text-[10px] flex items-center justify-center border-2 border-white shadow-sm">
-                1
-              </span>
-            </>
-          )}
-        </button>
       </div>
 
     </aside>
