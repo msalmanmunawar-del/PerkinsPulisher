@@ -10,15 +10,23 @@ export default function WhatsAppFloat({ onOpenConsultation }: WhatsAppFloatProps
   const [selectedTopic, setSelectedTopic] = useState('I want to publish my book with Perkins Publisher');
 
   useEffect(() => {
-    const handleOpenChat = () => {
+    const handleOpenWhatsApp = () => {
       setIsOpen(true);
     };
 
-    window.addEventListener('open-whatsapp', handleOpenChat);
-    window.addEventListener('open-live-chat', handleOpenChat);
+    const handleOpenLiveChat = () => {
+      if (typeof (window as any).Tawk_API?.maximize === 'function') {
+        (window as any).Tawk_API.maximize();
+      } else if (typeof (window as any).Tawk_API?.toggle === 'function') {
+        (window as any).Tawk_API.toggle();
+      }
+    };
+
+    window.addEventListener('open-whatsapp', handleOpenWhatsApp);
+    window.addEventListener('open-live-chat', handleOpenLiveChat);
     return () => {
-      window.removeEventListener('open-whatsapp', handleOpenChat);
-      window.removeEventListener('open-live-chat', handleOpenChat);
+      window.removeEventListener('open-whatsapp', handleOpenWhatsApp);
+      window.removeEventListener('open-live-chat', handleOpenLiveChat);
     };
   }, []);
 
@@ -43,7 +51,7 @@ export default function WhatsAppFloat({ onOpenConsultation }: WhatsAppFloatProps
   return (
     <aside 
       aria-label="WhatsApp Support"
-      className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end select-none"
+      className="fixed bottom-22 right-5 sm:bottom-24 sm:right-6 z-40 flex flex-col items-end select-none"
     >
       
       {/* Expandable Chat Flyout Card */}

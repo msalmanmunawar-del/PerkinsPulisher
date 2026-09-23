@@ -191,6 +191,22 @@ export default function Header({
           </div>
           <span className="text-slate-600 hidden md:inline">•</span>
           <div className="flex items-center gap-2.5 text-slate-200">
+            <button
+              onClick={() => {
+                if (typeof (window as any).Tawk_API?.maximize === 'function') {
+                  (window as any).Tawk_API.maximize();
+                } else {
+                  window.dispatchEvent(new CustomEvent('open-live-chat'));
+                }
+              }}
+              className="bg-blue-900/80 hover:bg-blue-800 text-amber-300 hover:text-white font-bold px-2 py-0.5 rounded-full text-[10.5px] flex items-center gap-1 transition-all border border-blue-700/60 cursor-pointer"
+              title="Open Live Chat (Tawk.to)"
+            >
+              <MessageSquare size={10} className="text-amber-400" />
+              <span>Live Chat</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            </button>
+            <span className="text-slate-600">|</span>
             <a 
               href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book." 
               target="_blank"
@@ -513,6 +529,23 @@ export default function Header({
               </div>
             </div>
 
+            {/* Live Chat Button (Tawk.to) */}
+            <button
+              onClick={() => {
+                if (typeof (window as any).Tawk_API?.maximize === 'function') {
+                  (window as any).Tawk_API.maximize();
+                } else {
+                  window.dispatchEvent(new CustomEvent('open-live-chat'));
+                }
+              }}
+              className="bg-blue-950/80 hover:bg-blue-900 border border-blue-800 text-white text-xs font-black px-3.5 py-2.5 rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 flex items-center gap-1.5 shrink-0 cursor-pointer"
+              title="Open Live Chat Support (Tawk.to)"
+            >
+              <MessageSquare size={14} className="text-amber-400" />
+              <span>Live Chat</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            </button>
+
             {/* WhatsApp Priority Button */}
             <a
               href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."
@@ -695,6 +728,30 @@ export default function Header({
             </button>
 
             <div className="pt-3 border-t border-gray-100 flex flex-col gap-2.5">
+              {/* Live Chat Mobile Button (Tawk.to) */}
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (typeof (window as any).Tawk_API?.maximize === 'function') {
+                    (window as any).Tawk_API.maximize();
+                  } else {
+                    window.dispatchEvent(new CustomEvent('open-live-chat'));
+                  }
+                }}
+                className="flex items-center justify-between px-4 py-3 rounded-xl text-xs font-black text-white bg-blue-950 hover:bg-blue-900 border border-blue-800 transition-all shadow-md active:scale-95 cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="relative">
+                    <MessageSquare size={17} className="text-amber-400" />
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 absolute -top-0.5 -right-0.5 animate-pulse" />
+                  </div>
+                  <span className="uppercase tracking-wider">Open Live Chat</span>
+                </div>
+                <span className="text-[10px] bg-emerald-500 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase">
+                  Tawk.to
+                </span>
+              </button>
+
               {/* Prioritized WhatsApp Mobile CTA */}
               <a
                 href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."

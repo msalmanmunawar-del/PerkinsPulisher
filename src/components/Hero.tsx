@@ -445,18 +445,34 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
                       <ArrowRight size={14} />
                     </button>
 
-                    {/* Direct WhatsApp Instant Consultation */}
-                    <div className="pt-2.5">
+                    {/* Instant Live Chat & WhatsApp Dual Connect */}
+                    <div className="pt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (typeof (window as any).Tawk_API?.maximize === 'function') {
+                            (window as any).Tawk_API.maximize();
+                          } else {
+                            window.dispatchEvent(new CustomEvent('open-live-chat'));
+                          }
+                        }}
+                        className="w-full bg-blue-950 hover:bg-blue-900 active:scale-[0.98] text-white font-black text-[11px] uppercase tracking-wider py-2.5 px-3 rounded-xl shadow-sm border border-blue-800 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                        title="Open Live Chat (Tawk.to)"
+                      >
+                        <MessageSquare size={13} className="text-amber-400" />
+                        <span>Live Chat</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      </button>
+
                       <a
                         href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full bg-[#25D366] hover:bg-[#20ba59] active:scale-[0.98] text-white font-black text-xs uppercase tracking-wider py-3 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer"
+                        className="w-full bg-[#25D366] hover:bg-[#20ba59] active:scale-[0.98] text-white font-black text-[11px] uppercase tracking-wider py-2.5 px-3 rounded-xl shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                         title="Chat directly on WhatsApp (+1 803 346-3495)"
                       >
-                        <MessageCircle size={16} className="fill-white" />
-                        <span>Chat Directly on WhatsApp</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping ml-1" />
+                        <MessageCircle size={14} className="fill-white" />
+                        <span>WhatsApp.me</span>
                       </a>
                     </div>
 

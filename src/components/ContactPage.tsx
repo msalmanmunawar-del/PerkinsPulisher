@@ -154,11 +154,11 @@ export default function ContactPage({
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-                {/* Instant WhatsApp banner inside form */}
+                {/* Instant Live Chat & WhatsApp banner inside form */}
                 <div className="p-3.5 bg-gradient-to-r from-emerald-50 via-slate-50 to-amber-50/50 border border-slate-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-8 h-8 rounded-xl bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-xs">
-                      <MessageCircle size={16} className="fill-white" />
+                    <div className="w-8 h-8 rounded-xl bg-blue-950 text-white flex items-center justify-center shrink-0 shadow-xs">
+                      <MessageSquare size={16} className="text-amber-400" />
                     </div>
                     <div className="min-w-0">
                       <span className="text-xs font-black text-blue-950 flex items-center gap-1.5">
@@ -166,19 +166,33 @@ export default function ContactPage({
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                       </span>
                       <p className="text-[11px] text-slate-600 font-medium truncate">
-                        Senior editorial team is online on WhatsApp
+                        Senior editorial team is online on Live Chat & WhatsApp
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (typeof (window as any).Tawk_API?.maximize === 'function') {
+                          (window as any).Tawk_API.maximize();
+                        } else {
+                          window.dispatchEvent(new CustomEvent('open-live-chat'));
+                        }
+                      }}
+                      className="bg-blue-950 hover:bg-blue-900 active:scale-95 text-white font-black text-[11px] px-3 py-1.5 rounded-xl transition-all shadow-xs flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                    >
+                      <MessageSquare size={12} className="text-amber-400" />
+                      <span>Live Chat</span>
+                    </button>
                     <a
                       href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-white font-black text-xs px-3.5 py-2 rounded-xl transition-all shadow-xs flex items-center gap-1.5 cursor-pointer whitespace-nowrap"
+                      className="bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-white font-black text-[11px] px-3 py-1.5 rounded-xl transition-all shadow-xs flex items-center gap-1 cursor-pointer whitespace-nowrap"
                     >
-                      <MessageCircle size={14} className="fill-white" />
-                      <span>Chat on WhatsApp</span>
+                      <MessageCircle size={12} className="fill-white" />
+                      <span>WhatsApp</span>
                     </a>
                   </div>
                 </div>
@@ -313,16 +327,31 @@ export default function ContactPage({
               </p>
 
               <div className="mt-4 pt-4 border-t border-white/15 space-y-2.5">
-                <div className="space-y-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (typeof (window as any).Tawk_API?.maximize === 'function') {
+                        (window as any).Tawk_API.maximize();
+                      } else {
+                        window.dispatchEvent(new CustomEvent('open-live-chat'));
+                      }
+                    }}
+                    className="w-full py-3 px-3 bg-white text-blue-950 hover:bg-slate-100 active:scale-95 font-black text-xs uppercase tracking-wider rounded-2xl shadow-md flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  >
+                    <MessageSquare size={16} className="text-amber-500" />
+                    <span>Live Web Chat</span>
+                  </button>
+
                   <a
-                    href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20am%20inquiring%20about%20publishing%20my%20book."
+                    href="https://wa.me/18033463495?text=Hello%20Perkins%20Publisher%2C%20I%20would%20like%20to%20inquire%20about%20publishing%20my%20book."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-3.5 px-4 bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-white font-black text-xs uppercase tracking-wider rounded-2xl shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer"
+                    className="w-full py-3 px-3 bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-slate-950 font-black text-xs uppercase tracking-wider rounded-2xl shadow-md flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                     title="Direct WhatsApp with Perkins Publisher (+1 803 346-3495)"
                   >
-                    <MessageCircle size={18} className="fill-white" />
-                    <span>Open WhatsApp Chat (+1 803 346-3495)</span>
+                    <MessageCircle size={16} className="fill-slate-950" />
+                    <span>WhatsApp</span>
                   </a>
                 </div>
 
