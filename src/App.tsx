@@ -20,7 +20,7 @@ const DynamicIndustryPage = lazy(() => import('./components/DynamicIndustryPage'
 const DynamicLocationPage = lazy(() => import('./components/DynamicLocationPage'));
 const KnowledgeHub = lazy(() => import('./components/KnowledgeHub'));
 const ContactPage = lazy(() => import('./components/ContactPage'));
-const LiveChatWidget = lazy(() => import('./components/LiveChatWidget'));
+const WhatsAppFloat = lazy(() => import('./components/WhatsAppFloat'));
 
 import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2, Flame, MessageCircle, ArrowRight } from 'lucide-react';
 
@@ -996,9 +996,9 @@ export default function App() {
         </div>
       )}
 
-      {/* Persistent Live Chat & WhatsApp Communication Dock */}
+      {/* Prioritized Persistent WhatsApp Communication Dock */}
       <Suspense fallback={null}>
-        <LiveChatWidget onOpenConsultation={() => setConsultationModalOpen(true)} />
+        <WhatsAppFloat onOpenConsultation={() => setConsultationModalOpen(true)} />
       </Suspense>
 
     </div>

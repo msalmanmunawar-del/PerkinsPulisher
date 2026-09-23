@@ -20,6 +20,9 @@ interface IntegrationConfig {
   smtpPort?: number;
   smtpUser?: string;
   smtpPass?: string;
+  tawktoPropertyId?: string;
+  tawktoWidgetId?: string;
+  tawktoDirectUrl?: string;
 }
 
 // Helper: Get active integration configuration
@@ -47,6 +50,9 @@ function getIntegrationsConfig(): IntegrationConfig {
     smtpPort: fileConfig.smtpPort || Number(process.env.SMTP_PORT) || 465,
     smtpUser: fileConfig.smtpUser || process.env.SMTP_USER || "info@perkinspublisher.com",
     smtpPass: fileConfig.smtpPass || process.env.SMTP_PASS || "",
+    tawktoPropertyId: fileConfig.tawktoPropertyId || process.env.TAWKTO_PROPERTY_ID || process.env.VITE_TAWKTO_PROPERTY_ID || "",
+    tawktoWidgetId: fileConfig.tawktoWidgetId || process.env.TAWKTO_WIDGET_ID || process.env.VITE_TAWKTO_WIDGET_ID || "",
+    tawktoDirectUrl: fileConfig.tawktoDirectUrl || process.env.TAWKTO_DIRECT_URL || process.env.VITE_TAWKTO_DIRECT_URL || "",
   };
 }
 
@@ -444,13 +450,28 @@ async function startServer() {
       smtpConfigured: Boolean(config.smtpHost && config.smtpUser && config.smtpPass),
       smtpHost: config.smtpHost || "smtp.hostinger.com",
       smtpUser: config.smtpUser || "",
+      tawktoPropertyId: config.tawktoPropertyId || "",
+      tawktoWidgetId: config.tawktoWidgetId || "",
+      tawktoDirectUrl: config.tawktoDirectUrl || "",
+      tawktoActive: Boolean(config.tawktoPropertyId && config.tawktoWidgetId),
       totalLeadsStored: stored.length,
     });
   });
 
   // API route: Save integration settings
   app.post("/api/integrations", (req, res) => {
-    const { recipientEmail, webhookUrl, googleSheetsUrl, smtpHost, smtpPort, smtpUser, smtpPass } = req.body;
+    const { 
+      recipientEmail, 
+      webhookUrl, 
+      googleSheetsUrl, 
+      smtpHost, 
+      smtpPort, 
+      smtpUser, 
+      smtpPass,
+      tawktoPropertyId,
+      tawktoWidgetId,
+      tawktoDirectUrl
+    } = req.body;
     const updated = saveIntegrationsConfig({
       recipientEmail: recipientEmail ? recipientEmail.trim() : undefined,
       webhookUrl: webhookUrl !== undefined ? webhookUrl.trim() : undefined,
@@ -459,6 +480,9 @@ async function startServer() {
       smtpPort: smtpPort ? Number(smtpPort) : undefined,
       smtpUser: smtpUser !== undefined ? smtpUser.trim() : undefined,
       smtpPass: smtpPass !== undefined ? smtpPass.trim() : undefined,
+      tawktoPropertyId: tawktoPropertyId !== undefined ? tawktoPropertyId.trim() : undefined,
+      tawktoWidgetId: tawktoWidgetId !== undefined ? tawktoWidgetId.trim() : undefined,
+      tawktoDirectUrl: tawktoDirectUrl !== undefined ? tawktoDirectUrl.trim() : undefined,
     });
 
     res.json({
@@ -468,6 +492,10 @@ async function startServer() {
         recipientEmail: updated.recipientEmail,
         webhookUrl: updated.webhookUrl || "",
         googleSheetsUrl: updated.googleSheetsUrl || "",
+        tawktoPropertyId: updated.tawktoPropertyId || "",
+        tawktoWidgetId: updated.tawktoWidgetId || "",
+        tawktoDirectUrl: updated.tawktoDirectUrl || "",
+        tawktoActive: Boolean(updated.tawktoPropertyId && updated.tawktoWidgetId),
         smtpConfigured: Boolean(updated.smtpUser && updated.smtpPass),
       },
     });

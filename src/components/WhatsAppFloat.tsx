@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MessageCircle, X, Send, Sparkles, CheckCheck, Phone, Globe } from 'lucide-react';
 
 interface WhatsAppFloatProps {
@@ -8,6 +8,19 @@ interface WhatsAppFloatProps {
 export default function WhatsAppFloat({ onOpenConsultation }: WhatsAppFloatProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState('I want to publish my book with Perkins Publisher');
+
+  useEffect(() => {
+    const handleOpenChat = () => {
+      setIsOpen(true);
+    };
+
+    window.addEventListener('open-whatsapp', handleOpenChat);
+    window.addEventListener('open-live-chat', handleOpenChat);
+    return () => {
+      window.removeEventListener('open-whatsapp', handleOpenChat);
+      window.removeEventListener('open-live-chat', handleOpenChat);
+    };
+  }, []);
 
   const primaryNumber = '18033463495'; // US / International Direct Line
   const maltaNumber = '35699444044'; // Malta / EU Local Desk
