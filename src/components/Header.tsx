@@ -2,11 +2,19 @@ import { useState, useEffect } from 'react';
 import { 
   BookOpen, Phone, Menu, X, Shield, Award, Sparkles, ChevronDown, 
   PenTool, CheckSquare, Settings, Flame, Star, BookMarked, Mic, 
-  Palette, Library, Send, HelpCircle, FileText, Share2, Award as AwardIcon, Users, MapPin, ExternalLink, Globe, Calculator, Search, MessageCircle, MessageSquare
+  Palette, Library, Send, HelpCircle, FileText, Share2, Award as AwardIcon, Users, MapPin, ExternalLink, Globe, Calculator, Search, MessageCircle, MessageSquare,
+  BookOpenCheck, Bookmark, Crown
 } from 'lucide-react';
-import * as Icons from 'lucide-react';
 import { LogoConfig } from '../types';
 import PerkinsLogo from './PerkinsLogo';
+
+const LOGO_ICONS: Record<string, React.ElementType> = {
+  BookOpen,
+  BookOpenCheck,
+  Sparkles,
+  Bookmark,
+  Crown
+};
 
 interface HeaderProps {
   logoConfig: LogoConfig;
@@ -130,7 +138,7 @@ export default function Header({
     }
 
     // Default icon + text configuration
-    const LogoIcon = (Icons as any)[logoConfig.iconName] || Icons.BookOpen;
+    const LogoIcon = LOGO_ICONS[logoConfig.iconName] || BookOpen;
 
     return (
       <div className="flex items-center gap-2 flex-shrink-0">

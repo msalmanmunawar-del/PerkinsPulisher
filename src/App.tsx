@@ -1,24 +1,26 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, FormEvent, lazy, Suspense } from 'react';
 import { Inquiry, LogoConfig, OFFICIAL_EMBLEM_LOGO_PRESET } from './types';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import PromotionalOffer from './components/PromotionalOffer';
-import TimesSquareSection from './components/TimesSquareSection';
 import ServiceHub from './components/ServiceHub';
 import CompareSection from './components/CompareSection';
-import Testimonials from './components/Testimonials';
-import AuthorInsights from './components/AuthorInsights';
-import LeadAuditScorecard from './components/LeadAuditScorecard';
 import Footer from './components/Footer';
 import { useToast } from './components/Toast';
 import SEO from './components/SEO';
-import DynamicServicePage from './components/DynamicServicePage';
-import DynamicIndustryPage from './components/DynamicIndustryPage';
-import DynamicLocationPage from './components/DynamicLocationPage';
-import KnowledgeHub from './components/KnowledgeHub';
-import GmbLocalAuthority from './components/GmbLocalAuthority';
-import ContactPage from './components/ContactPage';
-import LiveChatWidget from './components/LiveChatWidget';
+
+// Code-split sub-pages and non-critical components to optimize FCP, LCP, and Speed Index
+const TimesSquareSection = lazy(() => import('./components/TimesSquareSection'));
+const Testimonials = lazy(() => import('./components/Testimonials'));
+const AuthorInsights = lazy(() => import('./components/AuthorInsights'));
+const GmbLocalAuthority = lazy(() => import('./components/GmbLocalAuthority'));
+const LeadAuditScorecard = lazy(() => import('./components/LeadAuditScorecard'));
+const DynamicServicePage = lazy(() => import('./components/DynamicServicePage'));
+const DynamicIndustryPage = lazy(() => import('./components/DynamicIndustryPage'));
+const DynamicLocationPage = lazy(() => import('./components/DynamicLocationPage'));
+const KnowledgeHub = lazy(() => import('./components/KnowledgeHub'));
+const ContactPage = lazy(() => import('./components/ContactPage'));
+const LiveChatWidget = lazy(() => import('./components/LiveChatWidget'));
 
 import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2, Flame, MessageCircle, ArrowRight } from 'lucide-react';
 
@@ -460,13 +462,15 @@ export default function App() {
               }}
             />
 
-            {/* Times Square video trailer highlight panel */}
-            <TimesSquareSection
-              onOpenConsultation={() => {
-                setSelectedServiceId(undefined);
-                setConsultationModalOpen(true);
-              }}
-            />
+            <Suspense fallback={null}>
+              {/* Times Square video trailer highlight panel */}
+              <TimesSquareSection
+                onOpenConsultation={() => {
+                  setSelectedServiceId(undefined);
+                  setConsultationModalOpen(true);
+                }}
+              />
+            </Suspense>
 
             {/* Detailed services overview tab card stack */}
             <ServiceHub
@@ -484,105 +488,109 @@ export default function App() {
               }}
             />
 
-            {/* Success Stories Testimonials & FAQ Accordions */}
-            <Testimonials
-              onOpenConsultation={() => {
-                setSelectedServiceId(undefined);
-                setConsultationModalOpen(true);
-              }}
-            />
+            <Suspense fallback={null}>
+              {/* Success Stories Testimonials & FAQ Accordions */}
+              <Testimonials
+                onOpenConsultation={() => {
+                  setSelectedServiceId(undefined);
+                  setConsultationModalOpen(true);
+                }}
+              />
 
-            {/* Author Insights Section with Curated SEO Content by Zhana Xuere */}
-            <AuthorInsights
+              {/* Author Insights Section with Curated SEO Content by Zhana Xuere */}
+              <AuthorInsights
+                onOpenConsultation={() => {
+                  setSelectedServiceId(undefined);
+                  setConsultationModalOpen(true);
+                }}
+                onNavigate={setActivePage}
+              />
+
+              {/* Google Business Profile (GMB) Verified Local Authority, Exact NAP & AEO Knowledge Section */}
+              <GmbLocalAuthority
+                onOpenConsultation={() => {
+                  setSelectedServiceId(undefined);
+                  setConsultationModalOpen(true);
+                }}
+              />
+
+              {/* Interactive Bestseller Scorecard & Amazon SEO Keyword Matcher */}
+              <LeadAuditScorecard
+                onOpenInquiry={(subject) => {
+                  setSelectedServiceId(undefined);
+                  setModalMessage(`Submitting my automated Bestseller Scorecard results to Stephanie Weldon.\nStatus: ${subject}\nI would love to arrange a personalized publishing session.`);
+                  setConsultationModalOpen(true);
+                }}
+              />
+            </Suspense>
+          </>
+        )}
+
+        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="w-8 h-8 border-3 border-amber-500 border-t-transparent rounded-full animate-spin" /></div>}>
+          {activePage.startsWith('service-') && (
+            <DynamicServicePage
+              serviceId={activePage.replace('service-', '')}
               onOpenConsultation={() => {
-                setSelectedServiceId(undefined);
+                setSelectedServiceId(activePage);
                 setConsultationModalOpen(true);
               }}
               onNavigate={setActivePage}
             />
+          )}
 
-            {/* Google Business Profile (GMB) Verified Local Authority, Exact NAP & AEO Knowledge Section */}
-            <GmbLocalAuthority
+          {activePage.startsWith('industry-') && (
+            <DynamicIndustryPage
+              industryId={activePage.replace('industry-', '')}
+              onOpenConsultation={() => {
+                setSelectedServiceId(activePage);
+                setConsultationModalOpen(true);
+              }}
+              onNavigate={setActivePage}
+            />
+          )}
+
+          {activePage.startsWith('location-') && (
+            <DynamicLocationPage
+              locationId={activePage.replace('location-', '')}
+              onOpenConsultation={() => {
+                setSelectedServiceId(activePage);
+                setConsultationModalOpen(true);
+              }}
+              onNavigate={setActivePage}
+            />
+          )}
+
+          {activePage === 'knowledge-hub' && (
+            <KnowledgeHub
+              onNavigate={setActivePage}
               onOpenConsultation={() => {
                 setSelectedServiceId(undefined);
                 setConsultationModalOpen(true);
               }}
             />
+          )}
 
-            {/* Interactive Bestseller Scorecard & Amazon SEO Keyword Matcher */}
-            <LeadAuditScorecard
-              onOpenInquiry={(subject) => {
-                setSelectedServiceId(undefined);
-                setModalMessage(`Submitting my automated Bestseller Scorecard results to Stephanie Weldon.\nStatus: ${subject}\nI would love to arrange a personalized publishing session.`);
-                setConsultationModalOpen(true);
+          {activePage === 'contact' && (
+            <ContactPage
+              onSubmitInquiry={(data) => {
+                handleAddNewInquiry({
+                  name: data.name,
+                  email: data.email,
+                  phone: data.phone,
+                  genre: data.genre,
+                  wordCount: data.wordCount,
+                  services: data.services || ['contact-page-inquiry'],
+                  message: data.message
+                });
+              }}
+              isSubmitting={isSubmitting}
+              onNavigate={(page) => {
+                setActivePage(page);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             />
-          </>
-        )}
-
-        {activePage.startsWith('service-') && (
-          <DynamicServicePage
-            serviceId={activePage.replace('service-', '')}
-            onOpenConsultation={() => {
-              setSelectedServiceId(activePage);
-              setConsultationModalOpen(true);
-            }}
-            onNavigate={setActivePage}
-          />
-        )}
-
-        {activePage.startsWith('industry-') && (
-          <DynamicIndustryPage
-            industryId={activePage.replace('industry-', '')}
-            onOpenConsultation={() => {
-              setSelectedServiceId(activePage);
-              setConsultationModalOpen(true);
-            }}
-            onNavigate={setActivePage}
-          />
-        )}
-
-        {activePage.startsWith('location-') && (
-          <DynamicLocationPage
-            locationId={activePage.replace('location-', '')}
-            onOpenConsultation={() => {
-              setSelectedServiceId(activePage);
-              setConsultationModalOpen(true);
-            }}
-            onNavigate={setActivePage}
-          />
-        )}
-
-        {activePage === 'knowledge-hub' && (
-          <KnowledgeHub
-            onNavigate={setActivePage}
-            onOpenConsultation={() => {
-              setSelectedServiceId(undefined);
-              setConsultationModalOpen(true);
-            }}
-          />
-        )}
-
-        {activePage === 'contact' && (
-          <ContactPage
-            onSubmitInquiry={(data) => {
-              handleAddNewInquiry({
-                name: data.name,
-                email: data.email,
-                phone: data.phone,
-                genre: data.genre,
-                wordCount: data.wordCount,
-                services: data.services || ['contact-page-inquiry'],
-                message: data.message
-              });
-            }}
-            isSubmitting={isSubmitting}
-            onNavigate={(page) => {
-              setActivePage(page);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
-        )}
+          )}
+        </Suspense>
 
         {activePage === 'privacy' && (
           <div className="py-20 bg-slate-50 min-h-[60vh]">
@@ -989,7 +997,9 @@ export default function App() {
       )}
 
       {/* Persistent Live Chat & WhatsApp Communication Dock */}
-      <LiveChatWidget onOpenConsultation={() => setConsultationModalOpen(true)} />
+      <Suspense fallback={null}>
+        <LiveChatWidget onOpenConsultation={() => setConsultationModalOpen(true)} />
+      </Suspense>
 
     </div>
   );

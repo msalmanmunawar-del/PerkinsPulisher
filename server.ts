@@ -1,4 +1,5 @@
 import express from "express";
+import compression from "compression";
 import path from "path";
 import fs from "fs";
 import { createServer as createViteServer } from "vite";
@@ -367,6 +368,11 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  // High-performance gzip/brotli compression middleware
+  app.use(compression({
+    threshold: 1024,
+  }));
+
   // API health route FIRST (strictly compliant with container/reverse-proxy requirements)
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok" });
@@ -694,11 +700,29 @@ async function startServer() {
     console.log("🚀 [Perkins Backend] Vite HMR Service mounted.");
   } else {
     const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
+    
+    // 1. Immutable caching for content-hashed assets (/assets/*)
+    app.use("/assets", express.static(path.join(distPath, "assets"), {
+      maxAge: "1y",
+      immutable: true,
+    }));
+
+    // 2. Static root assets with caching headers
+    app.use(express.static(distPath, {
+      maxAge: "1d",
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith("index.html")) {
+          res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
+        }
+      }
+    }));
+
+    // 3. Fallback to index.html with revalidate for SPA routing
     app.get("*", (req, res) => {
+      res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
       res.sendFile(path.join(distPath, "index.html"));
     });
-    console.log("📦 [Perkins Backend] Static Production assets mounted.");
+    console.log("📦 [Perkins Backend] Static Production assets mounted with compression & optimized caching headers.");
   }
 
   app.listen(PORT, "0.0.0.0", () => {

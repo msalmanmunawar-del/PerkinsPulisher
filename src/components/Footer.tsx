@@ -1,7 +1,17 @@
-import { BookOpen, Mail, Phone, MapPin, ShieldCheck, Heart, Database, Star, ExternalLink, Clock, Navigation, Building2, MessageCircle } from 'lucide-react';
-import * as Icons from 'lucide-react';
+import { 
+  BookOpen, Mail, Phone, MapPin, ShieldCheck, Heart, Database, Star, ExternalLink, Clock, Navigation, Building2, MessageCircle,
+  BookOpenCheck, Sparkles, Bookmark, Crown
+} from 'lucide-react';
 import { LogoConfig } from '../types';
 import PerkinsLogo from './PerkinsLogo';
+
+const LOGO_ICONS: Record<string, React.ElementType> = {
+  BookOpen,
+  BookOpenCheck,
+  Sparkles,
+  Bookmark,
+  Crown
+};
 
 interface FooterProps {
   logoConfig: LogoConfig;
@@ -68,7 +78,7 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
     }
 
     // Default icon + text configuration (also supports original preset)
-    const LogoIcon = (Icons as any)[logoConfig.iconName] || Icons.BookOpen;
+    const LogoIcon = LOGO_ICONS[logoConfig.iconName] || BookOpen;
     const footerTextColor = logoConfig.footerTextColor || 'text-white/90';
 
     return (

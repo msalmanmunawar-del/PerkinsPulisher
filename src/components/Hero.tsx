@@ -216,10 +216,42 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
             {/* Authentic Credentials & Direct Google Maps Verification */}
             <div className="flex flex-wrap items-center gap-6 pt-4 border-t border-gray-100">
               <div className="flex -space-x-2">
-                <img className="w-9 h-9 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100" alt="Author" />
-                <img className="w-9 h-9 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Author" />
-                <img className="w-9 h-9 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Author" />
-                <img className="w-9 h-9 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="Author" />
+                <img 
+                  className="w-9 h-9 rounded-full border-2 border-white object-cover" 
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=72&h=72&q=80" 
+                  srcSet="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=36&h=36&q=80 1x, https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=72&h=72&q=80 2x"
+                  width="36" 
+                  height="36" 
+                  decoding="async" 
+                  alt="Author Elena Petrova" 
+                />
+                <img 
+                  className="w-9 h-9 rounded-full border-2 border-white object-cover" 
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=72&h=72&q=80" 
+                  srcSet="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=36&h=36&q=80 1x, https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=72&h=72&q=80 2x"
+                  width="36" 
+                  height="36" 
+                  decoding="async" 
+                  alt="Author Marcus Vance" 
+                />
+                <img 
+                  className="w-9 h-9 rounded-full border-2 border-white object-cover" 
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=72&h=72&q=80" 
+                  srcSet="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=36&h=36&q=80 1x, https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=72&h=72&q=80 2x"
+                  width="36" 
+                  height="36" 
+                  decoding="async" 
+                  alt="Author Sarah Jenkins" 
+                />
+                <img 
+                  className="w-9 h-9 rounded-full border-2 border-white object-cover" 
+                  src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=72&h=72&q=80" 
+                  srcSet="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=36&h=36&q=80 1x, https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=72&h=72&q=80 2x"
+                  width="36" 
+                  height="36" 
+                  decoding="async" 
+                  alt="Author David Sterling" 
+                />
               </div>
               <div className="space-y-1">
                 <div className="flex flex-wrap items-center gap-2.5 text-blue-950 font-bold text-sm">

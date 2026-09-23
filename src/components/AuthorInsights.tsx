@@ -184,10 +184,14 @@ export default function AuthorInsights({ onOpenConsultation, onNavigate }: Autho
             {/* Elegant placeholder/avatar design for Stephanie Weldon */}
             <div className="w-24 h-24 md:w-32 md:h-32 rounded-2xl border-2 border-amber-500/30 overflow-hidden shadow-lg relative bg-slate-800">
               <img 
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=85" 
+                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=256&h=256&q=80" 
                 alt="Stephanie Weldon" 
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover grayscale contrast-110 hover:grayscale-0 transition-all duration-500"
+                width="128"
+                height="128"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute bottom-0 left-0 right-0 py-0.5 bg-amber-500 text-slate-900 text-[10px] uppercase font-black text-center tracking-wider">
                 Senior Editor
@@ -305,7 +309,10 @@ export default function AuthorInsights({ onOpenConsultation, onNavigate }: Autho
                         alt={article.title}
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                        width="380"
+                        height="240"
                         loading="lazy"
+                        decoding="async"
                       />
                       <span className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-amber-400 text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded border border-amber-500/20">
                         {article.category}

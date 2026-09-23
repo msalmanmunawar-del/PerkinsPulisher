@@ -1,5 +1,15 @@
 [
   {
+    "id": "inq-1790185265350",
+    "receivedAt": "2026-09-23T17:41:05.350Z",
+    "status": "New",
+    "name": "Perf Test",
+    "email": "perf@example.com",
+    "phone": "+35699112233",
+    "genre": "Fiction",
+    "wordCount": 50000
+  },
+  {
     "id": "inq-1789761673093",
     "receivedAt": "2026-09-18T20:01:13.093Z",
     "status": "New",
