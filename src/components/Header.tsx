@@ -69,11 +69,13 @@ export default function Header({
 
   const locationsList = [
     { label: 'London & UK', id: 'location-uk-london', flag: '🇬🇧', desc: 'Waterstones & British Library deposit.' },
+    { label: 'France (Paris)', id: 'location-france', flag: '🇫🇷', desc: 'Fnac, Dilicom, Amazon.fr & BnF dépôt légal.' },
+    { label: 'Greece (Athens)', id: 'location-greece', flag: '🇬🇷', desc: 'Public.gr, Ianos & EBE legal deposit.' },
+    { label: 'Deutschland & DACH', id: 'location-germany-berlin', flag: '🇩🇪', desc: 'Thalia, VLB & German print-on-demand.' },
     { label: 'Ireland (Dublin)', id: 'location-ireland', flag: '🇮🇪', desc: 'Easons, Dubray & Trinity College deposit.' },
+    { label: 'Switzerland (Zurich)', id: 'location-switzerland-zurich', flag: '🇨🇭', desc: 'Wealth managers & corporate founders.' },
     { label: 'Australia (Sydney/Melb)', id: 'location-australia', flag: '🇦🇺', desc: 'Dymocks, NED deposit & local AU printing.' },
     { label: 'New Zealand (Auckland)', id: 'location-new-zealand', flag: '🇳🇿', desc: 'Whitcoulls, Paper Plus & NZD royalties.' },
-    { label: 'Deutschland & DACH', id: 'location-germany-berlin', flag: '🇩🇪', desc: 'Thalia, VLB & German print-on-demand.' },
-    { label: 'Switzerland (Zurich)', id: 'location-switzerland-zurich', flag: '🇨🇭', desc: 'Wealth managers & corporate founders.' },
     { label: 'Għajnsielem HQ (Malta)', id: 'location-malta', flag: '🇲🇹', desc: 'Verified European Union headquarters.' },
   ];
 

@@ -255,6 +255,28 @@ const IMPORTANT_PAGES: IndexablePage[] = [
     description: 'British Library legal deposit, GBP royalties, and Waterstones distribution desk.'
   },
   {
+    path: '/locations/france',
+    name: 'France & Francophonie Desk (Paris)',
+    category: 'Regional Desks',
+    schemas: ['LocalBusiness', 'BreadcrumbList'],
+    priority: '0.9',
+    changefreq: 'weekly',
+    hasCanonical: true,
+    sitemapIndexed: true,
+    description: 'BnF (Bibliothèque nationale de France) legal deposit, AFNIL ISBN, and Fnac/Amazon.fr retail distribution.'
+  },
+  {
+    path: '/locations/greece',
+    name: 'Greece & Hellenic Desk (Athens & Thessaloniki)',
+    category: 'Regional Desks',
+    schemas: ['LocalBusiness', 'BreadcrumbList'],
+    priority: '0.9',
+    changefreq: 'weekly',
+    hasCanonical: true,
+    sitemapIndexed: true,
+    description: 'National Library of Greece (EBE) ISBN registration, bilingual Ελληνικά publishing, and Public.gr distribution.'
+  },
+  {
     path: '/locations/germany-berlin',
     name: 'Deutschland & DACH Desk',
     category: 'Regional Desks',

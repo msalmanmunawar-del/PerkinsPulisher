@@ -133,6 +133,12 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
                   Publishing Readiness Scorecard
                 </button>
               </li>
+              <li>
+                <button onClick={() => handleNav('indexing-status')} className="hover:text-amber-400 transition-colors cursor-pointer text-left flex items-center gap-1.5 text-amber-400/90 font-mono text-[10px]">
+                  <span>⚡</span>
+                  <span>Google Indexing & Schema Console</span>
+                </button>
+              </li>
             </ul>
 
             <h4 className="text-white text-[11px] font-black tracking-widest uppercase pt-3">GLOBAL & REGIONAL DESKS</h4>
@@ -144,9 +150,33 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
                 </button>
               </li>
               <li>
+                <button onClick={() => handleNav('location-france')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
+                  <span>🇫🇷</span>
+                  <span>France (Paris & Worldwide)</span>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('location-greece')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
+                  <span>🇬🇷</span>
+                  <span>Greece (Athens & Mediterranean)</span>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('location-germany-berlin')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
+                  <span>🇩🇪</span>
+                  <span>Deutschland & DACH</span>
+                </button>
+              </li>
+              <li>
                 <button onClick={() => handleNav('location-ireland')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
                   <span>🇮🇪</span>
                   <span>Dublin & Ireland</span>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNav('location-switzerland-zurich')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
+                  <span>🇨🇭</span>
+                  <span>Switzerland (Zurich)</span>
                 </button>
               </li>
               <li>
@@ -159,18 +189,6 @@ export default function Footer({ logoConfig, onNavigate }: FooterProps) {
                 <button onClick={() => handleNav('location-new-zealand')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
                   <span>🇳🇿</span>
                   <span>New Zealand (Aotearoa)</span>
-                </button>
-              </li>
-              <li>
-                <button onClick={() => handleNav('location-germany-berlin')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
-                  <span>🇩🇪</span>
-                  <span>Deutschland & DACH</span>
-                </button>
-              </li>
-              <li>
-                <button onClick={() => handleNav('location-switzerland-zurich')} className="hover:text-amber-500 transition-colors cursor-pointer text-left flex items-center gap-1.5">
-                  <span>🇨🇭</span>
-                  <span>Switzerland (Zurich)</span>
                 </button>
               </li>
               <li>

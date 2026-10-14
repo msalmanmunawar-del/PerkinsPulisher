@@ -21,6 +21,7 @@ const DynamicLocationPage = lazy(() => import('./components/DynamicLocationPage'
 const KnowledgeHub = lazy(() => import('./components/KnowledgeHub'));
 const ContactPage = lazy(() => import('./components/ContactPage'));
 const WhatsAppFloat = lazy(() => import('./components/WhatsAppFloat'));
+const GoogleIndexingConsole = lazy(() => import('./components/GoogleIndexingConsole'));
 
 import { X, CheckCircle, Sparkles, Phone, Award, BookOpen, Loader2, Flame, MessageCircle, ArrowRight } from 'lucide-react';
 
@@ -82,6 +83,64 @@ const MODAL_TRANSLATIONS = {
     submitBtn: "Reservar mi consulta del plan editorial",
     successTitle: "¡Consulta enviada con éxito!",
     successMessage: "Las especificaciones estimadas de su manuscrito y plan de bestseller se han enviado directamente al correo electrónico de Stephanie Weldon. ¡Nos pondremos en contacto con usted en breve para programar una sesión personalizada de diseño de bestseller!"
+  },
+  fr: {
+    title: "Obtenir une consultation gratuite",
+    subtitle: "PLAN ÉDITORIAL BEST-SELLER PERKINS",
+    targetedInquiry: "Demande ciblée : Composant {id}",
+    activeStatus: "ACTIF",
+    authorNameLabel: "Nom de l'auteur *",
+    authorNamePlaceholder: "ex. Jean-Luc Moreau",
+    emailLabel: "Adresse e-mail *",
+    emailPlaceholder: "jeanluc@exemple.fr",
+    phoneLabel: "Numéro de téléphone *",
+    phonePlaceholder: "+33 6 12 34 56 78",
+    genreLabel: "Genre du livre",
+    genres: {
+      fiction: "Roman de fiction",
+      nonfiction: "Essai & Livre pratique",
+      scifi: "Science-fiction & Fantasy",
+      selfhelp: "Affaires & Développement",
+      memoir: "Mémoires & Histoire de famille"
+    },
+    wordCountLabel: "Nombre de mots",
+    describeLabel: "Décrivez brièvement votre projet éditorial",
+    describePlaceholder: "ex. Récit biographique ou roman d'aventure contemporain...",
+    expressLabel: "Rappel prioritaire (Service Express)",
+    expressDesc: "Marquer ma demande comme prioritaire pour un rappel sous 15 minutes.",
+    submitting: "Transmission en cours...",
+    submitBtn: "Réserver ma consultation éditoriale",
+    successTitle: "Demande envoyée avec succès !",
+    successMessage: "Les détails de votre projet ont été transmis directement à notre direction éditoriale européenne. Nous vous contacterons très prochainement pour fixer votre session stratégique personnalisée !"
+  },
+  el: {
+    title: "Δωρεάν Συμβουλευτική Έκδοσης",
+    subtitle: "PERKINS BESTSELLER ROADMAP",
+    targetedInquiry: "Στοχευμένο Αίτημα: {id}",
+    activeStatus: "ΕΝΕΡΓΟ",
+    authorNameLabel: "Ονοματεπώνυμο Συγγραφέα *",
+    authorNamePlaceholder: "π.χ. Νίκος Γεωργίου",
+    emailLabel: "Διεύθυνση Email *",
+    emailPlaceholder: "nikos@example.gr",
+    phoneLabel: "Τηλέφωνο Επικοινωνίας *",
+    phonePlaceholder: "+30 691 234 5678",
+    genreLabel: "Κατηγορία Βιβλίου",
+    genres: {
+      fiction: "Λογοτεχνικό Μυθιστόρημα",
+      nonfiction: "Μη-Λογοτεχνικό / Εγχειρίδιο",
+      scifi: "Επιστημονική Φαντασία",
+      selfhelp: "Επιχειρηματικότητα & Ηγεσία",
+      memoir: "Απομνημονεύματα / Βιογραφία"
+    },
+    wordCountLabel: "Εκτιμώμενες Λέξεις",
+    describeLabel: "Σύντομη περιγραφή του έργου σας",
+    describePlaceholder: "π.χ. Ιστορικό μυθιστόρημα ή επιχειρηματικός οδηγός για τη ναυτιλία...",
+    expressLabel: "Άμεση κλήση (Express Service)",
+    expressDesc: "Προτεραιότητα εξυπηρέτησης με επιστροφή κλήσης εντός 15 λεπτών.",
+    submitting: "Αποστολή αιτήματος...",
+    submitBtn: "Κλείστε τη Συμβουλευτική σας Συνεδρία",
+    successTitle: "Το αίτημά σας στάλθηκε επιτυχώς!",
+    successMessage: "Οι προδιαγραφές του χειρογράφου σας προωθήθηκαν στην ευρωπαϊκή εκδοτική μας ομάδα. Θα επικοινωνήσουμε άμεσα μαζί σας για να σχεδιάσουμε το πλάνο έκδοσης του βιβλίου σας!"
   }
 };
 
@@ -102,10 +161,10 @@ export default function App() {
   const [modalMessage, setModalMessage] = useState('');
   const [modalClaimPromo, setModalClaimPromo] = useState(true);
   const [modalSubmitted, setModalSubmitted] = useState(false);
-  const [modalLang, setModalLang] = useState<'en' | 'es'>('en');
+  const [modalLang, setModalLang] = useState<'en' | 'es' | 'fr' | 'el'>('en');
   const [modalExpressCallback, setModalExpressCallback] = useState(false);
 
-  const t = MODAL_TRANSLATIONS[modalLang];
+  const t = MODAL_TRANSLATIONS[modalLang] || MODAL_TRANSLATIONS.en;
 
   // Load saved configurations (upgrades to official emblem preset)
   useEffect(() => {
@@ -182,6 +241,7 @@ export default function App() {
     if (pathname === '/calculator') return 'calculator';
     if (pathname === '/reviews') return 'reviews';
     if (pathname === '/seo-scorecard') return 'seo-scorecard';
+    if (pathname === '/indexing-status') return 'indexing-status';
     if (pathname === '/privacy') return 'privacy';
     if (pathname === '/terms') return 'terms';
 
@@ -194,7 +254,7 @@ export default function App() {
     if (page.startsWith('service-')) return `/services/${page.replace('service-', '')}`;
     if (page.startsWith('industry-')) return `/industries/${page.replace('industry-', '')}`;
     if (page.startsWith('location-')) return `/locations/${page.replace('location-', '')}`;
-    if (['contact', 'knowledge-hub', 'calculator', 'reviews', 'seo-scorecard', 'privacy', 'terms'].includes(page)) {
+    if (['contact', 'knowledge-hub', 'calculator', 'reviews', 'seo-scorecard', 'indexing-status', 'privacy', 'terms'].includes(page)) {
       return `/${page}`;
     }
     return `/${page}`;
@@ -554,9 +614,24 @@ export default function App() {
               locationId={activePage.replace('location-', '')}
               onOpenConsultation={() => {
                 setSelectedServiceId(activePage);
+                if (activePage === 'location-france') setModalLang('fr');
+                if (activePage === 'location-greece') setModalLang('el');
                 setConsultationModalOpen(true);
               }}
               onNavigate={setActivePage}
+              onSubmitInquiry={(data) => {
+                handleAddNewInquiry({
+                  name: data.name,
+                  email: data.email,
+                  phone: data.phone,
+                  genre: data.genre,
+                  wordCount: data.wordCount,
+                  services: data.services || [activePage],
+                  message: data.message,
+                  expressCallback: data.expressCallback
+                });
+              }}
+              isSubmitting={isSubmitting}
             />
           )}
 
@@ -587,6 +662,19 @@ export default function App() {
               onNavigate={(page) => {
                 setActivePage(page);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
+          )}
+
+          {activePage === 'indexing-status' && (
+            <GoogleIndexingConsole
+              onNavigate={(page) => {
+                setActivePage(page);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenConsultation={() => {
+                setSelectedServiceId(undefined);
+                setConsultationModalOpen(true);
               }}
             />
           )}
@@ -718,7 +806,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setModalLang('en')}
-                    className={`px-2.5 py-1 rounded-full transition-all cursor-pointer ${
+                    className={`px-2 py-1 rounded-full transition-all cursor-pointer ${
                       modalLang === 'en'
                         ? 'bg-amber-500 text-blue-950 font-black'
                         : 'text-slate-300 hover:text-white'
@@ -729,13 +817,35 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setModalLang('es')}
-                    className={`px-2.5 py-1 rounded-full transition-all cursor-pointer ${
+                    className={`px-2 py-1 rounded-full transition-all cursor-pointer ${
                       modalLang === 'es'
                         ? 'bg-amber-500 text-blue-950 font-black'
                         : 'text-slate-300 hover:text-white'
                     }`}
                   >
                     ES
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setModalLang('fr')}
+                    className={`px-2 py-1 rounded-full transition-all cursor-pointer ${
+                      modalLang === 'fr'
+                        ? 'bg-amber-500 text-blue-950 font-black'
+                        : 'text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    FR
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setModalLang('el')}
+                    className={`px-2 py-1 rounded-full transition-all cursor-pointer ${
+                      modalLang === 'el'
+                        ? 'bg-amber-500 text-blue-950 font-black'
+                        : 'text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    ΕΛ
                   </button>
                 </div>
 

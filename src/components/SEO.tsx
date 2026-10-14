@@ -115,6 +115,14 @@ export default function SEO({ activePage, subId }: SEOProps) {
         title = 'Book Publishing & Ghostwriting New Zealand | Perkins Publisher Auckland & Wellington';
         description = 'Bespoke book publishing for Kiwi entrepreneurs and authors across New Zealand. Whitcoulls & Paper Plus distribution, 100% NZD royalties, and National Library of NZ legal deposit compliance.';
         canonical = 'https://www.perkinspublisher.com/locations/new-zealand';
+      } else if (locId === 'france' || locId === 'paris') {
+        title = 'Book Publishing & Ghostwriting Services France | Perkins Publisher Paris & Worldwide';
+        description = 'Top-rated professional book publishing for French executives, authors, and luxury founders in Paris and worldwide. 100% royalties in EUR (€), BnF dépôt légal, AFNIL ISBN, and Fnac/Amazon.fr distribution.';
+        canonical = 'https://www.perkinspublisher.com/locations/france';
+      } else if (locId === 'greece' || locId === 'athens') {
+        title = 'Book Publishing & Ghostwriting Services Greece | Perkins Publisher Athens & Thessaloniki';
+        description = 'Premier book publishing for Greek authors, shipping executives, and historians in Athens and worldwide. 100% EUR royalties, National Library of Greece (EBE) ISBN, and Public.gr & Amazon Europe distribution.';
+        canonical = 'https://www.perkinspublisher.com/locations/greece';
       } else if (locId === 'ireland') {
         title = 'Book Publishing & Ghostwriting Services Ireland & Dublin | Perkins Publisher';
         description = 'Elite professional book publishing for Irish tech executives, academics, and novelists in Dublin, Cork, and Galway. Easons & Dubray distribution, Trinity College deposit, and 100% EUR royalties.';
@@ -233,6 +241,8 @@ export default function SEO({ activePage, subId }: SEOProps) {
       'industry-lawyers': 'Attorneys & Legal Professionals',
       'industry-ceos': 'Founders & Tech Executives',
       'location-uk-london': 'London & United Kingdom',
+      'location-france': 'Paris & France',
+      'location-greece': 'Athens & Greece',
       'location-germany-berlin': 'Berlin, Germany',
       'location-switzerland-zurich': 'Zurich & Geneva, Switzerland',
       'location-malta': 'Għajnsielem, Malta',

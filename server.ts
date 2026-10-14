@@ -718,16 +718,230 @@ async function startServer() {
     res.send(`google-site-verification: google${id}.html`);
   });
 
+interface PageMeta {
+  title: string;
+  description: string;
+  canonical: string;
+}
+
+const PAGE_METADATA: Record<string, PageMeta> = {
+  "/": {
+    title: "Perkins Publisher | Professional Book Publishing Company Europe & Worldwide",
+    description: "Headquartered in Għajnsielem, Malta, Perkins Publisher is a premier professional book publishing company. Authors keep 100% royalties and copyrights with EU/UK ISBN registration, professional ghostwriting, custom cover design, and distribution to 40,000+ bookstores across Europe and globally.",
+    canonical: "https://www.perkinspublisher.com/"
+  },
+  "/services/ghostwriting": {
+    title: "Professional Book Ghostwriting Services | Perkins Publisher",
+    description: "Collaborate with veteran ghostwriters to transform your knowledge or story into a commercially competitive book. 100% copyrights and royalties retained under strict blind NDA.",
+    canonical: "https://www.perkinspublisher.com/services/ghostwriting"
+  },
+  "/services/editing": {
+    title: "Elite Developmental Editing & Proofreading Services | Perkins Publisher",
+    description: "Comprehensive multi-pass manuscript editing adhering to Chicago Manual of Style (CMOS 17th Edition). Developmental critique, stylistic line editing, and precision proofreading.",
+    canonical: "https://www.perkinspublisher.com/services/editing"
+  },
+  "/services/publishing": {
+    title: "Turnkey Professional Book Publishing & Global Distribution | Perkins Publisher",
+    description: "Publish your book worldwide across 40,000+ bookstores and libraries. Keep 100% of your royalties and rights with official ISBN registration and print-on-demand setup.",
+    canonical: "https://www.perkinspublisher.com/services/publishing"
+  },
+  "/services/cover-design": {
+    title: "Custom Book Cover Design & Interior Typesetting | Perkins Publisher",
+    description: "Award-winning cover design and interior typography for hardcovers, paperbacks, and eBooks. Mathematically calibrated spine caliper and CMYK print-wrap engineering.",
+    canonical: "https://www.perkinspublisher.com/services/cover-design"
+  },
+  "/services/distribution": {
+    title: "Global Book Distribution Services & Bookstore Placement | Perkins Publisher",
+    description: "Worldwide wholesale and digital distribution to Waterstones, Barnes & Noble, Dymocks, and 40,000+ libraries via Ingram Content Group, Baker & Taylor, and Nielsen feeds.",
+    canonical: "https://www.perkinspublisher.com/services/distribution"
+  },
+  "/services/kdp": {
+    title: "Amazon KDP Self-Publishing Setup & Distribution | Perkins Publisher",
+    description: "End-to-end Kindle Direct Publishing setup: trim size calculations, gutter margin formatting, 7-keyword search optimization, and print-on-demand activation.",
+    canonical: "https://www.perkinspublisher.com/services/kdp"
+  },
+  "/services/business": {
+    title: "Business Book Publishing for Executives & Thought Leaders | Perkins Publisher",
+    description: "Establish definitive corporate authority and command high-ticket client retainers with a custom-bound business book. White-glove ghostwriting and launch strategy.",
+    canonical: "https://www.perkinspublisher.com/services/business"
+  },
+  "/services/memoirs": {
+    title: "Memoir & Biography Ghostwriting and Publishing | Perkins Publisher",
+    description: "Preserve your family legacy or personal life journey in an enduring, foil-stamped hardcover. Empathetic interview-driven ghostwriting and archival legal deposit.",
+    canonical: "https://www.perkinspublisher.com/services/memoirs"
+  },
+  "/services/children": {
+    title: "Children's Book Publishing & Custom Illustration | Perkins Publisher",
+    description: "Bring your children's story to life with custom character drafts, vibrant full-bleed color illustrations, rhythmic editorial pacing, and print-on-demand production.",
+    canonical: "https://www.perkinspublisher.com/services/children"
+  },
+  "/services/audiobook": {
+    title: "Audiobook Production & Voice Casting (Audible / ACX) | Perkins Publisher",
+    description: "Professional voice casting, studio recording, and audio mastering meeting Audible, Apple Books, and ACX specifications. Retain 100% of your audiobook rights and royalties.",
+    canonical: "https://www.perkinspublisher.com/services/audiobook"
+  },
+  "/services/marketing": {
+    title: "Strategic Book Marketing & Bestseller Launch Campaigns | Perkins Publisher",
+    description: "Drive discoverability and reader acquisition through targeted Amazon PPC ads, category metadata optimization, press kit distribution, and digital promotional campaigns.",
+    canonical: "https://www.perkinspublisher.com/services/marketing"
+  },
+  "/services/pr-branding": {
+    title: "Author Personal Branding & Executive PR Services | Perkins Publisher",
+    description: "Craft an authoritative author platform, media one-sheet, digital press room, and cross-channel visibility ecosystem to maximize your book launch impact.",
+    canonical: "https://www.perkinspublisher.com/services/pr-branding"
+  },
+  "/services/linkedin": {
+    title: "LinkedIn Thought Leadership & Author Content Strategy | Perkins Publisher",
+    description: "Convert your manuscript into high-engagement LinkedIn posts, executive newsletters, and inbound consulting inquiries with structured B2B content repurposing.",
+    canonical: "https://www.perkinspublisher.com/services/linkedin"
+  },
+  "/services/podcast-speaking": {
+    title: "Author Podcast Tour Booking & Speaking Engagement Agency | Perkins Publisher",
+    description: "Get booked as a featured guest on top-rated business, culture, and industry podcasts, securing keynote speaking opportunities and expanding your reader base.",
+    canonical: "https://www.perkinspublisher.com/services/podcast-speaking"
+  },
+  "/contact": {
+    title: "Contact Perkins Publisher | Direct Author Inquiry & Consultation Desk",
+    description: "Speak directly with our senior publishing team in Għajnsielem, Malta. Request an editorial evaluation, instant quote, or WhatsApp consultation.",
+    canonical: "https://www.perkinspublisher.com/contact"
+  },
+  "/locations/france": {
+    title: "Book Publishing & Ghostwriting Services France | Perkins Publisher Paris & Worldwide",
+    description: "Top-rated professional book publishing for French executives, authors, and luxury founders in Paris and worldwide. 100% royalties in EUR (€), BnF dépôt légal, AFNIL ISBN, and Fnac/Amazon.fr distribution.",
+    canonical: "https://www.perkinspublisher.com/locations/france"
+  },
+  "/locations/greece": {
+    title: "Book Publishing & Ghostwriting Services Greece | Perkins Publisher Athens & Thessaloniki",
+    description: "Premier book publishing for Greek authors, shipping executives, and historians in Athens and worldwide. 100% EUR royalties, National Library of Greece (EBE) ISBN, and Public.gr & Amazon Europe distribution.",
+    canonical: "https://www.perkinspublisher.com/locations/greece"
+  },
+  "/locations/uk-london": {
+    title: "Book Publishing & Ghostwriting Services London & UK | Perkins Publisher",
+    description: "Top-rated professional book publishing for British entrepreneurs, keynote speakers, and authors in London and across the UK. 100% royalties in GBP (£), British Library legal deposit, and Waterstones distribution.",
+    canonical: "https://www.perkinspublisher.com/locations/uk-london"
+  },
+  "/locations/germany-berlin": {
+    title: "Buchveröffentlichung & Ghostwriting Deutschland & DACH | Perkins Publisher",
+    description: "Führendes professionelles Verlagshaus für Autoren, Geschäftsführer und Berater in Deutschland, Österreich und der Schweiz. 100% Tantiemen in EUR, VLB-Listung und Thalia Buchhandelsvertrieb.",
+    canonical: "https://www.perkinspublisher.com/locations/germany-berlin"
+  },
+  "/locations/switzerland-zurich": {
+    title: "Executive Book Publishing Zurich & Geneva | Switzerland | Perkins Publisher",
+    description: "Prestige hardcover book publishing and memoirs for Swiss wealth managers, founders, and consultants in Zurich, Geneva, and Basel. 100% rights retention and international distribution.",
+    canonical: "https://www.perkinspublisher.com/locations/switzerland-zurich"
+  },
+  "/locations/ireland": {
+    title: "Book Publishing & Ghostwriting Services Ireland & Dublin | Perkins Publisher",
+    description: "Elite professional book publishing for Irish tech executives, academics, and novelists in Dublin, Cork, and Galway. Easons & Dubray distribution, Trinity College deposit, and 100% EUR royalties.",
+    canonical: "https://www.perkinspublisher.com/locations/ireland"
+  },
+  "/locations/australia": {
+    title: "Book Publishing & Ghostwriting Services Australia | Perkins Publisher Sydney & Melbourne",
+    description: "Premier professional book publishing for Australian founders, consultants, and authors. 100% AUD royalties, Dymocks & Booktopia distribution, Thorpe-Bowker ISBNs, and National Library of Australia (NED) legal deposit.",
+    canonical: "https://www.perkinspublisher.com/locations/australia"
+  },
+  "/locations/new-zealand": {
+    title: "Book Publishing & Ghostwriting New Zealand | Perkins Publisher Auckland & Wellington",
+    description: "Bespoke book publishing for Kiwi entrepreneurs and authors across New Zealand. Whitcoulls & Paper Plus distribution, 100% NZD royalties, and National Library of NZ legal deposit compliance.",
+    canonical: "https://www.perkinspublisher.com/locations/new-zealand"
+  },
+  "/locations/malta": {
+    title: "Perkins Publisher Headquarters | Għajnsielem, Malta & Mediterranean Hub",
+    description: "Official European headquarters of Perkins Publisher in Għajnsielem, Gozo, Malta. Professional book publishing, ghostwriting, and worldwide distribution under EU copyright laws.",
+    canonical: "https://www.perkinspublisher.com/locations/malta"
+  },
+  "/knowledge-hub": {
+    title: "Author Knowledge Hub & Publishing Guides | Perkins Publisher",
+    description: "Free in-depth guides, industry comparisons, royalty calculators, and publishing roadmaps for fiction, non-fiction, memoir, and academic authors.",
+    canonical: "https://www.perkinspublisher.com/knowledge-hub"
+  },
+  "/indexing-status": {
+    title: "Google Indexing Console & Schema Validator | Perkins Publisher",
+    description: "Live search engine indexation directory, structured data graph validation, and Google Search Console submission workflows for Perkins Publisher.",
+    canonical: "https://www.perkinspublisher.com/indexing-status"
+  }
+};
+
+function renderHtmlWithMeta(rawHtml: string, reqPath: string): string {
+  const cleanPath = reqPath.replace(/\/+$/, '') || '/';
+  const meta = PAGE_METADATA[cleanPath];
+  if (!meta) return rawHtml;
+
+  let html = rawHtml;
+  // Replace <title>
+  html = html.replace(/<title>.*?<\/title>/s, `<title>${meta.title}</title>`);
+  
+  // Replace meta description
+  html = html.replace(
+    /<meta\s+name="description"\s+content=".*?"\s*\/?>/i,
+    `<meta name="description" content="${meta.description}" />`
+  );
+
+  // Replace canonical
+  html = html.replace(
+    /<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i,
+    `<link rel="canonical" href="${meta.canonical}" />`
+  );
+
+  // Replace og:title & og:description & og:url
+  html = html.replace(
+    /<meta\s+property="og:title"\s+content=".*?"\s*\/?>/i,
+    `<meta property="og:title" content="${meta.title}" />`
+  );
+  html = html.replace(
+    /<meta\s+property="og:description"\s+content=".*?"\s*\/?>/i,
+    `<meta property="og:description" content="${meta.description}" />`
+  );
+  html = html.replace(
+    /<meta\s+property="og:url"\s+content=".*?"\s*\/?>/i,
+    `<meta property="og:url" content="${meta.canonical}" />`
+  );
+
+  // Replace twitter:title & twitter:description & twitter:url
+  html = html.replace(
+    /<meta\s+property="twitter:title"\s+content=".*?"\s*\/?>/i,
+    `<meta property="twitter:title" content="${meta.title}" />`
+  );
+  html = html.replace(
+    /<meta\s+property="twitter:description"\s+content=".*?"\s*\/?>/i,
+    `<meta property="twitter:description" content="${meta.description}" />`
+  );
+  html = html.replace(
+    /<meta\s+property="twitter:url"\s+content=".*?"\s*\/?>/i,
+    `<meta property="twitter:url" content="${meta.canonical}" />`
+  );
+
+  return html;
+}
+
   // Serve static assets or mount Vite HMR middleware depending on NODE_ENV
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },
-      appType: "spa",
+      appType: "custom",
     });
     app.use(vite.middlewares);
-    console.log("🚀 [Perkins Backend] Vite HMR Service mounted.");
+    app.use("*", async (req, res, next) => {
+      const url = req.originalUrl;
+      try {
+        let template = fs.readFileSync(path.resolve(process.cwd(), "index.html"), "utf-8");
+        template = await vite.transformIndexHtml(url, template);
+        const transformed = renderHtmlWithMeta(template, url);
+        res.status(200).set({ "Content-Type": "text/html" }).end(transformed);
+      } catch (e: any) {
+        vite.ssrFixStacktrace(e);
+        next(e);
+      }
+    });
+    console.log("🚀 [Perkins Backend] Vite HMR Service mounted with SSR meta hydration.");
   } else {
     const distPath = path.join(process.cwd(), "dist");
+    let cachedIndexHtml = "";
+    try {
+      cachedIndexHtml = fs.readFileSync(path.join(distPath, "index.html"), "utf-8");
+    } catch {
+      cachedIndexHtml = "";
+    }
     
     // 1. Immutable caching for content-hashed assets (/assets/*)
     app.use("/assets", express.static(path.join(distPath, "assets"), {
@@ -735,22 +949,24 @@ async function startServer() {
       immutable: true,
     }));
 
-    // 2. Static root assets with caching headers
+    // 2. Static root assets with caching headers (excluding index.html)
     app.use(express.static(distPath, {
       maxAge: "1d",
-      setHeaders: (res, filePath) => {
-        if (filePath.endsWith("index.html")) {
-          res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
-        }
-      }
+      index: false, // Don't auto-serve index.html so our dynamic meta handler intercepts it
     }));
 
-    // 3. Fallback to index.html with revalidate for SPA routing
+    // 3. Fallback to index.html with dynamic SSR meta tag injection for crawlers and social share bots
     app.get("*", (req, res) => {
       res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
-      res.sendFile(path.join(distPath, "index.html"));
+      try {
+        const raw = cachedIndexHtml || fs.readFileSync(path.join(distPath, "index.html"), "utf-8");
+        const rendered = renderHtmlWithMeta(raw, req.path);
+        res.type("text/html; charset=utf-8").send(rendered);
+      } catch (err: any) {
+        res.sendFile(path.join(distPath, "index.html"));
+      }
     });
-    console.log("📦 [Perkins Backend] Static Production assets mounted with compression & optimized caching headers.");
+    console.log("📦 [Perkins Backend] Static Production assets mounted with dynamic crawler SEO metadata & compression.");
   }
 
   app.listen(PORT, "0.0.0.0", () => {
