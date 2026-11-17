@@ -1,5 +1,23 @@
 [
   {
+    "id": "inq-1794951144780-l61v",
+    "receivedAt": "2026-11-17T21:32:24.780Z",
+    "status": "New",
+    "name": "Perkins Website Test",
+    "email": "audit-test@perkinspublisher.com",
+    "phone": "+356 0000 0000",
+    "genre": "fiction",
+    "wordCount": 45000,
+    "services": [
+      "promo-publishing-499"
+    ],
+    "estimatedPrice": 499,
+    "message": "TEST INQUIRY - Website form functionality verification",
+    "expressCallback": false,
+    "expressService": false,
+    "date": "Nov 17, 2026"
+  },
+  {
     "id": "inq-1792017189278",
     "receivedAt": "2026-10-14T22:33:09.278Z",
     "status": "New",

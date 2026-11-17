@@ -38,7 +38,7 @@ interface DynamicLocationPageProps {
     services?: string[];
     message?: string;
     expressCallback?: boolean;
-  }) => void;
+  }) => Promise<boolean | void> | void;
   isSubmitting?: boolean;
 }
 
@@ -62,6 +62,7 @@ export default function DynamicLocationPage({
   const [formExpress, setFormExpress] = useState(true);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [internalSubmitting, setInternalSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
 
   const getLocationData = (id: string) => {
     switch (id) {
@@ -364,12 +365,24 @@ export default function DynamicLocationPage({
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formName.trim() || !formEmail.trim()) return;
+    if (internalSubmitting || externalIsSubmitting) return;
+    setFormError('');
+
+    const cleanName = formName.trim();
+    const cleanEmail = formEmail.trim();
+    if (!cleanName) {
+      setFormError('Please enter your name.');
+      return;
+    }
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      setFormError('Please enter a valid email address.');
+      return;
+    }
 
     setInternalSubmitting(true);
     const leadPayload = {
-      name: formName.trim(),
-      email: formEmail.trim(),
+      name: cleanName,
+      email: cleanEmail,
       phone: formPhone.trim() || 'Not specified',
       genre: formGenre,
       wordCount: Number(formWordCount) || 50000,
@@ -381,17 +394,20 @@ export default function DynamicLocationPage({
       expressCallback: formExpress
     };
 
-    if (onSubmitInquiry) {
-      onSubmitInquiry(leadPayload);
-      setFormSubmitted(true);
-      setInternalSubmitting(false);
-    } else {
-      try {
+    try {
+      if (onSubmitInquiry) {
+        const ok = await onSubmitInquiry(leadPayload);
+        if (ok !== false) {
+          setFormSubmitted(true);
+        } else {
+          setFormError('Delivery failed. Please try again or connect with us via WhatsApp.');
+        }
+      } else {
         const res = await fetch('/api/inquiry', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            id: `inq-${Date.now()}`,
+            id: `inq-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
             date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
             status: 'New',
             estimatedPrice: formApplyPromo ? 499 : 1499,
@@ -400,12 +416,16 @@ export default function DynamicLocationPage({
         });
         if (res.ok) {
           setFormSubmitted(true);
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          setFormError(errData.message || 'Unable to submit proposal right now. Please try again.');
         }
-      } catch (err) {
-        console.error('Lead submission failed', err);
-      } finally {
-        setInternalSubmitting(false);
       }
+    } catch (err) {
+      console.error('Lead submission failed', err);
+      setFormError('Network error while submitting proposal. Please try again.');
+    } finally {
+      setInternalSubmitting(false);
     }
   };
 
@@ -698,6 +718,12 @@ export default function DynamicLocationPage({
                     Prioritize my inquiry for fast-track 15-minute response
                   </label>
                 </div>
+
+                {formError && (
+                  <div className="p-3 rounded-xl bg-red-500/20 border border-red-400/40 text-red-200 text-xs font-bold" role="alert">
+                    {formError}
+                  </div>
+                )}
 
                 <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
                   <button

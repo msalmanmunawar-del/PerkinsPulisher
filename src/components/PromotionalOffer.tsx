@@ -15,7 +15,7 @@ interface PromotionalOfferProps {
     services?: string[];
     estimatedPrice?: number;
     message?: string;
-  }) => void;
+  }) => Promise<boolean | void> | void;
 }
 
 export default function PromotionalOffer({ onOpenConsultation, onSubmitInquiry }: PromotionalOfferProps) {
@@ -28,6 +28,7 @@ export default function PromotionalOffer({ onOpenConsultation, onSubmitInquiry }
   const [bookTitle, setBookTitle] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -41,33 +42,58 @@ export default function PromotionalOffer({ onOpenConsultation, onSubmitInquiry }
     return () => clearInterval(timer);
   }, []);
 
-  const handleInlineSubmit = (e: FormEvent) => {
+  const handleInlineSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !phone) return;
+    if (isSubmitting) return;
+    setErrorMsg('');
+
+    const cleanName = name.trim();
+    const cleanEmail = email.trim();
+    const cleanPhone = phone.trim();
+
+    if (!cleanName) {
+      setErrorMsg('Please enter your full name.');
+      return;
+    }
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      setErrorMsg('Please enter a valid email address.');
+      return;
+    }
+    if (!cleanPhone) {
+      setErrorMsg('Please enter your phone or WhatsApp number.');
+      return;
+    }
 
     setIsSubmitting(true);
-    onSubmitInquiry({
-      name,
-      email,
-      phone,
-      genre,
-      wordCount: 45000,
-      services: ['promo-publishing-499'],
-      estimatedPrice: 499,
-      message: `[€499 PROMOTIONAL OFFER CLAIM] Book Title: "${bookTitle || 'Untitled'}". Genre: ${genre}. Client wants the complete €499 publishing package (Cover, Editing, 3 Formats: eBook, Paperback, Hardcover + 100+ Platforms).`,
-    });
+    try {
+      const ok = await onSubmitInquiry({
+        name: cleanName,
+        email: cleanEmail,
+        phone: cleanPhone,
+        genre,
+        wordCount: 45000,
+        services: ['promo-publishing-499'],
+        estimatedPrice: 499,
+        message: `[€499 PROMOTIONAL OFFER CLAIM] Book Title: "${bookTitle.trim() || 'Untitled'}". Genre: ${genre}. Client wants the complete €499 publishing package (Cover, Editing, 3 Formats: eBook, Paperback, Hardcover + 100+ Platforms).`,
+      });
 
-    setTimeout(() => {
+      if (ok !== false) {
+        setIsSuccess(true);
+        setTimeout(() => {
+          setIsSuccess(false);
+          setName('');
+          setEmail('');
+          setPhone('');
+          setBookTitle('');
+        }, 5000);
+      } else {
+        setErrorMsg('Unable to submit your reservation right now. Please try again or reach us on WhatsApp.');
+      }
+    } catch {
+      setErrorMsg('Unable to submit your reservation right now. Please check your connection.');
+    } finally {
       setIsSubmitting(false);
-      setIsSuccess(true);
-      setTimeout(() => {
-        setIsSuccess(false);
-        setName('');
-        setEmail('');
-        setPhone('');
-        setBookTitle('');
-      }, 5000);
-    }, 1200);
+    }
   };
 
   const deliverables = [
@@ -335,6 +361,12 @@ export default function PromotionalOffer({ onOpenConsultation, onSubmitInquiry }
                       Includes custom cover, line editing, 3 versions (eBook, paperback, hardcover), 100+ platforms & 100% royalties.
                     </p>
                   </div>
+
+                  {errorMsg && (
+                    <div className="p-3 rounded-xl bg-red-500/20 border border-red-400/40 text-red-200 text-xs font-bold" role="alert">
+                      {errorMsg}
+                    </div>
+                  )}
 
                   {/* Submit Button */}
                   <button

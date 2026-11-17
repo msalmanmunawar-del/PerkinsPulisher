@@ -24,7 +24,7 @@ interface ContactPageProps {
     wordCount: number;
     services?: string[];
     message?: string;
-  }) => void;
+  }) => Promise<boolean | void> | void;
   isSubmitting?: boolean;
   onNavigate?: (page: string) => void;
 }
@@ -38,18 +38,22 @@ export default function ContactPage({
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
+  const [localSubmitting, setLocalSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const busy = isSubmitting || localSubmitting;
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (busy) return;
     setErrorMsg('');
 
     if (!name.trim()) {
       setErrorMsg('Please enter your full name.');
       return;
     }
-    if (!email.trim() || !email.includes('@')) {
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
       setErrorMsg('Please provide a valid email address.');
       return;
     }
@@ -58,17 +62,28 @@ export default function ContactPage({
       return;
     }
 
-    onSubmitInquiry({
-      name: name.trim(),
-      email: email.trim(),
-      phone: phone.trim() || '',
-      genre: 'General Inquiry',
-      wordCount: 0,
-      services: ['contact-page-inquiry'],
-      message: message.trim()
-    });
+    setLocalSubmitting(true);
+    try {
+      const ok = await onSubmitInquiry({
+        name: name.trim(),
+        email: email.trim(),
+        phone: phone.trim() || '',
+        genre: 'General Inquiry',
+        wordCount: 0,
+        services: ['contact-page-inquiry'],
+        message: message.trim()
+      });
 
-    setSubmitted(true);
+      if (ok !== false) {
+        setSubmitted(true);
+      } else {
+        setErrorMsg('We could not deliver your inquiry right now. Please try again or reach us via WhatsApp.');
+      }
+    } catch {
+      setErrorMsg('Connection error while sending inquiry. Please try again.');
+    } finally {
+      setLocalSubmitting(false);
+    }
   };
 
   return (
@@ -284,10 +299,10 @@ export default function ContactPage({
                 <button
                   id="contact-submit-btn"
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={busy}
                   className="w-full py-4 px-6 rounded-xl bg-amber-500 hover:bg-amber-400 text-blue-950 font-black text-xs uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? (
+                  {busy ? (
                     <span>Submitting Inquiry...</span>
                   ) : (
                     <>

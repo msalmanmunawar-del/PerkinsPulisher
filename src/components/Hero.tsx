@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { CheckCircle2, Sparkles, Gift, BookOpen, ExternalLink, ShieldCheck, MapPin, Send, Flame, ArrowRight, Clock, Star, Zap, MessageCircle, MessageSquare } from 'lucide-react';
+import { CheckCircle2, Sparkles, Gift, BookOpen, ExternalLink, ShieldCheck, MapPin, Send, Flame, ArrowRight, Clock, Star, Zap, MessageCircle, MessageSquare, Loader2 } from 'lucide-react';
 
 interface HeroProps {
   onSubmitInquiry: (data: {
@@ -12,7 +12,7 @@ interface HeroProps {
     estimatedPrice?: number;
     expressCallback?: boolean;
     message?: string;
-  }) => void;
+  }) => Promise<boolean | void> | void;
   onOpenScorecard: () => void;
 }
 
@@ -23,32 +23,64 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
   const [genre, setGenre] = useState('fiction');
   const [wordCount, setWordCount] = useState<number>(45000);
   const [applyPromoOffer, setApplyPromoOffer] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !phone) return;
-    
-    onSubmitInquiry({
-      name,
-      email,
-      phone,
-      genre,
-      wordCount,
-      services: applyPromoOffer ? ['promo-publishing-499'] : ['publishing'],
-      estimatedPrice: applyPromoOffer ? 499 : undefined,
-      expressCallback: true,
-      message: applyPromoOffer 
-        ? `[€499 COMPLETE PUBLISHING PACKAGE CLAIM FROM HERO]: Author claimed the 74% OFF Complete Publishing Package (€499 flat rate for custom cover, line editing, 3 versions: eBook/paperback/hardcover, and 100+ platform distribution).`
-        : 'Quick Consultation request from Hero section.',
-    });
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setName('');
-      setEmail('');
-      setPhone('');
-    }, 5000);
+    if (isSubmitting) return;
+    setErrorMsg('');
+
+    const cleanName = name.trim();
+    const cleanEmail = email.trim();
+    const cleanPhone = phone.trim();
+
+    if (!cleanName) {
+      setErrorMsg('Please enter your author name.');
+      return;
+    }
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      setErrorMsg('Please enter a valid email address.');
+      return;
+    }
+    if (!cleanPhone) {
+      setErrorMsg('Please enter your phone or WhatsApp number.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const ok = await onSubmitInquiry({
+        name: cleanName,
+        email: cleanEmail,
+        phone: cleanPhone,
+        genre,
+        wordCount,
+        services: applyPromoOffer ? ['promo-publishing-499'] : ['publishing'],
+        estimatedPrice: applyPromoOffer ? 499 : undefined,
+        expressCallback: true,
+        message: applyPromoOffer
+          ? `[€499 COMPLETE PUBLISHING PACKAGE CLAIM FROM HERO]: Author claimed the 74% OFF Complete Publishing Package (€499 flat rate for custom cover, line editing, 3 versions: eBook/paperback/hardcover, and 100+ platform distribution).`
+          : 'Quick Consultation request from Hero section.',
+      });
+
+      if (ok !== false) {
+        setSubmitted(true);
+        setTimeout(() => {
+          setSubmitted(false);
+          setName('');
+          setEmail('');
+          setPhone('');
+        }, 5000);
+      } else {
+        setErrorMsg('Delivery failed. Please try again or reach us directly on WhatsApp.');
+      }
+    } catch {
+      setErrorMsg('Delivery failed. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const trustSymbols = [
@@ -432,17 +464,33 @@ export default function Hero({ onSubmitInquiry, onOpenScorecard }: HeroProps) {
                       </div>
                     </div>
 
+                    {errorMsg && (
+                      <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-bold" role="alert">
+                        {errorMsg}
+                      </div>
+                    )}
+
                     <button
                       type="submit"
-                      className={`w-full py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider font-black transition-all shadow-xl active:translate-y-0.5 mt-2 cursor-pointer flex items-center justify-center gap-2 ${
+                      disabled={isSubmitting}
+                      className={`w-full py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider font-black transition-all shadow-xl active:translate-y-0.5 mt-2 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed ${
                         applyPromoOffer
                           ? 'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-600 hover:to-amber-700 text-blue-950 border border-amber-300 shadow-amber-500/25'
                           : 'bg-gradient-to-r from-blue-900 to-indigo-950 hover:from-amber-500 hover:to-amber-600 hover:text-blue-950 text-white'
                       }`}
                     >
-                      <Flame size={15} className="fill-current text-blue-950" />
-                      <span>{applyPromoOffer ? 'Claim €499 Package & Get Proposal' : 'Get My Editorial Proposal'}</span>
-                      <ArrowRight size={14} />
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 size={15} className="animate-spin" />
+                          <span>Transmitting Proposal...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Flame size={15} className="fill-current text-blue-950" />
+                          <span>{applyPromoOffer ? 'Claim €499 Package & Get Proposal' : 'Get My Editorial Proposal'}</span>
+                          <ArrowRight size={14} />
+                        </>
+                      )}
                     </button>
 
                     {/* Instant Live Chat & WhatsApp Dual Connect */}

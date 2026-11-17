@@ -161,6 +161,7 @@ export default function App() {
   const [modalMessage, setModalMessage] = useState('');
   const [modalClaimPromo, setModalClaimPromo] = useState(true);
   const [modalSubmitted, setModalSubmitted] = useState(false);
+  const [modalError, setModalError] = useState('');
   const [modalLang, setModalLang] = useState<'en' | 'es' | 'fr' | 'el'>('en');
   const [modalExpressCallback, setModalExpressCallback] = useState(false);
 
@@ -350,18 +351,23 @@ export default function App() {
     }
   };
 
-  // Add inquiry handler - strictly delivers to email via backend SMTP integration
-  const handleAddNewInquiry = (data: {
-    name: string;
-    email: string;
-    phone: string;
-    genre: string;
-    wordCount: number;
-    services?: string[];
-    estimatedPrice?: number;
-    message?: string;
-    expressCallback?: boolean;
-  }) => {
+  // Add inquiry handler - delivers to backend storage, SMTP, and Google Sheets
+  const handleAddNewInquiry = async (
+    data: {
+      name: string;
+      email: string;
+      phone: string;
+      genre: string;
+      wordCount: number;
+      services?: string[];
+      estimatedPrice?: number;
+      message?: string;
+      expressCallback?: boolean;
+    },
+    options?: { fromModal?: boolean }
+  ): Promise<boolean> => {
+    if (isSubmitting) return false;
+
     const finalServices = data.services || (selectedServiceId ? [selectedServiceId] : ['publishing']);
     
     // Simple price estimator loop
@@ -372,43 +378,47 @@ export default function App() {
     }
 
     const newInquiry: Inquiry = {
-      id: `inq-${Math.floor(1000 + Math.random() * 9000)}`,
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
+      id: `inq-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      name: data.name.trim(),
+      email: data.email.trim(),
+      phone: data.phone.trim(),
       genre: data.genre,
       wordCount: data.wordCount,
       services: finalServices,
       status: 'New',
       date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
       estimatedPrice: calculatedEst,
-      message: data.message,
+      message: data.message?.trim(),
       expressCallback: data.expressCallback,
-      expressService: data.expressCallback // Adds the 'Express Service' flag requested
+      expressService: data.expressCallback
     };
 
     setIsSubmitting(true);
+    if (options?.fromModal) setModalError('');
 
-    fetch('/api/inquiry', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newInquiry),
-    })
-      .then(async (res) => {
-        const resData = await res.json();
-        if (!res.ok) {
-          throw new Error(resData.message || 'SMTP transmission failed');
-        }
-        return resData;
-      })
-      .then((resData) => {
-        setIsSubmitting(false);
-        // Play success audio chime feedback
-        playSuccessChime();
-        showSuccessToast(
-          resData.message || "Your inquiry has been successfully sent directly to our business email!",
-          "Inquiry Delivered"
-        );
+    try {
+      const res = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newInquiry),
+      });
+
+      const contentType = res.headers.get('content-type') || '';
+      const resData = contentType.includes('application/json')
+        ? await res.json()
+        : { message: await res.text() };
+
+      if (!res.ok) {
+        throw new Error(resData?.message || 'Inquiry submission failed');
+      }
+
+      playSuccessChime();
+      showSuccessToast(
+        resData.message || "Your inquiry has been successfully sent directly to our business email!",
+        "Inquiry Delivered"
+      );
+
+      if (options?.fromModal) {
         setModalSubmitted(true);
         setTimeout(() => {
           setModalSubmitted(false);
@@ -417,41 +427,66 @@ export default function App() {
           setModalEmail('');
           setModalPhone('');
           setModalMessage('');
+          setModalError('');
           setModalExpressCallback(false);
         }, 4000);
-      })
-      .catch((err) => {
-        setIsSubmitting(false);
-        console.error('❌ [Inquiry Delivery Failure]:', err);
-        showWarningToast(
-          err.message || "Email delivery failed. Please verify your connection or SMTP settings.",
-          "Delivery Failed"
-        );
-      });
+      }
+
+      return true;
+    } catch (err: any) {
+      console.error('❌ [Inquiry Delivery Failure]:', err);
+      const errMsg = err?.message || "Delivery failed. Please verify your connection or reach us on WhatsApp.";
+      if (options?.fromModal) setModalError(errMsg);
+      showWarningToast(errMsg, "Delivery Failed");
+      return false;
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleModalSubmit = (e: FormEvent) => {
+  const handleModalSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!modalName || !modalEmail || !modalPhone) return;
+    if (isSubmitting) return;
+    setModalError('');
+
+    const cleanName = modalName.trim();
+    const cleanEmail = modalEmail.trim();
+    const cleanPhone = modalPhone.trim();
+
+    if (!cleanName) {
+      setModalError('Please enter your author name.');
+      return;
+    }
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      setModalError('Please enter a valid email address.');
+      return;
+    }
+    if (!cleanPhone) {
+      setModalError('Please enter your phone or WhatsApp number.');
+      return;
+    }
 
     const isPromo = modalClaimPromo || selectedServiceId === 'promo-publishing-499';
     const finalMessage = isPromo
-      ? (modalMessage 
-          ? `[€499 COMPLETE PUBLISHING PACKAGE CLAIM]: ${modalMessage}` 
+      ? (modalMessage.trim()
+          ? `[€499 COMPLETE PUBLISHING PACKAGE CLAIM]: ${modalMessage.trim()}`
           : `[€499 COMPLETE PUBLISHING PACKAGE CLAIM]: Author claimed the €499 promotional package (Cover, Editing, 3 Formats eBook/Paper/Hard, 100+ Platforms).`)
-      : modalMessage;
+      : modalMessage.trim();
 
-    handleAddNewInquiry({
-      name: modalName,
-      email: modalEmail,
-      phone: modalPhone,
-      genre: modalGenre,
-      wordCount: modalWordCount,
-      services: isPromo ? ['promo-publishing-499'] : (selectedServiceId ? [selectedServiceId] : ['publishing']),
-      estimatedPrice: isPromo ? 499 : undefined,
-      message: finalMessage,
-      expressCallback: modalExpressCallback,
-    });
+    await handleAddNewInquiry(
+      {
+        name: cleanName,
+        email: cleanEmail,
+        phone: cleanPhone,
+        genre: modalGenre,
+        wordCount: modalWordCount,
+        services: isPromo ? ['promo-publishing-499'] : (selectedServiceId ? [selectedServiceId] : ['publishing']),
+        estimatedPrice: isPromo ? 499 : undefined,
+        message: finalMessage,
+        expressCallback: modalExpressCallback,
+      },
+      { fromModal: true }
+    );
   };
 
   return (
@@ -479,7 +514,7 @@ export default function App() {
             {/* Hero Section with Quick Book estimate and checklist */}
             <Hero
               onSubmitInquiry={(data) => {
-                handleAddNewInquiry({
+                return handleAddNewInquiry({
                   name: data.name,
                   email: data.email,
                   phone: data.phone,
@@ -508,7 +543,7 @@ export default function App() {
                 setConsultationModalOpen(true);
               }}
               onSubmitInquiry={(data) => {
-                handleAddNewInquiry({
+                return handleAddNewInquiry({
                   name: data.name,
                   email: data.email,
                   phone: data.phone,
@@ -620,7 +655,7 @@ export default function App() {
               }}
               onNavigate={setActivePage}
               onSubmitInquiry={(data) => {
-                handleAddNewInquiry({
+                return handleAddNewInquiry({
                   name: data.name,
                   email: data.email,
                   phone: data.phone,
@@ -648,7 +683,7 @@ export default function App() {
           {activePage === 'contact' && (
             <ContactPage
               onSubmitInquiry={(data) => {
-                handleAddNewInquiry({
+                return handleAddNewInquiry({
                   name: data.name,
                   email: data.email,
                   phone: data.phone,
@@ -1080,10 +1115,16 @@ export default function App() {
                     </div>
                   </div>
 
+                  {modalError && (
+                    <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-bold" role="alert">
+                      {modalError}
+                    </div>
+                  )}
+
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`w-full font-black text-xs uppercase tracking-wider py-3.5 rounded-lg shadow-lg text-center cursor-pointer transition-all active:translate-y-0.5 flex items-center justify-center gap-2 ${
+                    className={`w-full font-black text-xs uppercase tracking-wider py-3.5 rounded-lg shadow-lg text-center cursor-pointer transition-all active:translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed ${
                       modalClaimPromo
                         ? 'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-600 hover:to-amber-700 text-blue-950 shadow-amber-500/25 border border-amber-300'
                         : 'bg-amber-500 hover:bg-amber-600 text-blue-950'

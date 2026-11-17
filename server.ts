@@ -70,8 +70,45 @@ function saveIntegrationsConfig(config: Partial<IntegrationConfig>): Integration
   return updated;
 }
 
+const RECENT_INQUIRIES = new Map<string, { id: string; timestamp: number }>();
+const IP_RATE_LIMIT = new Map<string, number[]>();
+
+function escapeHtml(value: unknown): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
+}
+
+function requireAdminAuth(req: express.Request, res: express.Response, next: express.NextFunction) {
+  const configuredKey = process.env.ADMIN_API_KEY?.trim();
+  const authHeader = req.headers.authorization?.replace(/^Bearer\s+/i, "").trim();
+  const headerKey = (req.headers["x-admin-key"] as string | undefined)?.trim();
+  const providedKey = headerKey || authHeader;
+
+  if (!configuredKey || !providedKey || providedKey !== configuredKey) {
+    return res.status(401).json({
+      status: "error",
+      message: "Unauthorized: valid admin API key required.",
+    });
+  }
+  next();
+}
+
 // Helper: Ensure inquiries directory exists and persist leads
-function saveInquiryToStore(inquiry: any) {
+function saveInquiryToStore(inquiry: any): { saved: boolean; lead: any } {
+  const enriched = {
+    id: inquiry.id || `inq-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+    receivedAt: new Date().toISOString(),
+    status: inquiry.status || "New",
+    ...inquiry,
+  };
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -81,22 +118,17 @@ function saveInquiryToStore(inquiry: any) {
       const raw = fs.readFileSync(INQUIRIES_FILE, "utf-8");
       try {
         existing = JSON.parse(raw);
+        if (!Array.isArray(existing)) existing = [];
       } catch {
         existing = [];
       }
     }
-    const enriched = {
-      id: inquiry.id || `inq-${Date.now()}`,
-      receivedAt: new Date().toISOString(),
-      status: inquiry.status || "New",
-      ...inquiry,
-    };
     existing.unshift(enriched); // Most recent first
     fs.writeFileSync(INQUIRIES_FILE, JSON.stringify(existing, null, 2), "utf-8");
-    return enriched;
+    return { saved: true, lead: enriched };
   } catch (err) {
     console.error("Failed to persist inquiry to disk:", err);
-    return inquiry;
+    return { saved: false, lead: enriched };
   }
 }
 
@@ -146,6 +178,19 @@ async function dispatchLeadEmail(lead: any, config: IntegrationConfig) {
         },
       });
 
+      const safeName = escapeHtml(lead.name);
+      const safeEmail = escapeHtml(lead.email);
+      const safePhone = escapeHtml(lead.phone || "Not specified");
+      const safeGenre = escapeHtml(lead.genre || "General");
+      const safeServices = escapeHtml(
+        isPromo
+          ? "€499 Complete Promotional Package"
+          : Array.isArray(lead.services)
+            ? lead.services.join(", ")
+            : lead.services || "Custom Selection"
+      );
+      const safeMessage = lead.message ? escapeHtml(lead.message) : "";
+
       const emailHtml = `
         <div style="font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff; color: #1e293b;">
           <div style="background-color: #0b0f19; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 25px; border-bottom: 3px solid #f59e0b;">
@@ -160,19 +205,19 @@ async function dispatchLeadEmail(lead: any, config: IntegrationConfig) {
           </div>` : ""}
           ${isExpress ? `
           <div style="background-color: #fee2e2; border-left: 5px solid #ef4444; padding: 14px; border-radius: 8px; font-size: 13px; color: #991b1b; margin-bottom: 20px; font-weight: bold;">
-            🚨 URGENT: Author requested an immediate callback at <a href="tel:${lead.phone}" style="color: #ef4444;">${lead.phone}</a>!
+            🚨 URGENT: Author requested an immediate callback at <a href="tel:${safePhone}" style="color: #ef4444;">${safePhone}</a>!
           </div>` : ""}
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
-            <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px; width: 35%;">Author Name</td><td style="padding: 10px; font-weight: bold;">${lead.name}</td></tr>
-            <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Email Address</td><td style="padding: 10px;"><a href="mailto:${lead.email}">${lead.email}</a></td></tr>
-            <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Phone / WhatsApp</td><td style="padding: 10px;"><a href="tel:${lead.phone}">${lead.phone}</a></td></tr>
-            <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Genre / Words</td><td style="padding: 10px;">${lead.genre} • ${(lead.wordCount || 0).toLocaleString()} words</td></tr>
-            <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Quoted Price</td><td style="padding: 10px; font-weight: bold; color: #ca8a04; font-size: 16px;">€${lead.estimatedPrice || 499}</td></tr>
-            <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Package / Services</td><td style="padding: 10px;">${isPromo ? "€499 Complete Promotional Package" : (Array.isArray(lead.services) ? lead.services.join(", ") : lead.services || "Custom Selection")}</td></tr>
-            ${lead.message ? `<tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px; vertical-align: top;">Author Notes</td><td style="padding: 10px; white-space: pre-line;">${lead.message}</td></tr>` : ""}
+            <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px; width: 35%;">Author Name</td><td style="padding: 10px; font-weight: bold;">${safeName}</td></tr>
+            <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Email Address</td><td style="padding: 10px;"><a href="mailto:${safeEmail}">${safeEmail}</a></td></tr>
+            <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Phone / WhatsApp</td><td style="padding: 10px;"><a href="tel:${safePhone}">${safePhone}</a></td></tr>
+            <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Genre / Words</td><td style="padding: 10px;">${safeGenre} • ${Number(lead.wordCount || 0).toLocaleString()} words</td></tr>
+            <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Quoted Price</td><td style="padding: 10px; font-weight: bold; color: #ca8a04; font-size: 16px;">€${Number(lead.estimatedPrice || 499)}</td></tr>
+            <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Package / Services</td><td style="padding: 10px;">${safeServices}</td></tr>
+            ${safeMessage ? `<tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px; vertical-align: top;">Author Notes</td><td style="padding: 10px; white-space: pre-line;">${safeMessage}</td></tr>` : ""}
           </table>
           <div style="text-align: center; border-top: 1px solid #f1f5f9; padding-top: 15px; font-size: 11px; color: #94a3b8;">
-            Sent directly to ${recipientList.join(", ")} via Perkins Official Mail Server
+            Sent directly to ${escapeHtml(recipientList.join(", "))} via Perkins Official Mail Server
           </div>
         </div>
       `;
@@ -251,11 +296,34 @@ async function dispatchGoogleSheets(payload: any, sheetsUrlOverride?: string) {
       signal: AbortSignal.timeout(10000),
     });
 
-    console.log(`📊 [Perkins Delivery Engine] Google Sheets response status: ${res.status}`);
+    const responseText = await res.text().catch(() => "");
+    const trimmedBody = responseText.trim();
+    const isHtmlResponse = /^<!doctype/i.test(trimmedBody) || /^<html/i.test(trimmedBody);
+    let parsedJson: any = null;
+    if (trimmedBody.startsWith("{") || trimmedBody.startsWith("[")) {
+      try {
+        parsedJson = JSON.parse(trimmedBody);
+      } catch {
+        parsedJson = null;
+      }
+    }
+
+    const bodyIndicatesError =
+      isHtmlResponse ||
+      parsedJson?.status === "error" ||
+      parsedJson?.result === "error" ||
+      parsedJson?.success === false;
+
+    const actualSent = res.ok && !bodyIndicatesError;
+    console.log(`📊 [Perkins Delivery Engine] Google Sheets response status: ${res.status}, verifiedSent: ${actualSent}`);
     return {
-      sent: res.ok,
+      sent: actualSent,
       statusCode: res.status,
       statusText: res.statusText,
+      responsePreview: isHtmlResponse
+        ? "HTML page returned (check Apps Script deployment permissions)"
+        : trimmedBody.slice(0, 200),
+      ...(bodyIndicatesError ? { error: isHtmlResponse ? "Apps Script returned HTML instead of JSON/OK" : (parsedJson?.message || parsedJson?.error || "Remote error in sheet script") } : {}),
     };
   } catch (err: any) {
     console.warn("⚠️ [Perkins Delivery Engine] Google Sheets sync error:", err.message);
@@ -374,6 +442,13 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  // Security headers safe for embedded preview & browser hardening
+  app.use((req, res, next) => {
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+    next();
+  });
+
   // High-performance gzip/brotli compression middleware
   app.use(compression({
     threshold: 1024,
@@ -384,11 +459,11 @@ async function startServer() {
     res.json({ status: "ok" });
   });
 
-  // Middleware to parse incoming bodies as JSON
-  app.use(express.json());
+  // Middleware to parse incoming bodies as JSON (with payload size bound)
+  app.use(express.json({ limit: "64kb" }));
 
-  // API route: View stored inquiries (JSON format)
-  app.get("/api/inquiries", (req, res) => {
+  // API route: View stored inquiries (JSON format - Admin Auth required)
+  app.get("/api/inquiries", requireAdminAuth, (req, res) => {
     const inquiries = getStoredInquiries();
     res.json({
       status: "success",
@@ -397,8 +472,8 @@ async function startServer() {
     });
   });
 
-  // API route: Export leads directly to CSV (instant Excel/Google Sheets compatibility)
-  app.get("/api/inquiries/export.csv", (req, res) => {
+  // API route: Export leads directly to CSV (Admin Auth required)
+  app.get("/api/inquiries/export.csv", requireAdminAuth, (req, res) => {
     const inquiries = getStoredInquiries();
     const headers = [
       "Date",
@@ -434,22 +509,29 @@ async function startServer() {
     res.send(csvContent);
   });
 
-  // API route: Retrieve live integration delivery status
+  // API route: Retrieve live integration delivery status (redacts private URLs & addresses unless admin-authenticated)
   app.get("/api/integrations", (req, res) => {
     const config = getIntegrationsConfig();
     const stored = getStoredInquiries();
+    const configuredKey = process.env.ADMIN_API_KEY?.trim();
+    const authHeader = req.headers.authorization?.replace(/^Bearer\s+/i, "").trim();
+    const headerKey = (req.headers["x-admin-key"] as string | undefined)?.trim();
+    const isAdmin = Boolean(configuredKey && (headerKey === configuredKey || authHeader === configuredKey));
+
     res.json({
       status: "success",
-      recipientEmail: config.recipientEmail,
-      webhookUrl: config.webhookUrl || "",
-      googleSheetsUrl: config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL || "",
+      ...(isAdmin ? {
+        recipientEmail: config.recipientEmail,
+        webhookUrl: config.webhookUrl || "",
+        googleSheetsUrl: config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL || "",
+        smtpHost: config.smtpHost || "smtp.hostinger.com",
+        smtpUser: config.smtpUser || "",
+      } : {}),
       googleSheetsActive: Boolean((config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL)?.trim()),
       webhookActive: Boolean(config.webhookUrl && config.webhookUrl.trim()),
       emailDeliveryActive: Boolean(config.smtpHost && config.smtpUser && config.smtpPass),
       emailMethod: "Hostinger SMTP Direct Delivery",
       smtpConfigured: Boolean(config.smtpHost && config.smtpUser && config.smtpPass),
-      smtpHost: config.smtpHost || "smtp.hostinger.com",
-      smtpUser: config.smtpUser || "",
       tawktoPropertyId: config.tawktoPropertyId || "",
       tawktoWidgetId: config.tawktoWidgetId || "",
       tawktoDirectUrl: config.tawktoDirectUrl || "",
@@ -458,8 +540,8 @@ async function startServer() {
     });
   });
 
-  // API route: Save integration settings
-  app.post("/api/integrations", (req, res) => {
+  // API route: Save integration settings (Admin Auth required)
+  app.post("/api/integrations", requireAdminAuth, (req, res) => {
     const { 
       recipientEmail, 
       webhookUrl, 
@@ -501,8 +583,8 @@ async function startServer() {
     });
   });
 
-  // API route: Test Google Sheets sync directly
-  app.post("/api/integrations/test-sheets", async (req, res) => {
+  // API route: Test Google Sheets sync directly (Admin Auth required)
+  app.post("/api/integrations/test-sheets", requireAdminAuth, async (req, res) => {
     const config = getIntegrationsConfig();
     const targetUrl = req.body.googleSheetsUrl || config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL;
 
@@ -527,20 +609,20 @@ async function startServer() {
       receivedAt: new Date().toISOString(),
     };
 
-    console.log("🧪 [Perkins Integrations] Executing live test Google Sheets sync to:", targetUrl);
+    console.log("🧪 [Perkins Integrations] Executing live test Google Sheets sync");
     const sheetsResult = await dispatchGoogleSheets(testLead, targetUrl);
 
     res.json({
       status: sheetsResult.sent ? "success" : "failed",
       message: sheetsResult.sent 
-        ? `Google Sheets synced successfully! Endpoint returned HTTP ${sheetsResult.statusCode}` 
-        : `Google Sheets sync failed: ${sheetsResult.error || "Check your Web App URL"}`,
+        ? `Google Sheets synced successfully! Endpoint returned HTTP ${(sheetsResult as any).statusCode ?? 200}` 
+        : `Google Sheets sync failed: ${(sheetsResult as any).error || "Check your Web App URL"}`,
       details: sheetsResult,
     });
   });
 
-  // API route: Test Email Delivery directly
-  app.post("/api/integrations/test-email", async (req, res) => {
+  // API route: Test Email Delivery directly (Admin Auth required)
+  app.post("/api/integrations/test-email", requireAdminAuth, async (req, res) => {
     const config = getIntegrationsConfig();
     const recipient = req.body.recipientEmail || config.recipientEmail || "msalmanmunawar@gmail.com";
     
@@ -557,18 +639,18 @@ async function startServer() {
       message: "This is an operational test of the Perkins Publisher dual email delivery system to verify inbox receipt.",
     };
 
-    console.log("🧪 [Perkins Integrations] Executing live test email dispatch to:", recipient);
+    console.log("🧪 [Perkins Integrations] Executing live test email dispatch");
     const emailResult = await dispatchLeadEmail(testLead, { ...config, recipientEmail: recipient });
 
     res.json({
-      status: "success",
-      message: `Test email dispatched to ${recipient}`,
+      status: emailResult.smtpSuccess ? "success" : "failed",
+      message: emailResult.smtpSuccess ? `Test email dispatched` : `Test email failed: ${emailResult.smtpMessage}`,
       deliveryReport: emailResult,
     });
   });
 
-  // API route: Test Webhook Delivery directly
-  app.post("/api/integrations/test-webhook", async (req, res) => {
+  // API route: Test Webhook Delivery directly (Admin Auth required)
+  app.post("/api/integrations/test-webhook", requireAdminAuth, async (req, res) => {
     const config = getIntegrationsConfig();
     const targetUrl = req.body.webhookUrl || config.webhookUrl;
 
@@ -593,7 +675,7 @@ async function startServer() {
       receivedAt: new Date().toISOString(),
     };
 
-    console.log("🧪 [Perkins Integrations] Executing live test webhook dispatch to:", targetUrl);
+    console.log("🧪 [Perkins Integrations] Executing live test webhook dispatch");
     const webhookResult = await dispatchWebhook(testLead, targetUrl);
 
     res.json({
@@ -605,8 +687,8 @@ async function startServer() {
     });
   });
 
-  // API route: Delete inquiry
-  app.delete("/api/inquiries/:id", (req, res) => {
+  // API route: Delete inquiry (Admin Auth required)
+  app.delete("/api/inquiries/:id", requireAdminAuth, (req, res) => {
     const id = req.params.id;
     try {
       if (fs.existsSync(INQUIRIES_FILE)) {
@@ -621,8 +703,8 @@ async function startServer() {
     }
   });
 
-  // API route: Update inquiry status
-  app.patch("/api/inquiries/:id", (req, res) => {
+  // API route: Update inquiry status (Admin Auth required)
+  app.patch("/api/inquiries/:id", requireAdminAuth, (req, res) => {
     const id = req.params.id;
     const { status, notes } = req.body;
     try {
@@ -645,11 +727,90 @@ async function startServer() {
 
   // API route to accept incoming lead inquiry form submissions (100% operational)
   app.post("/api/inquiry", async (req, res) => {
-    const inquiry = req.body;
-    console.log("📥 [Perkins Backend] Received author lead inquiry:", inquiry.name, inquiry.email);
+    const rawBody = req.body;
+    if (!rawBody || typeof rawBody !== "object" || Array.isArray(rawBody)) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid inquiry payload.",
+      });
+    }
+
+    // Simple IP rate limit: max 20 inquiries per 15 minutes
+    const clientIp = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.ip || "unknown";
+    const now = Date.now();
+    const recentHits = (IP_RATE_LIMIT.get(clientIp) || []).filter((ts) => now - ts < 15 * 60 * 1000);
+    if (recentHits.length >= 20) {
+      return res.status(429).json({
+        status: "error",
+        message: "Too many inquiry requests. Please wait a few minutes or contact us on WhatsApp.",
+      });
+    }
+    recentHits.push(now);
+    IP_RATE_LIMIT.set(clientIp, recentHits);
+
+    const name = typeof rawBody.name === "string" ? rawBody.name.trim().slice(0, 150) : "";
+    const email = typeof rawBody.email === "string" ? rawBody.email.trim().slice(0, 254) : "";
+    const phone = typeof rawBody.phone === "string" ? rawBody.phone.trim().slice(0, 60) : "";
+    const genre = typeof rawBody.genre === "string" ? rawBody.genre.trim().slice(0, 100) : "General";
+    const wordCount = Number.isFinite(Number(rawBody.wordCount)) ? Math.max(0, Math.min(2000000, Number(rawBody.wordCount))) : 0;
+    const services = Array.isArray(rawBody.services)
+      ? rawBody.services.filter((s: unknown) => typeof s === "string").slice(0, 20)
+      : (typeof rawBody.services === "string" ? [rawBody.services] : ["publishing"]);
+    const message = typeof rawBody.message === "string" ? rawBody.message.trim().slice(0, 5000) : "";
+    const expressCallback = Boolean(rawBody.expressCallback || rawBody.expressService);
+    const estimatedPrice = Number.isFinite(Number(rawBody.estimatedPrice)) ? Number(rawBody.estimatedPrice) : undefined;
+
+    if (!name) {
+      return res.status(400).json({
+        status: "error",
+        message: "Author name is required.",
+      });
+    }
+    if (!email || !isValidEmail(email)) {
+      return res.status(400).json({
+        status: "error",
+        message: "A valid email address is required.",
+      });
+    }
+
+    // Deduplicate accidental rapid identical double-submissions within 15 seconds
+    const dedupKey = `${email.toLowerCase()}|${services.join(",")}|${message}`;
+    const prevEntry = RECENT_INQUIRIES.get(dedupKey);
+    if (prevEntry && now - prevEntry.timestamp < 15_000) {
+      return res.json({
+        status: "success",
+        duplicatePrevented: true,
+        message: "Your inquiry was already received and is being processed by our editorial team.",
+        leadId: prevEntry.id,
+        storedOnServer: true,
+      });
+    }
+    // Prune stale dedup entries periodically
+    for (const [k, v] of RECENT_INQUIRIES.entries()) {
+      if (now - v.timestamp >= 60_000) RECENT_INQUIRIES.delete(k);
+    }
+
+    const inquiry = {
+      id: `inq-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      name,
+      email,
+      phone,
+      genre,
+      wordCount,
+      services,
+      estimatedPrice,
+      message,
+      expressCallback,
+      expressService: expressCallback,
+      status: "New",
+      date: typeof rawBody.date === "string" ? rawBody.date : new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+    };
+
+    console.log("📥 [Perkins Backend] Received author lead inquiry:", inquiry.name, inquiry.id);
 
     // 1. Permanently store lead on disk (guarantees zero leads are ever dropped)
-    const enrichedLead = saveInquiryToStore(inquiry);
+    const { saved, lead: enrichedLead } = saveInquiryToStore(inquiry);
+    RECENT_INQUIRIES.set(dedupKey, { id: enrichedLead.id, timestamp: now });
 
     // 2. Fetch current active configuration
     const config = getIntegrationsConfig();
@@ -657,7 +818,7 @@ async function startServer() {
     // 3. Dispatch direct email via Hostinger SMTP (No FormSubmit middleman)
     const emailPromise = dispatchLeadEmail(enrichedLead, config).catch((err) => {
       console.warn("⚠️ Email dispatch warning:", err);
-      return { smtpSuccess: false, smtpMessage: err.message };
+      return { recipients: [], smtpSuccess: false, smtpMessage: err.message };
     });
 
     // 4. Dispatch automated Google Sheets sync (Google Apps Script Web App, Zapier, or Make)
@@ -682,32 +843,55 @@ async function startServer() {
     ]);
 
     const isPromo = enrichedLead.estimatedPrice === 499 || (enrichedLead.services && enrichedLead.services.includes('promo-publishing-499'));
+    const sheetsConfigured = Boolean((config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL)?.trim());
+    const webhookConfigured = Boolean(config.webhookUrl && config.webhookUrl.trim());
+    const smtpConfigured = Boolean(config.smtpHost && config.smtpUser && config.smtpPass);
 
-    console.log(`✅ [Perkins Pipeline Complete]: Lead ${enrichedLead.id} saved to disk. SMTP email: ${emailDelivery.smtpSuccess}. Google Sheets: ${sheetsDelivery.sent}. Webhook: ${webhookDelivery.sent}`);
+    const anyLiveNotificationSucceeded =
+      Boolean(emailDelivery.smtpSuccess) ||
+      Boolean(sheetsDelivery.sent) ||
+      Boolean(webhookDelivery.sent);
 
-    return res.json({
-      status: "success",
-      message: isPromo
-        ? "Your €499 Publishing Package reservation has been recorded and transmitted to our editorial team!"
-        : "Your manuscript inquiry has been recorded and transmitted to our editorial team!",
+    const partialFailure =
+      (smtpConfigured && !emailDelivery.smtpSuccess) ||
+      (sheetsConfigured && !sheetsDelivery.sent) ||
+      (webhookConfigured && !webhookDelivery.sent);
+
+    console.log(`✅ [Perkins Pipeline Complete]: Lead ${enrichedLead.id} saved=${saved}. SMTP email: ${emailDelivery.smtpSuccess}. Google Sheets: ${sheetsDelivery.sent}. Webhook: ${webhookDelivery.sent}`);
+
+    const responsePayload = {
+      status: anyLiveNotificationSucceeded ? "success" : "error",
+      message: !anyLiveNotificationSucceeded
+        ? "We recorded your inquiry locally, but live notification delivery failed. Please contact us directly on WhatsApp or by email."
+        : isPromo
+          ? "Your €499 Publishing Package reservation has been recorded and transmitted to our editorial team!"
+          : "Your manuscript inquiry has been recorded and transmitted to our editorial team!",
       leadId: enrichedLead.id,
-      storedOnServer: true,
+      storedOnServer: saved,
+      partialFailure,
       emailDelivery: {
-        recipients: config.recipientEmail,
+        configured: smtpConfigured,
         smtpSent: emailDelivery.smtpSuccess,
         smtpStatus: emailDelivery.smtpMessage,
       },
       googleSheetsDelivery: {
-        active: Boolean((config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL)?.trim()),
+        active: sheetsConfigured,
         synced: sheetsDelivery.sent,
-        status: (sheetsDelivery as any).statusCode || (sheetsDelivery as any).error || ((config.googleSheetsUrl || process.env.GOOGLE_SHEETS_WEBHOOK_URL) ? "Synced" : "None configured"),
+        status: (sheetsDelivery as any).statusCode || (sheetsDelivery as any).error || (sheetsConfigured ? "Synced" : "None configured"),
+        ...((sheetsDelivery as any).responsePreview ? { responsePreview: (sheetsDelivery as any).responsePreview } : {}),
       },
       webhookDelivery: {
-        active: Boolean(config.webhookUrl && config.webhookUrl.trim()),
+        active: webhookConfigured,
         dispatched: webhookDelivery.sent,
-        status: (webhookDelivery as any).statusCode || (webhookDelivery as any).error || (config.webhookUrl ? "Sent" : "None configured"),
+        status: (webhookDelivery as any).statusCode || (webhookDelivery as any).error || (webhookConfigured ? "Sent" : "None configured"),
       },
-    });
+    };
+
+    if (!anyLiveNotificationSucceeded && (smtpConfigured || sheetsConfigured)) {
+      return res.status(502).json(responsePayload);
+    }
+
+    return res.json(responsePayload);
   });
 
   // Google Search Console Dynamic HTML File Verification Route
