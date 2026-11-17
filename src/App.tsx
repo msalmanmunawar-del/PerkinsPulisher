@@ -8,6 +8,7 @@ import CompareSection from './components/CompareSection';
 import Footer from './components/Footer';
 import { useToast } from './components/Toast';
 import SEO from './components/SEO';
+import { submitInquiryWithFallback } from './lib/submitInquiry';
 
 // Code-split sub-pages and non-critical components to optimize FCP, LCP, and Speed Index
 const TimesSquareSection = lazy(() => import('./components/TimesSquareSection'));
@@ -397,20 +398,7 @@ export default function App() {
     if (options?.fromModal) setModalError('');
 
     try {
-      const res = await fetch('/api/inquiry', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newInquiry),
-      });
-
-      const contentType = res.headers.get('content-type') || '';
-      const resData = contentType.includes('application/json')
-        ? await res.json()
-        : { message: await res.text() };
-
-      if (!res.ok) {
-        throw new Error(resData?.message || 'Inquiry submission failed');
-      }
+      const resData = await submitInquiryWithFallback(newInquiry);
 
       playSuccessChime();
       showSuccessToast(

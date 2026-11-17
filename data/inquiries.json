@@ -1,5 +1,41 @@
 [
   {
+    "id": "inq-1794952141661-dcof",
+    "receivedAt": "2026-11-17T21:49:01.662Z",
+    "status": "New",
+    "name": "Perkins Website Test",
+    "email": "audit-test@perkinspublisher.com",
+    "phone": "+442079460000",
+    "genre": "Non-Fiction",
+    "wordCount": 35000,
+    "services": [
+      "publishing"
+    ],
+    "estimatedPrice": 499,
+    "message": "TEST INQUIRY - Automated delivery verification after resilience fixes",
+    "expressCallback": false,
+    "expressService": false,
+    "date": "2026-11-17"
+  },
+  {
+    "id": "inq-1794951915843-aysk",
+    "receivedAt": "2026-11-17T21:45:15.866Z",
+    "status": "New",
+    "name": "Perkins Website Test",
+    "email": "audit-test@perkinspublisher.com",
+    "phone": "+356 0000 0000",
+    "genre": "fiction",
+    "wordCount": 45000,
+    "services": [
+      "promo-publishing-499"
+    ],
+    "estimatedPrice": 499,
+    "message": "TEST INQUIRY - Diagnostic verification 2145",
+    "expressCallback": false,
+    "expressService": false,
+    "date": "Nov 17, 2026"
+  },
+  {
     "id": "inq-1794951144780-l61v",
     "receivedAt": "2026-11-17T21:32:24.780Z",
     "status": "New",

@@ -164,78 +164,91 @@ async function dispatchLeadEmail(lead: any, config: IntegrationConfig) {
   const smtpPass = config.smtpPass || process.env.SMTP_PASS || "";
 
   if (smtpHost && smtpUser && smtpPass) {
-    try {
-      const transporter = nodemailer.createTransport({
-        host: smtpHost,
-        port: smtpPort,
-        secure: smtpPort === 465,
-        auth: {
-          user: smtpUser,
-          pass: smtpPass,
-        },
-        tls: {
-          rejectUnauthorized: false,
-        },
-      });
+    const safeName = escapeHtml(lead.name);
+    const safeEmail = escapeHtml(lead.email);
+    const safePhone = escapeHtml(lead.phone || "Not specified");
+    const safeGenre = escapeHtml(lead.genre || "General");
+    const safeServices = escapeHtml(
+      isPromo
+        ? "€499 Complete Promotional Package"
+        : Array.isArray(lead.services)
+          ? lead.services.join(", ")
+          : lead.services || "Custom Selection"
+    );
+    const safeMessage = lead.message ? escapeHtml(lead.message) : "";
 
-      const safeName = escapeHtml(lead.name);
-      const safeEmail = escapeHtml(lead.email);
-      const safePhone = escapeHtml(lead.phone || "Not specified");
-      const safeGenre = escapeHtml(lead.genre || "General");
-      const safeServices = escapeHtml(
-        isPromo
-          ? "€499 Complete Promotional Package"
-          : Array.isArray(lead.services)
-            ? lead.services.join(", ")
-            : lead.services || "Custom Selection"
-      );
-      const safeMessage = lead.message ? escapeHtml(lead.message) : "";
-
-      const emailHtml = `
-        <div style="font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff; color: #1e293b;">
-          <div style="background-color: #0b0f19; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 25px; border-bottom: 3px solid #f59e0b;">
-            <h1 style="color: #ffffff; margin: 0; font-size: 20px; letter-spacing: 0.15em;">PERKINS PUBLISHER</h1>
-            <p style="color: #f59e0b; margin: 5px 0 0 0; font-size: 11px; font-weight: bold; text-transform: uppercase;">
-              ${isPromo ? "★ €499 PROMOTIONAL PUBLISHING PACKAGE CLAIM ★" : "INCOMING AUTHOR PROSPECTUS"}
-            </p>
-          </div>
-          ${isPromo ? `
-          <div style="background-color: #fef3c7; border-left: 5px solid #d97706; padding: 14px; border-radius: 8px; font-size: 13px; color: #92400e; margin-bottom: 20px; font-weight: bold;">
-            🎉 Author claimed the €499 All-Inclusive Package (74% Off): Cover Design, Line Editing, 3 Formats, and 100+ Distribution Channels.
-          </div>` : ""}
-          ${isExpress ? `
-          <div style="background-color: #fee2e2; border-left: 5px solid #ef4444; padding: 14px; border-radius: 8px; font-size: 13px; color: #991b1b; margin-bottom: 20px; font-weight: bold;">
-            🚨 URGENT: Author requested an immediate callback at <a href="tel:${safePhone}" style="color: #ef4444;">${safePhone}</a>!
-          </div>` : ""}
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
-            <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px; width: 35%;">Author Name</td><td style="padding: 10px; font-weight: bold;">${safeName}</td></tr>
-            <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Email Address</td><td style="padding: 10px;"><a href="mailto:${safeEmail}">${safeEmail}</a></td></tr>
-            <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Phone / WhatsApp</td><td style="padding: 10px;"><a href="tel:${safePhone}">${safePhone}</a></td></tr>
-            <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Genre / Words</td><td style="padding: 10px;">${safeGenre} • ${Number(lead.wordCount || 0).toLocaleString()} words</td></tr>
-            <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Quoted Price</td><td style="padding: 10px; font-weight: bold; color: #ca8a04; font-size: 16px;">€${Number(lead.estimatedPrice || 499)}</td></tr>
-            <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Package / Services</td><td style="padding: 10px;">${safeServices}</td></tr>
-            ${safeMessage ? `<tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px; vertical-align: top;">Author Notes</td><td style="padding: 10px; white-space: pre-line;">${safeMessage}</td></tr>` : ""}
-          </table>
-          <div style="text-align: center; border-top: 1px solid #f1f5f9; padding-top: 15px; font-size: 11px; color: #94a3b8;">
-            Sent directly to ${escapeHtml(recipientList.join(", "))} via Perkins Official Mail Server
-          </div>
+    const emailHtml = `
+      <div style="font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff; color: #1e293b;">
+        <div style="background-color: #0b0f19; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 25px; border-bottom: 3px solid #f59e0b;">
+          <h1 style="color: #ffffff; margin: 0; font-size: 20px; letter-spacing: 0.15em;">PERKINS PUBLISHER</h1>
+          <p style="color: #f59e0b; margin: 5px 0 0 0; font-size: 11px; font-weight: bold; text-transform: uppercase;">
+            ${isPromo ? "★ €499 PROMOTIONAL PUBLISHING PACKAGE CLAIM ★" : "INCOMING AUTHOR PROSPECTUS"}
+          </p>
         </div>
-      `;
+        ${isPromo ? `
+        <div style="background-color: #fef3c7; border-left: 5px solid #d97706; padding: 14px; border-radius: 8px; font-size: 13px; color: #92400e; margin-bottom: 20px; font-weight: bold;">
+          🎉 Author claimed the €499 All-Inclusive Package (74% Off): Cover Design, Line Editing, 3 Formats, and 100+ Distribution Channels.
+        </div>` : ""}
+        ${isExpress ? `
+        <div style="background-color: #fee2e2; border-left: 5px solid #ef4444; padding: 14px; border-radius: 8px; font-size: 13px; color: #991b1b; margin-bottom: 20px; font-weight: bold;">
+          🚨 URGENT: Author requested an immediate callback at <a href="tel:${safePhone}" style="color: #ef4444;">${safePhone}</a>!
+        </div>` : ""}
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
+          <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px; width: 35%;">Author Name</td><td style="padding: 10px; font-weight: bold;">${safeName}</td></tr>
+          <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Email Address</td><td style="padding: 10px;"><a href="mailto:${safeEmail}">${safeEmail}</a></td></tr>
+          <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Phone / WhatsApp</td><td style="padding: 10px;"><a href="tel:${safePhone}">${safePhone}</a></td></tr>
+          <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Genre / Words</td><td style="padding: 10px;">${safeGenre} • ${Number(lead.wordCount || 0).toLocaleString()} words</td></tr>
+          <tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Quoted Price</td><td style="padding: 10px; font-weight: bold; color: #ca8a04; font-size: 16px;">€${Number(lead.estimatedPrice || 499)}</td></tr>
+          <tr><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px;">Package / Services</td><td style="padding: 10px;">${safeServices}</td></tr>
+          ${safeMessage ? `<tr style="background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold; color: #64748b; font-size: 12px; vertical-align: top;">Author Notes</td><td style="padding: 10px; white-space: pre-line;">${safeMessage}</td></tr>` : ""}
+        </table>
+        <div style="text-align: center; border-top: 1px solid #f1f5f9; padding-top: 15px; font-size: 11px; color: #94a3b8;">
+          Sent directly to ${escapeHtml(recipientList.join(", "))} via Perkins Official Mail Server
+        </div>
+      </div>
+    `;
 
-      const info = await transporter.sendMail({
-        from: `"Perkins Publisher" <${smtpUser}>`,
-        to: recipientList.join(", "),
-        replyTo: lead.email || undefined,
-        subject: subject,
-        html: emailHtml,
-      });
+    const portsToTry = smtpPort === 465 ? [465, 587] : [smtpPort, 465];
+    let lastErr = "";
 
-      result.smtpSuccess = true;
-      result.smtpMessage = `Delivered via SMTP (${info.messageId})`;
-      console.log("✅ [Perkins Delivery Engine] SMTP delivery successful to:", recipientList.join(", "), info.messageId);
-    } catch (err: any) {
-      console.error("⚠️ [Perkins Delivery Engine] SMTP delivery error:", err.message);
-      result.smtpMessage = err.message;
+    for (const port of portsToTry) {
+      try {
+        const transporter = nodemailer.createTransport({
+          host: smtpHost,
+          port,
+          secure: port === 465,
+          connectionTimeout: 8000,
+          greetingTimeout: 8000,
+          socketTimeout: 12000,
+          auth: {
+            user: smtpUser,
+            pass: smtpPass,
+          },
+          tls: {
+            rejectUnauthorized: false,
+          },
+        });
+
+        const info = await transporter.sendMail({
+          from: `"Perkins Publisher" <${smtpUser}>`,
+          to: recipientList.join(", "),
+          replyTo: lead.email || undefined,
+          subject: subject,
+          html: emailHtml,
+        });
+
+        result.smtpSuccess = true;
+        result.smtpMessage = `Delivered via SMTP (${info.messageId})`;
+        console.log(`✅ [Perkins Delivery Engine] SMTP delivery successful (port ${port}) to:`, recipientList.join(", "), info.messageId);
+        break;
+      } catch (err: any) {
+        lastErr = err.message;
+        console.warn(`⚠️ [Perkins Delivery Engine] SMTP port ${port} failed:`, err.message);
+      }
+    }
+
+    if (!result.smtpSuccess) {
+      result.smtpMessage = lastErr;
     }
   } else {
     result.smtpMessage = "SMTP credentials missing";
@@ -443,9 +456,28 @@ async function startServer() {
   const PORT = 3000;
 
   // Security headers safe for embedded preview & browser hardening
+  const ALLOWED_INQUIRY_ORIGINS = new Set([
+    "https://www.perkinspublisher.com",
+    "https://perkinspublisher.com",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+  ]);
+
   app.use((req, res, next) => {
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+    if (req.path === "/api/inquiry") {
+      const origin = req.headers.origin;
+      if (origin && ALLOWED_INQUIRY_ORIGINS.has(origin)) {
+        res.setHeader("Access-Control-Allow-Origin", origin);
+        res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
+        res.setHeader("Vary", "Origin");
+      }
+      if (req.method === "OPTIONS") {
+        return res.status(204).end();
+      }
+    }
     next();
   });
 

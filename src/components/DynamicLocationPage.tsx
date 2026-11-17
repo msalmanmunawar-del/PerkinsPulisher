@@ -24,6 +24,7 @@ import {
   Loader2,
   CheckCircle
 } from 'lucide-react';
+import { submitInquiryWithFallback } from '../lib/submitInquiry';
 
 interface DynamicLocationPageProps {
   locationId: string;
@@ -403,27 +404,18 @@ export default function DynamicLocationPage({
           setFormError('Delivery failed. Please try again or connect with us via WhatsApp.');
         }
       } else {
-        const res = await fetch('/api/inquiry', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            id: `inq-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-            status: 'New',
-            estimatedPrice: formApplyPromo ? 499 : 1499,
-            ...leadPayload
-          })
+        await submitInquiryWithFallback({
+          id: `inq-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+          date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          status: 'New',
+          estimatedPrice: formApplyPromo ? 499 : 1499,
+          ...leadPayload
         });
-        if (res.ok) {
-          setFormSubmitted(true);
-        } else {
-          const errData = await res.json().catch(() => ({}));
-          setFormError(errData.message || 'Unable to submit proposal right now. Please try again.');
-        }
+        setFormSubmitted(true);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Lead submission failed', err);
-      setFormError('Network error while submitting proposal. Please try again.');
+      setFormError(err?.message || 'Network error while submitting proposal. Please try again.');
     } finally {
       setInternalSubmitting(false);
     }
