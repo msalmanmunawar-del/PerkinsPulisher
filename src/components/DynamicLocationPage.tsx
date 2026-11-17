@@ -25,6 +25,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { submitInquiryWithFallback } from '../lib/submitInquiry';
+import { triggerDeliverySuccessHaptic } from '../lib/haptics';
 
 interface DynamicLocationPageProps {
   locationId: string;
@@ -411,6 +412,7 @@ export default function DynamicLocationPage({
           estimatedPrice: formApplyPromo ? 499 : 1499,
           ...leadPayload
         });
+        triggerDeliverySuccessHaptic();
         setFormSubmitted(true);
       }
     } catch (err: any) {

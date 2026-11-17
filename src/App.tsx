@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import { useToast } from './components/Toast';
 import SEO from './components/SEO';
 import { submitInquiryWithFallback } from './lib/submitInquiry';
+import { triggerDeliverySuccessHaptic } from './lib/haptics';
 
 // Code-split sub-pages and non-critical components to optimize FCP, LCP, and Speed Index
 const TimesSquareSection = lazy(() => import('./components/TimesSquareSection'));
@@ -401,6 +402,7 @@ export default function App() {
       const resData = await submitInquiryWithFallback(newInquiry);
 
       playSuccessChime();
+      triggerDeliverySuccessHaptic();
       showSuccessToast(
         resData.message || "Your inquiry has been successfully sent directly to our business email!",
         "Inquiry Delivered"
